@@ -103,7 +103,7 @@ def full_loop():
         save_results_to_Mongo(response_scores_toJSON(response),img_bytes)
     else:
         #throw errors? Show me something?
-        print('upsie')
+        print('upsie, got a', response.status_code)
 
 def execute_timed_full_loops(MaxLoops,Intervall):
     print("Starting Scorer Loop")
