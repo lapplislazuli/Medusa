@@ -1,0 +1,10 @@
+/**/*.aux
+Latex/*.out
+Latex/*.bbl
+Latex/*.toc
+Latex/*.lof
+Latex/*.log*
+Latex/*.blg
+Latex/*.gz
+Latex/*.nlo
+Latex/*.pdf
