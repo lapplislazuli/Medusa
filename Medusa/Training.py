@@ -10,9 +10,12 @@ from tensorflow import keras
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import io
 
 uri = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
-cursor = pymongo.cursor
+label2num = {"weak":1,"medium":2,"strong":3} 
+num2label = {1:"weak", 2:"medium", 3:"strong"}
 
 def getMedusaImageCollection():
     mongoClient=pymongo.MongoClient(uri)
@@ -43,12 +46,37 @@ def create_model():
                 metrics=['accuracy'])
     return model
 
+
+def img_to_bytearray(Image):
+    imgByteArr = io.BytesIO()
+    Image.save(imgByteArr, format='PNG')
+    imgByteArr = imgByteArr.getvalue()
+    return imgByteArr
+
+def create_img_from_mongoDBBytes(mongobytes, colorscheme='RGBA'):
+    image = Image.open(io.BytesIO(mongobytes))
+    return image
+
+def label_to_int(label):
+    if(label2num[label]):
+        return label2num[label]
+    
+def int_to_label(number):
+    if(num2label[number]):
+        return num2label[number]
+    
 def train_model(batchsize=100):
+    cursor = get_Image_cursor()
     model=create_model()
-    data = get_next_n_samples(batchsize)
+    data = get_next_n_samples(cursor,batchsize)
     images = []
     labels = []
     for i in range(batchsize):
-        images.append(data[i][2])
-        labels.append(data[i][1])
+        images.append(mpimg.pil_to_array(create_img_from_mongoDBBytes(data[i][1])))
+        labels.append(label_to_int(data[i][0]))
+    #List 2 Array
+    images = np.asarray(images)
+    #Removing AlphaValues (They're always 255)
+    images = images[:,:,:,0:3]
+    labels = np.asarray(labels)
     model.fit(images,labels,epochs=5)
