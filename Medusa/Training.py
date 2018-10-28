@@ -39,7 +39,7 @@ def create_model():
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(64,64,3)), # We got 64x64x3 Values per Image 
         keras.layers.Dense(128, activation=tf.nn.relu), 
-        keras.layers.Dense(3, activation=tf.nn.softmax) #3 Classes: Weak, Medium, Strong
+        keras.layers.Dense(4, activation=tf.nn.softmax) #3 Classes: Weak, Medium, Strong
     ])
     model.compile(optimizer=tf.train.AdamOptimizer(), 
                 loss='sparse_categorical_crossentropy',
