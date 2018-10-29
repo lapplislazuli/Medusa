@@ -15,44 +15,23 @@ import io
 # Also Requires pyyaml and h5py installed with pip
 
     
-def train_model(batchsize=100):
+def train_model(trainingsize=100):
     cursor = get_Image_cursor(getMedusaTrainingCollection())
     model=create_model()
-    data = get_next_n_samples(cursor,batchsize)
-    images = []
-    labels = []
-    for i in range(batchsize):
-        images.append(mpimg.pil_to_array(create_img_from_mongoDBBytes(data[i][1])))
-        labels.append(label_to_int(data[i][0]))
-    #List 2 Array
-    images = np.asarray(images)
-    #Removing AlphaValues (They're always 255)
-    images = images[:,:,:,0:3]
-    labels = np.asarray(labels)
+    images,labels = prepare_data_for_tf(cursor,trainingsize)
     model.fit(images,labels,epochs=5)
     return model
 
 def test_model(model, testSize=4000):
     cursor = get_Image_cursor(getMedusaTestCollection())
-    data = get_next_n_samples(cursor,testSize)
-    images = []
-    labels = []
-    for i in range(testSize):
-        images.append(mpimg.pil_to_array(create_img_from_mongoDBBytes(data[i][1])))
-        labels.append(label_to_int(data[i][0]))
-    #List 2 Array
-    images = np.asarray(images)
-    #Removing AlphaValues (They're always 255)
-    images = images[:,:,:,0:3]
-    labels = np.asarray(labels)
+    images,labels = prepare_data_for_tf(cursor,testSize)
     test_loss, test_acc = model.evaluate(images,labels)
     print('Test accuracy:', test_acc)
-    
+
 ################# SetUp ###############################
 uri = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
 label2num = {"weak":1,"medium":2,"strong":3} 
 num2label = {1:"weak", 2:"medium", 3:"strong"}
-
 
 def create_model():
     model = keras.Sequential([
@@ -74,6 +53,20 @@ def label_to_int(label):
 def int_to_label(number):
     if(num2label[number]):
         return num2label[number]
+
+def prepare_data_for_tf(cursor, n):
+    data = get_next_n_samples(cursor,n)
+    images = []
+    labels = []
+    for i in range(n):
+        images.append(mpimg.pil_to_array(create_img_from_mongoDBBytes(data[i][1])))
+        labels.append(label_to_int(data[i][0]))
+    #List 2 Array
+    images = np.asarray(images)
+    #Removing AlphaValues (They're always 255)
+    images = images[:,:,:,0:3]
+    labels = np.asarray(labels)
+    return images,labels
 ################# Mongo Helpers #######################
 def getMedusaTrainingCollection():
     mongoClient=pymongo.MongoClient(uri)
