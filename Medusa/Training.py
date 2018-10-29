@@ -65,6 +65,8 @@ def prepare_data_for_tf(cursor, n):
     images = np.asarray(images)
     #Removing AlphaValues (They're always 255)
     images = images[:,:,:,0:3]
+    #Norming RGB Values to 1
+    images = images/255 
     labels = np.asarray(labels)
     return images,labels
 ################# Mongo Helpers #######################
