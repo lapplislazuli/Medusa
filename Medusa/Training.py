@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import io
+# Also Requires pyyaml and h5py installed with pip
 
 uri = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
 label2num = {"weak":1,"medium":2,"strong":3} 
@@ -38,12 +39,15 @@ def get_next_n_samples(cursor,n = 100):
 def create_model():
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(64,64,3)), # We got 64x64x3 Values per Image 
-        keras.layers.Dense(128, activation=tf.nn.relu), 
+        keras.layers.Dense(128, activation=tf.nn.relu),
+        keras.layers.Dense(256, activation=tf.nn.relu),
+        keras.layers.Dense(128, activation=tf.nn.sigmoid), 
         keras.layers.Dense(4, activation=tf.nn.softmax) #3 Classes: Weak, Medium, Strong
     ])
-    model.compile(optimizer=tf.train.AdamOptimizer(), 
-                loss='sparse_categorical_crossentropy',
+    model.compile(optimizer=tf.keras.optimizers.Adam(), 
+                loss=tf.keras.losses.sparse_categorical_crossentropy,
                 metrics=['accuracy'])
+
     return model
 
 
@@ -80,3 +84,11 @@ def train_model(batchsize=100):
     images = images[:,:,:,0:3]
     labels = np.asarray(labels)
     model.fit(images,labels,epochs=5)
+    return model
+
+def save_model(model, name):
+        if(model and name):
+                model.save(name)
+
+def load_model(path):
+        keras.models.load_model(path)
