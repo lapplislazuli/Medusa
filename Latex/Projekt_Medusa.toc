@@ -1,4 +1,4 @@
-\select@language {ngerman}
+\babel@toc {ngerman}{}
 \contentsline {chapter}{\nonumberline Abbildungsverzeichnis}{V}{chapter*.5}
 \contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}
 \contentsline {section}{\numberline {1.1}Ziel der Arbeit}{1}{section.1.1}
@@ -10,4 +10,3 @@
 \contentsline {chapter}{\numberline {4}Fazit}{4}{chapter.4}
 \contentsline {section}{\numberline {4.1}Zusammenfassung}{4}{section.4.1}
 \contentsline {section}{\numberline {4.2}Weiterf\IeC {\"u}hrende Arbeiten}{4}{section.4.2}
-\contentsline {chapter}{\nonumberline Literaturverzeichnis}{5}{chapter*.6}
