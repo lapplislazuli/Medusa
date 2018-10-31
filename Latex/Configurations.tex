@@ -1,0 +1,99 @@
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\pgfkeys{
+	/kiviatgrad/simplify label/.code={
+		\ifx\nv\undefined\else
+		\pgfmathparse{Mod(\nv,5)}
+		\ifdim\pgfmathresult pt>0pt
+		\tikzset{opacity=0}
+		\fi
+		\fi
+	}
+}	
+% ------------------Setting up environment for codes ---------------
+
+%% R-Markdown
+\lstset{ %
+	language=R,                     % the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=left,                   % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+	% will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=single,                   % adds a frame around the code
+	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% also try caption instead of title
+	keywordstyle=\color{blue},      % keyword style
+	commentstyle=\color{dkgreen},   % comment style
+	stringstyle=\color{red},      % string literal style
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+%	morekeywords={*,...}            % if you want to add more keywords to the set
+} 
+
+\usetikzlibrary{arrows} % define style of tkiz kiviat
+\renewcommand{\lstlistingname}{Code}
+
+% Abkürzungen
+\newcommand{\ua}{\mbox{u.\,a.\ }}
+\newcommand{\zB}{\mbox{z.\,B.\ }}
+\newcommand{\bs}{$\backslash$}
+
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+
+% -------------------------------------------------------------------------------------------
+% Definition der Kopf- und Fußzeilen
+\lhead{}								% Kopf links
+\chead{}								% Kopf mitte
+\rhead{\sffamily{\leftmark}}				% Kopf rechts
+\lfoot{}								% Fuß links
+\cfoot{\sffamily{\thepage}}				% Fuß mitte
+\rfoot{\sffamily{\autor}}				% Fuß rechts
+\renewcommand{\headrulewidth}{0.4pt}	% Liniendicke Kopf
+\renewcommand{\footrulewidth}{0.4pt}	% Liniendicke Fuß
+
+
+\makenomenclature							% Abkürzungsverzeichnis erstellen
+%\input{Inhalt/abkuerzungen}					% Datei mit Abkürzungen laden
+
+% Definition of colors
+\definecolor{lightblue}{rgb}{0.910,0.933,0.970}
+\definecolor{lightred}{RGB}{247,238,232}
+\definecolor{monochromeLightblue}{RGB}{165,188,222}
+\definecolor{monochromeLightred}{RGB}{222,188,165}
+\definecolor{kiviatOne}{RGB}{137,193,30}
+\definecolor{kiviatTwo}{RGB}{20,128,120}
+\definecolor{kiviatThree}{RGB}{208,108,32}
+\definecolor{kiviatFour}{RGB}{168,26,104}
+
+\newcommand\ColorBox[1]{\textcolor{#1}{\rule{2.5ex}{2.5ex}}}
+
+% ----------------------------------- Links Styling -----------------------------------------
+\hypersetup{
+	%pdfborder = {0 0 0},
+	bookmarks=true,         % show bookmarks bar?
+	unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+	pdftitle={Erstellung von Irrbildern zur Überlistung einer Verkehrsschilder erkennenden KI}
+	pdfauthor={Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl},     % author
+	pdfsubject={IT-Projektarbeit},   % subject of the document
+	pdfcreator={Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl},   % creator of the document
+	pdfproducer={Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl}, % producer of the document
+	colorlinks=true,       % false: boxed links; true: colored links
+	linkcolor=blue,          % color of internal links (change box color with inkbordercolor)
+	citecolor=CadetBlue,        % color of links to bibliography
+	filecolor=magenta,      % color of file links
+	urlcolor=cyan,           % color of external links
+}
