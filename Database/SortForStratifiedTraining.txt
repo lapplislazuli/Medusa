@@ -1,0 +1,35 @@
+## Stratified Training
+var bulkInsert = db.StratifiedTraining.initializeUnorderedBulkOp()
+var bulkRemove = db.Images.initializeUnorderedBulkOp()
+db.Images.find({"success":"medium"}).limit(6000).forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemove.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Images.find({"success":"weak"}).limit(6000).forEach(
+	function(doc){
+	  bulkInsert.insert(doc);
+	  bulkRemove.find({_id:doc._id}).removeOne();
+}
+)
+bulkInsert.execute()
+bulkRemove.execute()
+
+##StratifiedTest
+var bulkInsert = db.StratifiedTest.initializeUnorderedBulkOp()
+var bulkRemove = db.Images.initializeUnorderedBulkOp()
+db.Images.find({"success":"medium"}).limit(1000).forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemove.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Images.find({"success":"weak"}).limit(1000).forEach(
+	function(doc){
+	  bulkInsert.insert(doc);
+	  bulkRemove.find({_id:doc._id}).removeOne();
+}
+)
+bulkInsert.execute()
+bulkRemove.execute()

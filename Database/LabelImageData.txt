@@ -1,0 +1,9 @@
+# Count good Items
+db.Images.find({"scores.confidence":{$gte:0.5}}).count()
+# Sample one and filter out picture-blob
+db.Images.findOne({"scores.confidence":{$gte:0.5}},{scores:1, insertion_date:1, success:1})
+
+#adding label afterwards in db
+db.Images.updateMany({"scores.confidence":{$lte:0.2}},{$set: {"success":"weak"}})
+db.Images.updateMany({"scores.confidence":{$gte:0.2, $lte:0.5}},{$set: {"success":"medium"}})
+db.Images.updateMany({"scores.confidence":{$gte:0.5}},{$set: {"success":"strong"}})
