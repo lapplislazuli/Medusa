@@ -1,5 +1,12 @@
-[0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is 'Projekt_Medusa.blg'
-[20] biber-MSWIN64:313> INFO - === 
-[270] Utils.pm:209> ERROR - Cannot find control file 'Projekt_Medusa.bcf'! - Did latex run successfully on your .tex file before you ran biber?
-[270] Biber.pm:114> INFO - ERRORS: 1
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Projekt_Medusa.aux
+A level-1 auxiliary file: TexFiles/Titelseite.aux
+A level-1 auxiliary file: TexFiles/Erklaerung.aux
+A level-1 auxiliary file: TexFiles/Abstract.aux
+A level-1 auxiliary file: TexFiles/Einleitung.aux
+A level-1 auxiliary file: TexFiles/GreyBoxing.aux
+A level-1 auxiliary file: TexFiles/GenetischeAlgorithmen.aux
+A level-1 auxiliary file: TexFiles/Fazit.aux
+The style file: plain.bst
+I found no \citation commands---while reading file Projekt_Medusa.aux
+Database file #1: src.bib
+(There was 1 error message)
