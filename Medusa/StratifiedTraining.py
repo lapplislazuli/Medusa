@@ -48,7 +48,7 @@ def create_model():
         keras.layers.Dense(2, activation=tf.nn.sigmoid) #Binary: Weak or Medium
     ])
     model.compile(optimizer=tf.keras.optimizers.Adam(), 
-                loss=tf.losses.sigmoid_cross_entropy,
+                loss='binary_crossentropy',
                 metrics=['accuracy'])
     return model
 
@@ -105,7 +105,7 @@ def save_model(model, name):
                 model.save(name)
 
 def load_model(path):
-        keras.models.load_model(path)
+        return keras.models.load_model(path)
 
 ################## Image Alternation ####################
 
