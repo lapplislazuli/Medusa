@@ -36,14 +36,14 @@ num2label = {0:"weak", 1:"medium"}
 def create_model():
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(64,64,3)), # We got 64x64x3 Values per Image 
-        keras.layers.Dense(512, activation=tf.nn.leaky_relu),
+        keras.layers.Dense(512, activation=tf.nn.relu),
         keras.layers.Dropout(0.4),
         keras.layers.Dense(512, activation=tf.nn.relu),
         keras.layers.Dropout(0.5),
         keras.layers.Dense(512, activation=tf.nn.tanh),
         keras.layers.Dropout(0.5),
         keras.layers.Dense(256, activation=tf.nn.tanh),
-        keras.layers.Dense(128, activation=tf.nn.leaky_relu),
+        keras.layers.Dense(128, activation=tf.nn.relu),
         keras.layers.Dropout(0.2),
         keras.layers.Dense(2, activation=tf.nn.sigmoid) #Binary: Weak or Medium
     ])
