@@ -6,6 +6,7 @@ import json
 import time
 import pymongo
 import datetime
+import MedusaMongo as MMongo
 # Variables required through the process
 
 url = 'https://phinau.de/trasi'
@@ -67,7 +68,6 @@ def img_to_bytearray(Image):
     return imgByteArr
 
 # Request functionality
-
 def send_img_bytearray(nipples):
     file_to_upload = {'image': nipples}
     post_request = requests.post(url, files=file_to_upload, data=credentials)
@@ -77,33 +77,15 @@ def response_scores_toJSON(post_request):
     if post_request.text:
         return json.loads(post_request.text)
 
-# Saving to Mongo
-
-#User: MedusaUser
-#PW: P3R5EU? 
-mongoURI = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
-mongoClient=pymongo.MongoClient(mongoURI)
-medusaDB = mongoClient["Medusa"]
-imageCollection = medusaDB["Images"]
-
-def save_results_to_Mongo(scores,imgBytes):
-    imageCollection.insert_one({
-        "scores":scores,
-        "insert_date":str(datetime.datetime.now()),
-        "image":imgBytes
-    }
-    )
-
 # Full Logic
 
 def full_loop():
     img_bytes = img_to_bytearray(create_img_from_bytearray(create_bytearray()))
     response = send_img_bytearray(img_bytes)
     if(response.status_code==200):
-        save_results_to_Mongo(response_scores_toJSON(response),img_bytes)
+        MMongo.save_results_to_Mongo(response_scores_toJSON(response),img_bytes)
     else:
-        #throw errors? Show me something?
-        print('upsie, got a', response.status_code)
+        print('Error - HTTPStatusCode', response.status_code)
 
 def execute_timed_full_loops(MaxLoops,Intervall):
     print("Starting Scorer Loop")
