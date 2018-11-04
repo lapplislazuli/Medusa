@@ -1,4 +1,7 @@
 import pymongo 
+from PIL import Image
+import datetime
+import io
 
 ################# Mongo Helpers #######################
 
@@ -17,6 +20,12 @@ def getMedusaTestCollection():
     TestCollection = medusaDB["StratifiedTest"]
     return TestCollection
 
+def getMedusaImageCollection():
+    mongoClient=pymongo.MongoClient(uri)
+    medusaDB = mongoClient["Medusa"]
+    Images = medusaDB["Images"]
+    return Images
+
 def get_Image_cursor(collection):
     cursor = collection.find()
     return cursor
@@ -30,9 +39,14 @@ def get_next_n_samples(cursor,n = 100):
 
 # Used in Scorer
 def save_results_to_Mongo(scores,imgBytes):
-    imageCollection.insert_one({
+    images = getMedusaImageCollection()
+    images.insert_one({
         "scores":scores,
         "insert_date":str(datetime.datetime.now()),
         "image":imgBytes
     }
 )
+
+def create_img_from_mongoDBBytes(mongobytes, colorscheme='RGBA'):
+    image = Image.open(io.BytesIO(mongobytes))
+    return image
