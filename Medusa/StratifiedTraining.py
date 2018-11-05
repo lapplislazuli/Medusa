@@ -95,6 +95,35 @@ def create_model():
                 metrics=['accuracy'])
     return model
 
+def create_conv2d_model():
+    model = tf.keras.Sequential()
+    model.add(layers.Conv2D(32, (3, 3), padding='same',
+                     input_shape=(64,64,3),
+                     activation='relu'))
+    model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(layers.Dropout(0.2))
+
+    model.add(layers.Conv2D(64, (3, 3), padding='same',
+                     activation='relu'))
+    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(layers.Dropout(0.2))
+
+    model.add(layers.Conv2D(128, (3, 3), padding='same',
+                     activation='relu'))
+    model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(layers.Dropout(0.2))
+    model.add(layers.Flatten())
+    model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(1, activation='sigmoid'))
+    
+    model.compile(optimizer=tf.keras.optimizers.Adam(), 
+                loss='binary_crossentropy',
+                metrics=['accuracy'])
+    return model
 
 def label_to_int(label):
     if(label2num[label]):
