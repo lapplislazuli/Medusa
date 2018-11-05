@@ -136,6 +136,7 @@ def int_to_label(number):
 
 def prepare_data_for_tf(cursor, n):
     data = get_next_n_samples(cursor,n)
+    np.random.shuffle(data)
     images = []
     labels = []
     for i in range(n):
@@ -147,7 +148,7 @@ def prepare_data_for_tf(cursor, n):
     images = images[:,:,:,0:3]
     #Norming RGB Values to 1
     images = images/255 
-    labels = np.asarray(labels)
+    labels = np.asarray(labels,dtype=bool)
     return images,labels
 ################# Mongo Helpers #######################
 def getMedusaTrainingCollection():
