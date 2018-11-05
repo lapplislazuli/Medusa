@@ -12,13 +12,17 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import io
 # Also Requires pyyaml and h5py installed with pip
-    
-def train_model(trainingsize=12000):
+
+def train_model(trainingsize=12000,epochs=5):
     cursor = get_Image_cursor(getMedusaTrainingCollection())
+    print("Creating Model...")
     model=create_model()
+    print("Loading Images...")
     images,labels = prepare_data_for_tf(cursor,trainingsize)
     labels=np.asarray(labels,dtype=bool)
-    model.fit(images,labels,epochs=5)
+    print("Train Model")
+    history = model.fit(images,labels,epochs=epochs)
+    plot_history(history,epochs)
     return model
 
 def test_model(model, testSize=2000):
@@ -26,8 +30,18 @@ def test_model(model, testSize=2000):
     images,labels = prepare_data_for_tf(cursor,testSize)
     labels=np.asarray(labels,dtype=bool)
     test_loss, test_acc = model.evaluate(images,labels)
-    print('Test accuracy:', test_acc)
+    print('Test accuracy:', test_acc , " Test loss:" , test_loss)
 
+def plot_history(history,epochs):
+    epochsPlt = range(1, epochs + 1)
+    plt.plot(epochsPlt, history.history['loss'], 'g', label='Training loss')
+    plt.plot(epochsPlt, history.history['acc'], 'b', label='Training Accuracy')
+    plt.title('Training Loss and Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('%')
+    plt.legend()
+    plt.show()
+   
 ################# SetUp ###############################
 uri = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
 label2num = {"weak":0,"medium":1} 
