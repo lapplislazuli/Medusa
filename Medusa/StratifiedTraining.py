@@ -88,14 +88,15 @@ def create_model():
         keras.layers.Dense(256, activation=tf.nn.tanh),
         keras.layers.Dense(128, activation=tf.nn.relu),
         keras.layers.Dropout(0.2),
-        keras.layers.Dense(2, activation=tf.nn.sigmoid) #Binary: Weak or Medium
+        keras.layers.Dense(1, activation=tf.nn.sigmoid) #Binary: Weak or Medium
     ])
     model.compile(optimizer=tf.keras.optimizers.Adam(), 
                 loss='binary_crossentropy',
-                metrics=['accuracy'])
+                metrics=['accuracy','binary_crossentropy'])
     return model
 
 def create_conv2d_model():
+    # Takes very long!
     model = tf.keras.Sequential()
     model.add(layers.Conv2D(32, (3, 3), padding='same',
                      input_shape=(64,64,3),
@@ -122,7 +123,7 @@ def create_conv2d_model():
     
     model.compile(optimizer=tf.keras.optimizers.Adam(), 
                 loss='binary_crossentropy',
-                metrics=['accuracy'])
+                metrics=['accuracy','binary_crossentropy'])
     return model
 
 def label_to_int(label):
