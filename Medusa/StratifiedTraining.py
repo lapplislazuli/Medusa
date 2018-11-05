@@ -13,6 +13,35 @@ import matplotlib.image as mpimg
 import io
 # Also Requires pyyaml and h5py installed with pip
 
+################## Combined Training and Test ###################
+def train_and_test_Model(trainingsize=12000,testsize=2000, epochs=5):
+    print("Creating Model...")
+    model=create_model()
+    print("Loading Training Images...")
+    cursor = get_Image_cursor(getMedusaTrainingCollection())
+    trainImages,trainLabels = prepare_data_for_tf(cursor,trainingsize)
+    trainLabels=np.asarray(trainLabels,dtype=bool)
+    print("Loading Test Images...")
+    cursor = get_Image_cursor(getMedusaTestCollection())
+    testImages,testLabels = prepare_data_for_tf(cursor,testsize)
+    testLabels=np.asarray(testLabels,dtype=bool)
+    print("Train Model...")
+    history = model.fit(trainImages,trainLabels,epochs=epochs,validation_data=(testImages, testLabels))
+    plot_extended_history(history,epochs)
+    return model
+
+def plot_extended_history(history,epochs):
+    epochsPlt = range(1, epochs + 1)
+    plt.plot(epochsPlt, history.history['loss'], 'go', label='Training loss')
+    plt.plot(epochsPlt, history.history['val_loss'], 'g',label='Validation Loss')
+    plt.plot(epochsPlt, history.history['acc'], 'bo', label='Training Accuracy')
+    plt.plot(epochsPlt, history.history['val_acc'], 'b',label='Validation Accuracy')
+    plt.title('Loss and Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('%')
+    plt.legend()
+    plt.show()
+################## Seperated Training and Test ##################
 def train_model(trainingsize=12000,epochs=5):
     cursor = get_Image_cursor(getMedusaTrainingCollection())
     print("Creating Model...")
