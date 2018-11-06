@@ -1,7 +1,6 @@
 # For Stratified Training
 # Only Medium and Weak Examples as Binary Classification
 # 50:50 Split
-import pymongo 
 from PIL import Image
 # TensorFlow and tf.keras
 import tensorflow as tf
@@ -11,10 +10,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import io
+
+import MedusaMongo as MMongo
 # Also Requires pyyaml and h5py installed with pip
     
 def train_model(trainingsize=12000):
-    cursor = get_Image_cursor(getMedusaTrainingCollection())
+    cursor = MMongo.get_Image_cursor(MMongo.getMedusaTrainingCollection())
     model=create_model()
     images,labels = prepare_data_for_tf(cursor,trainingsize)
     labels=np.asarray(labels,dtype=bool)
@@ -22,14 +23,13 @@ def train_model(trainingsize=12000):
     return model
 
 def test_model(model, testSize=2000):
-    cursor = get_Image_cursor(getMedusaTestCollection())
+    cursor = MMongo.get_Image_cursor(MMongo.getMedusaTestCollection())
     images,labels = prepare_data_for_tf(cursor,testSize)
     labels=np.asarray(labels,dtype=bool)
     test_loss, test_acc = model.evaluate(images,labels)
     print('Test accuracy:', test_acc)
 
 ################# SetUp ###############################
-uri = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
 label2num = {"weak":0,"medium":1} 
 num2label = {0:"weak", 1:"medium"}
 
@@ -62,7 +62,7 @@ def int_to_label(number):
         return num2label[number]
 
 def prepare_data_for_tf(cursor, n):
-    data = get_next_n_samples(cursor,n)
+    data = MMongo.get_next_n_samples(cursor,n)
     images = []
     labels = []
     for i in range(n):
@@ -76,29 +76,7 @@ def prepare_data_for_tf(cursor, n):
     images = images/255 
     labels = np.asarray(labels)
     return images,labels
-################# Mongo Helpers #######################
-def getMedusaTrainingCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    TrainingCollection = medusaDB["StratifiedTraining"]
-    return TrainingCollection
 
-def getMedusaTestCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    TestCollection = medusaDB["StratifiedTest"]
-    return TestCollection
-
-def get_Image_cursor(collection):
-    cursor = collection.find()
-    return cursor
-
-def get_next_n_samples(cursor,n = 100):
-    samples = []
-    for _ in range(n):
-        entry = cursor.next()
-        samples.append((entry["success"],entry["image"]))
-    return samples
 ################# Save and Load #######################
 def save_model(model, name):
         if(model and name):

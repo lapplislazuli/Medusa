@@ -12,18 +12,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import io
+
+import MedusaMongo as MMongo
 # Also Requires pyyaml and h5py installed with pip
 
     
 def train_model(trainingsize=100):
-    cursor = get_Image_cursor(getMedusaTrainingCollection())
+    cursor = MMongo.get_Image_cursor(MMongo.getMedusaTrainingCollection())
     model=create_model()
     images,labels = prepare_data_for_tf(cursor,trainingsize)
     model.fit(images,labels,epochs=5)
     return model
 
 def test_model(model, testSize=4000):
-    cursor = get_Image_cursor(getMedusaTestCollection())
+    cursor = MMongo.get_Image_cursor(MMongo.getMedusaTestCollection())
     images,labels = prepare_data_for_tf(cursor,testSize)
     test_loss, test_acc = model.evaluate(images,labels)
     print('Test accuracy:', test_acc)
@@ -55,7 +57,7 @@ def int_to_label(number):
         return num2label[number]
 
 def prepare_data_for_tf(cursor, n):
-    data = get_next_n_samples(cursor,n)
+    data = MMongo.get_next_n_samples(cursor,n)
     images = []
     labels = []
     for i in range(n):
@@ -69,29 +71,6 @@ def prepare_data_for_tf(cursor, n):
     images = images/255 
     labels = np.asarray(labels)
     return images,labels
-################# Mongo Helpers #######################
-def getMedusaTrainingCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    TrainingCollection = medusaDB["Training"]
-    return TrainingCollection
-
-def getMedusaTestCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    TestCollection = medusaDB["Test"]
-    return TestCollection
-
-def get_Image_cursor(collection):
-    cursor = collection.find()
-    return cursor
-
-def get_next_n_samples(cursor,n = 100):
-    samples = []
-    for _ in range(n):
-        entry = cursor.next()
-        samples.append((entry["success"],entry["image"]))
-    return samples
 ################# Save and Load #######################
 def save_model(model, name):
         if(model and name):
