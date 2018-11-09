@@ -1,0 +1,2 @@
+use Medusa
+db.images.distinct("scores.class")

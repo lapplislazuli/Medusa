@@ -22,13 +22,13 @@ bulkRemoveTest.execute()
 var bulkInsert = db.Images.initializeUnorderedBulkOp()
 var bulkRemoveTraining = db.StratifiedTraining.initializeUnorderedBulkOp()
 var bulkRemoveTest = db.StratifiedTest.initializeUnorderedBulkOp()
-db.Training.find().forEach(
+db.StratifiedTraining.find().forEach(
     function(doc){
       bulkInsert.insert(doc);
       bulkRemoveTraining.find({_id:doc._id}).removeOne();
     }
   )
-db.Test.find().forEach(
+db.StratifiedTest.find().forEach(
     function(doc){
       bulkInsert.insert(doc);
       bulkRemoveTest.find({_id:doc._id}).removeOne();
