@@ -1,7 +1,8 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-
+#For Test and Plot only
+import matplotlib.pyplot as plt
 # our Bibs
 import AphroditeTraining as AT
 import ImageGenerator as IG 
