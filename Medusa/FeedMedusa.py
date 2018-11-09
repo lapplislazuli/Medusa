@@ -55,4 +55,17 @@ def create_img_from_bytearray(bytearr, colorscheme='RGBA'):
 def create_and_rate_image(model):
     i = create_bytearray_with_color_prop()
     img = (numpy.expand_dims(i,0))
-    return model.predict(img)
+    return img, model.predict(img)
+
+def create_and_rate_best_image_from_batch(model, batchSize=100):
+    #Initialize empty image
+    image = Image.new('RGB', (64, 64))
+    bestImage = Image.new('RGB', (64, 64))
+    rate = [0]
+    bestRate = [0]
+    for n in range(batchSize):
+        image, rate = create_and_rate_image(model)
+        if(rate[0] > bestRate[0]):
+            bestRate[0] = rate[0]
+            bestImage = image
+    return bestImage, bestRate
