@@ -1,15 +1,18 @@
 from numpy import random
+import numpy
+
 import io
 from PIL import Image, ImageEnhance
 
-def create_image(width = 1920, height = 1080 , name = 'random.png'):
-    imarray = random.rand(width,height,3) * 255
-    im = Image.fromarray(imarray.astype('uint8')).convert('RGBA')
-    im.save(name)
+def create_image(width = 64, height = 64):
+    imarray = random.rand(width,height,3)
+    return imarray
 
-def create_n_images(width=400 , height = 400, num = 100):
-    for n in range(num):
-        create_image(width, height, ('random'+str(n+1)+'.png'))
+def create_n_images(n):
+    batch = []
+    for i in range(n):
+        batch.append(create_image())
+    return numpy.asarray(batch)
 
 def create_image_with_color_prop(width = 64, height = 64, prop_red = 33, prop_green = 34, prop_blue = 33):
   return create_img_from_bytearray(create_bytearray_with_color_prop(width, height, prop_red, prop_green, prop_blue), 'RGBA')
