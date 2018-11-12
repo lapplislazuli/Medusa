@@ -17,35 +17,28 @@ def create_n_images(n):
 def create_image_with_color_prop(width = 64, height = 64, prop_red = 33, prop_green = 34, prop_blue = 33):
   return create_img_from_bytearray(create_bytearray_with_color_prop(width, height, prop_red, prop_green, prop_blue), 'RGBA')
 
-def create_bytearray_with_color_prop(width = 64, height = 64, prop_red = 33, prop_green = 34, prop_blue = 33):
-    #Initalize array with zeros
-    imarray = random.rand(width * height, 3) * 0
-    red_pixel = prop_red/100*width*height
-    green_pixel = prop_green/100*width*height
-    blue_pixel = prop_blue/100*width*height
-    for x in range(height):
-        for y in range(width):
-            if(red_pixel > 0):
-                imarray[x*width+y] = [random.random() * 255,0,0]
-                red_pixel-= 1
-            elif(green_pixel > 0):
-                imarray[x*width+y] = [0,random.random() * 255,0]
-                green_pixel-= 1
-            elif(blue_pixel > 0):
-                imarray[x*width+y] = [0,0,random.random() * 255]
-                blue_pixel-= 1
-            else:
-                #Wrong proportion --> white pixel
-                imarray[x*width+y] = [255,255,255]
-    
-    random.shuffle(imarray)
-    immatrix = random.rand(height, width, 3) * 0
-    for x in range(height):
-        for y in range(width):
-            immatrix[x,y] = imarray[x*width+y]
-    casted = immatrix.astype('uint8')
-    return casted
+def _create_red_image_part(prop):
+    imarray = numpy.asarray([(propFilter(redpart,prop),0,0) for redpart in numpy.random.rand(64*64)*255])
+    imarray.shape=(64,64,3)
+    return imarray.astype('uint8')
 
+def _create_green_image_part(prop):
+    imarray = numpy.asarray([(0,propFilter(greenpart,prop),0) for greenpart in numpy.random.rand(64*64)*255])
+    imarray.shape=(64,64,3)
+    return imarray.astype('uint8')
+
+def _create_blue_image_part(prop):
+    imarray = numpy.asarray([(0,0,propFilter(bluepart,prop)) for bluepart in numpy.random.rand(64*64)*255])
+    imarray.shape=(64,64,3)
+    return imarray.astype('uint8')
+
+def create_bytearray_with_color_prop(width = 64, height = 64, prop_red = 1, prop_green = 1, prop_blue = 1):
+    return _create_red_image_part(prop_red)+_create_blue_image_part(prop_blue)+_create_green_image_part(prop_green)
+
+def __propFilter(value,prop):
+    return value if(numpy.random.rand()<prop) else 0
+
+    
 def change_brigthness_of_img(image, brightnessFactor=1.0):
     changedImage = ImageEnhance.Brightness(image).enhance(brightnessFactor)
     return changedImage
