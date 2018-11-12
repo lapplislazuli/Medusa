@@ -25,7 +25,7 @@ def getMedusaImageCollection():
     return getMedusaMongoCollection('Images')
 
 def getMedusaStrongImageCollection():
-    return getMedusaMongoCollection('StrongImages')
+    return getMedusaMongoCollection("StrongImages")
 
 def get_Image_cursor(collection):
     cursor = collection.find()
