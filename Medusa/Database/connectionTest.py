@@ -49,4 +49,9 @@ def get_next_n_samples(n = 100):
         samples.append((entry["success"],entry["image"]))
     print(len(samples))
 
-get_next_n_samples()
+def check_classes():
+    imageCollection = getMedusaImageCollection()
+    classes = imageCollection.distinct("scores.class")
+    return classes
+
+print(len(check_classes()))
