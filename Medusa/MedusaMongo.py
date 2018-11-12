@@ -7,24 +7,25 @@ import io
 
 uri = "mongodb://MedusaUser:P3R5EU?@applis.me/Medusa?authSource=Medusa"
 
+#Helper for fetching Medusa Mongo Collections
+def getMedusaMongoCollection(collectionName):
+    mongoClient=pymongo.MongoClient(uri)
+    medusaDB = mongoClient["Medusa"]
+    Collection = medusaDB[collectionName]
+    return Collection
+
 # Used in Medusa - Training
 def getMedusaTrainingCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    TrainingCollection = medusaDB["StratifiedTraining"]
-    return TrainingCollection
+    return getMedusaMongoCollection('Training')
 
 def getMedusaTestCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    TestCollection = medusaDB["StratifiedTest"]
-    return TestCollection
+    return getMedusaMongoCollection('Test')
 
 def getMedusaImageCollection():
-    mongoClient=pymongo.MongoClient(uri)
-    medusaDB = mongoClient["Medusa"]
-    Images = medusaDB["Images"]
-    return Images
+    return getMedusaMongoCollection('Images')
+
+def getMedusaStrongImageCollection():
+    return getMedusaMongoCollection('StrongImages')
 
 def get_Image_cursor(collection):
     cursor = collection.find()
@@ -47,6 +48,3 @@ def save_results_to_Mongo(scores,imgBytes):
     }
 )
 
-def create_img_from_mongoDBBytes(mongobytes, colorscheme='RGBA'):
-    image = Image.open(io.BytesIO(mongobytes))
-    return image
