@@ -1,6 +1,5 @@
 ## This tricks our AI
 ## Requires real-images and our AI somewhere around to point with path
-
 import numpy as np
 
 import tensorflow as tf
