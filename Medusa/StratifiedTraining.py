@@ -12,6 +12,7 @@ import matplotlib.image as mpimg
 import io
 
 import MedusaMongo as MMongo
+import ImageHelper as ImgHelper
 # Also Requires pyyaml and h5py installed with pip
 
 ################## Combined Training and Test ###################
@@ -141,7 +142,7 @@ def prepare_data_for_tf(cursor, n):
     images = []
     labels = []
     for i in range(n):
-        images.append(mpimg.pil_to_array(create_img_from_mongoDBBytes(data[i][1])))
+        images.append(mpimg.pil_to_array(ImgHelper.create_img_from_mongoDBBytes(data[i][1])))
         labels.append(label_to_int(data[i][0]))
     #List 2 Array
     images = np.asarray(images)
@@ -159,15 +160,3 @@ def save_model(model, name):
 
 def load_model(path):
         return keras.models.load_model(path)
-
-################## Image Alternation ####################
-
-def img_to_bytearray(Image):
-    imgByteArr = io.BytesIO()
-    Image.save(imgByteArr, format='PNG')
-    imgByteArr = imgByteArr.getvalue()
-    return imgByteArr
-
-def create_img_from_mongoDBBytes(mongobytes, colorscheme='RGBA'):
-    image = Image.open(io.BytesIO(mongobytes))
-    return image

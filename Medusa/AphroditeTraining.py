@@ -9,6 +9,8 @@ import matplotlib.image as mpimg
 import numpy as np
 import csv
 
+import ImageHelper as ImgHelper
+
 # For Image interpolation
 from scipy import ndimage
 from scipy import misc as scipyMisc
@@ -18,7 +20,7 @@ from tensorflow import keras
 
 def main(trainingdatapath, epochs=5,modelname="Aphrodite.h5"):
     rawI, rawL = readTrafficSignsBetter(trainingdatapath)
-    goodI, goodL = prepareTrafficSigns(rawI,rawL)
+    goodI, goodL = ImgHelper.prepareTrafficSigns(rawI,rawL)
     model = create_conv2d_model()
     model.fit(goodI,goodL, epochs=epochs)
     save_model(model,modelname)
@@ -44,12 +46,7 @@ def readTrafficSignsBetter(rootpath):
             #TODO: What are the other 6 columns?
         gtFile.close()
     return images, labels
-# Makes int -> float in image, labels to ints, and lists to arrays
-def prepareTrafficSigns(images,labels):
-    rimages = np.asarray(images)
-    rlabels = np.asarray(labels,dtype=int)
-    rimages = rimages/255 # Change to float
-    return rimages,rlabels
+
 ######### Model Creation #####################
 def create_conv2d_model():
     # Takes very long! 
