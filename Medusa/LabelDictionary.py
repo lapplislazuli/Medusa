@@ -51,6 +51,53 @@ GTSRB_INT_TO_LABEL = {
     '42': 'lifted_no_overtaking_trucks'
 }
 
+GTSRB_GERMAN_LABEL_TO_INT = {
+	'Zulässige Höchstgeschwindigkeit (20)': '0',
+    'Zulässige Höchstgeschwindigkeit (30)': '1',
+    "Zulässige Höchstgeschwindigkeit (50)": '2',
+    "Zulässige Höchstgeschwindigkeit (60)": '3',
+    "Zulässige Höchstgeschwindigkeit (70)": '4',
+    "Zulässige Höchstgeschwindigkeit (80)": '5',
+    "Ende der zulässigen Höchstgeschwindigkeit (80)": '6', #Nicht sicher
+    "Zulässige Höchstgeschwindigkeit (100)": '7',
+    "Zulässige Höchstgeschwindigkeit (120)": '8',
+    "Überholverbot für Kraftfahrzeuge aller Art": '9',
+    "Überholverbot für Kraftfahrzeuge mit einer zulässigen Gesamtmasse über 3,5t": '10',
+    "Einmalige Vorfahrt": '11',
+    "Vorfahrt": '12',
+    "Vorfahrt gewähren": '13',
+    "Stop": '14', #Nicht sicher
+    "Verbot für Fahrzeuge aller Art": '15',
+    "Verbot für Kraftfahrzeuge mit einer zulässigen Gesamtmasse von 3,5t": '16',
+    "Verbot der Einfahrt": '17',
+    "Gefahrenstelle": '18',
+    "Kurve (links)": '19',
+    "Kurve (rechts)": '20', 
+    "Doppelkurve (zunächst links)": '21',
+    "Unebene Fahrbahn": '22',
+    "Schleudergefahr bei Nässe oder Schmutz": '23',
+    "Verengung der Fahrbahn (rechts)": '24', #Nicht sicher
+    "Baustelle": '25',
+    "Ampel": '26', #Nicht sicher
+    "Fußgänger": '27',
+    "Kinder": '28', #Nicht sicher
+    "Fahrradfahrer": '29',
+    "Glatteis": '30', #Nicht sicher
+    "Wildwechsel": '31',
+    "Ende aller Streckenverbote": '32',
+    "Ausschließlich rechts": '33',
+    "Ausschließlich links": '34', #Nicht sicher
+    "Ausschließlich geradeaus": '35',
+    "Ausschließlich geradeaus und rechts": '36', #Nicht sicher
+    "Ausschließlich geradeaus und links": '37', #Nicht sicher
+    "Rechts vorbei": '38',
+    "Links vorbei": '39',
+    "Kreisverkehr": '40',
+    "Ende des Überholverbotes für Kraftfahrzeuge aller Art": '41',
+    "Ende des Überholverbotes für Kraftfahrzeuge mit einer zulässigen Gesamtmasse über 3,5t": '42'
+}
+
+
 
 ### Read from Mongo 
 ### See Database/GetAllClasses.txt for the simple how-to
