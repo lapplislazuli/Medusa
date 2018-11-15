@@ -2,6 +2,9 @@ import requests
 import json
 import time
 
+import numpy as np
+import matplotlib.image as mpimg
+
 import MedusaMongo as MMongo
 import ImageGenerator as MImg
 import ImageHelper as ImgHelper
@@ -38,3 +41,15 @@ def send_ppm_image(img):
     img_bytes = ImgHelper.img_to_bytearray(parsedImg)
     response = send_img_bytearray(img_bytes)
     return response
+
+def get_img_trasi_score_tuple(image):
+        return image, get_trasi_score(image)
+
+def get_img_trasi_aphrodite_score_triple(image, model):
+        image_array = mpimg.pil_to_array(image)
+        image_array = np.asarray(image_array)
+        image_array = image_array[:,:,0:3]
+        image_array = image_array/255
+        image_array = np.expand_dims(image_array,0)
+        aphrodite_score = model.predict(image_array)
+        return image, get_trasi_score(image), aphrodite_score
