@@ -1,7 +1,9 @@
 #For Test and Plot only
 import matplotlib.pyplot as plt
+import numpy as np
 
 import FeedAphrodite as FA
+import LabelDictionary as labDict
 ###### Plots and Tests #####
 
 def plot_distribution(model,n=1000):
@@ -54,8 +56,54 @@ def plot_prop_dist_of_label(model,label,n=1000):
 def plot_all_scores(model,n=1000):
         #Not Really Human Readable, but maybe Someone can improve?
         scores, imgs = FA.create_and_rate_n_images(model,n)
-        plt.hist(scores, bins=5, normed='density')
+        plt.hist(scores, bins=5, density=True)
         plt.xlabel('Prop')
         plt.ylabel('Frequency')
         plt.title('Propability Distribution')
+        plt.show()
+
+#Helper for bar chart
+def autolabel(rects, ax, xpos='center'):
+        """
+        Attach a text label above each bar in *rects*, displaying its height.
+
+        *xpos* indicates which side to place the text w.r.t. the center of
+        the bar. It can be one of the following {'center', 'right', 'left'}.
+        """
+
+        xpos = xpos.lower()  # normalize the case of the parameter
+        ha = {'center': 'center', 'right': 'left', 'left': 'right'}
+        offset = {'center': 0.5, 'right': 0.57, 'left': 0.43}  # x_txt = x + w*off
+
+        for rect in rects:
+            height = rect.get_height()
+            ax.text(rect.get_x() + rect.get_width()*offset[xpos], 1.01*height,
+                    '{}'.format(height), ha=ha[xpos], va='bottom')
+
+def plot_comparison_trasi_aphrodite_score(trasi_score, aphrodite_score):
+        trasi_plot_scores = []
+        aphrodite_plot_scores = []
+        xlabels = []
+        for i in range(len(trasi_score)):
+                indexFromGermanGTSRBClass = int(labDict.GTSRB_GERMAN_LABEL_TO_INT[trasi_score[i]['class']])
+                trasi_plot_scores.append(trasi_score[i]['confidence'])
+                aphrodite_plot_scores.append(aphrodite_score[0][indexFromGermanGTSRBClass])
+                xlabels.append(i)
+        print(trasi_plot_scores)
+        print(aphrodite_plot_scores)
+        ind = np.arange(len(trasi_plot_scores)) #x locations for the group
+        width = 0.35 # width of bars
+        fig, ax = plt.subplots()
+        rects1 = ax.bar(ind - width/2, trasi_plot_scores, width,
+                color='SkyBlue', label='Trasi Score')
+        rects2 = ax.bar(ind + width/2, aphrodite_plot_scores, width,
+                color='IndianRed', label='Aphrodite Score')
+        ax.set_ylabel('Score')
+        ax.set_title('Comparison of Trasi and Aphrodite Score per Class')
+        ax.set_xticks(ind)
+        ax.set_xticklabels(xlabels)
+        ax.legend()
+        
+        #autolabel(rects1, ax, "left") Uncomment, if you need exact data, turned off by default, cause it is confusing
+        #autolabel(rects2, ax, "right")
         plt.show()
