@@ -9,6 +9,9 @@ import time
 import Scorer as Scorer
 import ImageHelper as ImgHelper
 
+############################### Remote #######################################
+# This Methods runs Remote - the local Degeneration is Beneath
+
 # Method requires: 
 #   An image (as 64x64x3 Uint8 Array), 
 #   a function to alter the image,
@@ -24,29 +27,51 @@ def remoteDegenerate(image, alternationfn = _alterImage, decay = 0.01, iteration
         return
     # Initialise Start-Variables from our first score
     totalLoops = 0 #Counts all loops
-    it = 0 #Counts successfull loops
+    depth = 0 #Counts successfull loops
     lastImg = image
     lastScore = Scorer.get_best_score(initialResp.text)
     # To check if we put garbage in
     print("StartConfidence:",lastScore)
 
     #We stop if we either reach our depth, or we exceed the maxloops
-    while(it<iterations and totalLoops<maxloops):
+    while(depth<iterations and totalLoops<maxloops):
         totalLoops+=1
         # Alter the last image and score it
         degenerated = alternationfn(lastImg.copy())
         degeneratedResp = Scorer.send_ppm_image(degenerated)
         degeneratedScore= Scorer.get_best_score(degeneratedResp.text)
-        print("Score:",degeneratedScore,"Depth:",it, "Loop:" , totalLoops)
+        print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
         # If our score is acceptable (better than the set decay) we keep the new image and score
         if(degeneratedScore> lastScore-decay):
             lastImg=degenerated
             lastScore=degeneratedScore
-            it+=1
+            depth+=1
         #We are working remote, we need to take a short break
         time.sleep(1.1)
     #We return the lastImg, this can be something not that good if we just reach maxloops!
     return lastScore,lastImg
+################### Local ######################
+# This Degeneration runs for local Models
+# Procedere is nearly the same as above
+
+def degenerate(model, image, alternationfn = _alterImage, label, iterations=10, decay = 0.01, maxloops=2000):
+    totalLoops = 0
+    depth = 0
+    lastScores,lastImage = predict_single_image(model,image)
+    lastLabelScore=lastScores[label]
+    
+    while(depth<iterations and totalLoops<maxloops):
+        totalLoops+=1
+        degenerated = alternationfn(lastImage.copy())
+        degScores,degImage = predict_single_image(model,degenerated)
+        degLabelScore=degScores[label]
+        if(degLabelScore> oldLabelScore-decay):
+            lastImage=degImage
+            lastLabelScore=degLabelScore
+            depth+=1
+    return lastLabelScore,lastImage
+
+################### Helpers #####################
 
 # Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
 # Could be moved to ImgHelper/Generator. Kept it here for a while so noone needs to search it. 
