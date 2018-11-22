@@ -1,62 +1,102 @@
-## This tricks our AI
-## Requires real-images and our AI somewhere around to point with path
 import numpy as np
 
-import tensorflow as tf
-from tensorflow import keras
-
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-
-# IMG MANIPULATION
-from scipy import ndimage
-from scipy import misc as scipyMisc
-from PIL import Image
-
-import FeedAphrodite as FA
-import AphroditeTraining as AT
+import MedusaMongo as MMongo
 import ImageGenerator as MImg
 
-def main():
-    StoppschildLabel=10 #I dont know, its just to Show
-    img = load_ppm_image("Stoppschilder/Example")
-    model = AT.load_model("Aphrodite.h5")
-    _, degImage = degenerate(model,img,StoppschildLabel,iterations=100)
-    DImg= MImg.create_img_from_bytearray(degImage)
-    DImg.save("Stoppschilder/DegExample")
+from PIL import Image
+import time
 
-def degenerate(model, image, label, decay = 0.01, iterations = 10):
-    totalLoops = 0
-    oldScores,oldImage = predict_single_image(model,image)
-    oldLabelScore=oldScores[label]
-    it = 0 #Counts successfull loops!
-    while(it<iterations):
+import Scorer as Scorer
+import ImageHelper as ImgHelper
+
+############################### Remote #######################################
+# This Methods runs Remote - the local Degeneration is Beneath
+
+# Method requires: 
+#   An image (as 64x64x3 Uint8 Array), 
+#   a function to alter the image,
+#   a threshhold how much the image can be worse by every step
+#   The # of Iterations i want to (successfully) alter my image
+#   The # of loops which i want to do max
+# Scores an image, alters it, and keeps the altered image if its not that worse.
+# Method Logic will be documented in detail throughout the function
+def remoteDegenerate(image, alternationfn = _alterImage, decay = 0.01, iterations = 10, maxloops=2000):
+    # First: Check if the Credentials are correct and the image is detected
+    initialResp = Scorer.send_ppm_image(image)
+    if(initialResp.status_code!=200):
+        return
+    # Initialise Start-Variables from our first score
+    totalLoops = 0 #Counts all loops
+    depth = 0 #Counts successfull loops
+    lastImg = image
+    lastScore = Scorer.get_best_score(initialResp.text)
+    # To check if we put garbage in
+    print("StartConfidence:",lastScore)
+
+    #We stop if we either reach our depth, or we exceed the maxloops
+    while(depth<iterations and totalLoops<maxloops):
         totalLoops+=1
-        print("Depth:",it, "Loops:" , totalLoops)
-        noise = _generate_noise(0.5)
-        degenerated = oldImage.copy()+noise
-        degenerated = np.asarray(degenerated,dtype="uint8")
+        # Alter the last image and score it
+        degenerated = alternationfn(lastImg.copy())
+        degeneratedResp = Scorer.send_ppm_image(degenerated)
+        degeneratedScore= Scorer.get_best_score(degeneratedResp.text)
+        print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
+        # If our score is acceptable (better than the set decay) we keep the new image and score
+        if(degeneratedScore> lastScore-decay):
+            lastImg=degenerated
+            lastScore=degeneratedScore
+            depth+=1
+        #We are working remote, we need to take a short break
+        time.sleep(1.1)
+    #We return the lastImg, this can be something not that good if we just reach maxloops!
+    return lastScore,lastImg
+################### Local ######################
+# This Degeneration runs for local Models
+# Procedere is nearly the same as above
+
+def degenerate(model, image, alternationfn = _alterImage, label, iterations=10, decay = 0.01, maxloops=2000):
+    totalLoops = 0
+    depth = 0
+    lastScores,lastImage = predict_single_image(model,image)
+    lastLabelScore=lastScores[label]
+    
+    while(depth<iterations and totalLoops<maxloops):
+        totalLoops+=1
+        degenerated = alternationfn(lastImage.copy())
         degScores,degImage = predict_single_image(model,degenerated)
         degLabelScore=degScores[label]
         if(degLabelScore> oldLabelScore-decay):
-            oldImage=degImage
-            oldLabelScore=degLabelScore
-            it+=1
-    return oldLabelScore,oldImage
+            lastImage=degImage
+            lastLabelScore=degLabelScore
+            depth+=1
+    return lastLabelScore,lastImage
 
-def load_ppm_image(path):
-    i = mpimg.imread(path)
-    a = scipyMisc.imresize(i, (64,64,3), interp='bicubic', mode=None)
-    return a
+################### Helpers #####################
 
+# Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
+# Could be moved to ImgHelper/Generator. Kept it here for a while so noone needs to search it. 
 def _generate_noise(density,strength=10,width=64,height=64):
     noise = np.random.rand(width,height,3)
     noise -=0.5 # to run from [-0.5,0.5]
-    noise*=strength
+    noise*=strength # To have Values bigger than 1, everything else would dissapear
     noise = np.asarray(noise,dtype="int")
     return noise
-    
-def predict_single_image(model,img):
-    imgArr = (np.expand_dims(img,0))
-    return model.predict(imgArr)[0],img
 
+# Takes an image, and puts some noise on it. 
+# Return the image
+def _alterImage(image,strength=8):
+    noise = _generate_noise(0.5,strength)
+    altered = image+noise
+    # Image must be reparsed in the valid data-range [0,255]
+    # Values smaller than 0 will be mapped to high values (e.g. -2 => 253)
+    altered = np.asarray(altered,dtype="uint8")
+    return altered
+
+# Takes an image, puts noise on it, and smooths it with gaussian filter
+def _alterImageWithSmooth(image,strength=25):
+    noise = _generate_noise(0.5,strength)
+    altered = image+noise
+    # The Gaussian filter is quite strong, so i've taken only a little sigma
+    altered = ndimage.filters.gaussian_filter(altered,2)
+    altered = np.asarray(altered,dtype="uint8")
+    return altered
