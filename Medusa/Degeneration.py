@@ -6,6 +6,8 @@ import ImageGenerator as MImg
 from PIL import Image
 import time
 
+from skimage.filters import unsharp_mask
+
 import Scorer as Scorer
 import ImageHelper as ImgHelper
 
@@ -20,7 +22,7 @@ import ImageHelper as ImgHelper
 #   The # of loops which i want to do max
 # Scores an image, alters it, and keeps the altered image if its not that worse.
 # Method Logic will be documented in detail throughout the function
-def remoteDegenerate(image, alternationfn = _alterImage, decay = 0.01, iterations = 10, maxloops=2000):
+def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 10, maxloops=2000):
     # First: Check if the Credentials are correct and the image is detected
     initialResp = Scorer.send_ppm_image(image)
     if(initialResp.status_code!=200):
@@ -50,11 +52,12 @@ def remoteDegenerate(image, alternationfn = _alterImage, decay = 0.01, iteration
         time.sleep(1.1)
     #We return the lastImg, this can be something not that good if we just reach maxloops!
     return lastScore,lastImg
+
 ################### Local ######################
 # This Degeneration runs for local Models
 # Procedere is nearly the same as above
 
-def degenerate(model, image, alternationfn = _alterImage, label, iterations=10, decay = 0.01, maxloops=2000):
+def degenerate (model, image, alternationfn = _noise, label, iterations=10, decay = 0.01, maxloops=2000):
     totalLoops = 0
     depth = 0
     lastScores,lastImage = predict_single_image(model,image)
@@ -73,6 +76,47 @@ def degenerate(model, image, alternationfn = _alterImage, label, iterations=10, 
 
 ################### Helpers #####################
 
+
+# Composes f(x)&g(x) -> f(g(x))
+_compose = lambda g,h : lambda x : g(h(x))
+
+# This methods sticks multiple alternation-functions to one
+# Every method needs to be a monad, exactly taking one image and returning one image
+def chain(fns):
+    neutral = lambda x : x 
+    for f in fns:
+        neutral = _compose(neutral,f)
+    return neutral
+
+############## Alternation Bricks #######################
+# Takes an image, and puts some noise on it. 
+# Return the image
+def _noise(image,strength=8):
+    noise = _generate_noise(0.5,strength)
+    altered = image+noise
+    return altered
+
+def _normalize(image):
+    # Image must be reparsed in the valid data-range [0,255]
+    # Values smaller than 0 will be mapped to high values (e.g. -2 => 253)
+    return np.asarray(image,dtype="uint8")
+
+# Takes an image, puts noise on it, and smooths it with gaussian filter
+def _smooth(image):
+    # The Gaussian filter is quite strong, so i've taken only a little sigma
+    altered = ndimage.filters.gaussian_filter(image,2)
+    return altered
+
+# Sharpes an edge using unsharp masking 
+# Does not work as intented with rgb!   
+def _sharp(image,strength=0.1):
+    mask = image-_smooth(image)
+    return image+mask*strength
+
+# brightens and image by increasing each colour value
+def _brigten(image,strength=5):
+    return image+5
+
 # Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
 # Could be moved to ImgHelper/Generator. Kept it here for a while so noone needs to search it. 
 def _generate_noise(density,strength=10,width=64,height=64):
@@ -81,22 +125,3 @@ def _generate_noise(density,strength=10,width=64,height=64):
     noise*=strength # To have Values bigger than 1, everything else would dissapear
     noise = np.asarray(noise,dtype="int")
     return noise
-
-# Takes an image, and puts some noise on it. 
-# Return the image
-def _alterImage(image,strength=8):
-    noise = _generate_noise(0.5,strength)
-    altered = image+noise
-    # Image must be reparsed in the valid data-range [0,255]
-    # Values smaller than 0 will be mapped to high values (e.g. -2 => 253)
-    altered = np.asarray(altered,dtype="uint8")
-    return altered
-
-# Takes an image, puts noise on it, and smooths it with gaussian filter
-def _alterImageWithSmooth(image,strength=25):
-    noise = _generate_noise(0.5,strength)
-    altered = image+noise
-    # The Gaussian filter is quite strong, so i've taken only a little sigma
-    altered = ndimage.filters.gaussian_filter(altered,2)
-    altered = np.asarray(altered,dtype="uint8")
-    return altered
