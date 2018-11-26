@@ -1,15 +1,11 @@
 import numpy as np
-
-import MedusaMongo as MMongo
-import ImageGenerator as MImg
-
 from PIL import Image
 import time
 
-from skimage.filters import unsharp_mask
-
 import Scorer as Scorer
 import ImageHelper as ImgHelper
+import MedusaMongo as MMongo
+import ImageGenerator as MImg
 
 ############################### Remote #######################################
 # This Methods runs Remote - the local Degeneration is Beneath
@@ -102,10 +98,9 @@ def _normalize(image):
     return np.asarray(image,dtype="uint8")
 
 # Takes an image, puts noise on it, and smooths it with gaussian filter
-def _smooth(image):
+def _smooth(image,sigma=0.5):
     # The Gaussian filter is quite strong, so i've taken only a little sigma
-    altered = ndimage.filters.gaussian_filter(image,2)
-    return altered
+    return ndimage.filters.gaussian_filter(image,sigma)
 
 # Sharpes an edge using unsharp masking 
 # Does not work as intented with rgb!   
