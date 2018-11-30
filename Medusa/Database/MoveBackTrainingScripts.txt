@@ -1,0 +1,39 @@
+##Moves Training-Images back to big Image Pool
+var bulkInsert = db.Images.initializeUnorderedBulkOp()
+var bulkRemoveTraining = db.Training.initializeUnorderedBulkOp()
+var bulkRemoveTest = db.Test.initializeUnorderedBulkOp()
+db.Training.find().forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemoveTraining.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Test.find().forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemoveTest.find({_id:doc._id}).removeOne();
+    }
+)
+bulkInsert.execute()
+bulkRemoveTraining.execute()
+bulkRemoveTest.execute()
+
+##Moves StratifiedTraining-Images back to big Image Pool
+var bulkInsert = db.Images.initializeUnorderedBulkOp()
+var bulkRemoveTraining = db.StratifiedTraining.initializeUnorderedBulkOp()
+var bulkRemoveTest = db.StratifiedTest.initializeUnorderedBulkOp()
+db.StratifiedTraining.find().forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemoveTraining.find({_id:doc._id}).removeOne();
+    }
+  )
+db.StratifiedTest.find().forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemoveTest.find({_id:doc._id}).removeOne();
+    }
+)
+bulkInsert.execute()
+bulkRemoveTraining.execute()
+bulkRemoveTest.execute()

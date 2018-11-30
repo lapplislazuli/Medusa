@@ -1,0 +1,47 @@
+#move Items to training
+var bulkInsert = db.Training.initializeUnorderedBulkOp()
+var bulkRemove = db.Images.initializeUnorderedBulkOp()
+db.Images.find({"success":"strong"}).limit(30).forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemove.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Images.find({"success":"medium"}).limit(5000).forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemove.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Images.find({"success":"weak"}).limit(14970).forEach(
+	function(doc){
+	  bulkInsert.insert(doc);
+	  bulkRemove.find({_id:doc._id}).removeOne();
+}
+)
+bulkInsert.execute()
+bulkRemove.execute()
+
+#move Items to Test
+var bulkInsert = db.Test.initializeUnorderedBulkOp()
+var bulkRemove = db.Images.initializeUnorderedBulkOp()
+db.Images.find({"success":"strong"}).limit(10).forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemove.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Images.find({"success":"medium"}).limit(1000).forEach(
+    function(doc){
+      bulkInsert.insert(doc);
+      bulkRemove.find({_id:doc._id}).removeOne();
+    }
+  )
+db.Images.find({"success":"weak"}).limit(2990).forEach(
+	function(doc){
+	  bulkInsert.insert(doc);
+	  bulkRemove.find({_id:doc._id}).removeOne();
+}
+)
+bulkInsert.execute()
+bulkRemove.execute()

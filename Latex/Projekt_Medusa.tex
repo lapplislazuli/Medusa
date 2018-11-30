@@ -1,0 +1,86 @@
+% Präambel
+\documentclass[12pt,a4paper,oneside, 
+liststotoc, 					% Tabellen- und Abbildungsverzeichnis ins Inhaltsverzeichnis
+bibtotoc,						% Literaturverzeichnis ins Inhaltsverzeichnis aufnehmen
+titlepage, 						% Titlepage-Umgebung statt \maketitle
+headsepline, 					% horizontale Linie unter Kolumnentitel
+%abstracton,					% Überschrift beim Abstract einschalten, Abstract muss dazu in {abstract}-Umgebung stehen
+%DIV11,							% auskommentieren, um den Seitenspiegel zu vergrößern
+BCOR6mm,						% Bindekorrektur, die den Seitenspiegel um 6mm nach rechts verschiebt,
+]{scrreprt}		
+
+% Laden verschiedener Packages
+\include{Packages}
+%Einstellungen, Farben, Commands, 
+\include{Configurations}
+
+% -------------------------------------------------------------------------------------------
+%                     Persönliche Daten
+% -------------------------------------------------------------------------------------------
+
+
+\newcommand{\titel}{Erstellung von Irrbildern zur Überlistung einer Verkehrsschilder erkennenden KI}
+\newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}\\}
+\newcommand{\untertitel}{}
+\newcommand{\arbeit}{IT-Projekt Bericht}
+\newcommand{\studiengang}{Informatik}
+\newcommand{\autor}{Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl}
+\newcommand{\matrikelnr}{2086307}
+\newcommand{\abgabe}{15.03.2019}
+\newcommand{\betreuerth}{Prof. Dr. Gallwitz}
+\newcommand{\jahr}{2018}			% für Angabe im Copyright-Vermerk der Titelseite
+
+
+% -------------------------------------------------------------------------------------------
+%                     Beginn des Dokumenteninhalts
+% -------------------------------------------------------------------------------------------
+
+
+\begin{document}
+\setcounter{secnumdepth}{3}					% Nummerierungstiefe fürs Inhaltsverzeichnis
+\setcounter{tocdepth}{3}
+\sffamily									% für die Titelei serifenlose Schrift verwenden
+
+% ------------------------------ Titelei -----------------------------------------------------
+
+\include{TexFiles/Titelseite} 				% erzeugt die Titelseite
+\pagenumbering{Roman}						% große, römische Seitenzahlen für Titelei
+\include{TexFiles/Erklaerung} 				% Einbinden der eidestattlichen Erklärung
+\include{TexFiles/Abstract}   				% Einbinden des Abstracts
+
+\tableofcontents							% Erzeugen des Inhalsverzeichnisses
+\printnomenclature[2.0cm]					% Erzeugen des Abkürzungsverzeichnisses
+\listoffigures 								% Erzeugen des Abbildungsverzeichnisses 
+%\listoftables 								% Erzeugen des Tabellenverzeichnisses
+\pagebreak
+% ------------------ Graphic Extension ------------------------------------------------------
+
+% --------------------------------------------------------------------------------------------
+%                    Inhalt der Bachelorarbeit
+%---------------------------------------------------------------------------------------------
+\pagenumbering{arabic}						% arabische Seitenzahlen für den Hauptteil
+\pagestyle{fancy}					
+\rmfamily
+
+%\include{TexFiles/Abkuerzungen}
+\include{TexFiles/Einleitung}
+\include{TexFiles/GreyBoxing}
+\include{TexFiles/GenetischeAlgorithmen}
+\include{TexFiles/Fazit}
+\newpage\newpage
+
+% ---------------------------- Literaturverzeichnis ----------------------------------------------
+
+\bibliographystyle{plain}
+\bibliography{src}
+
+
+% ------------------------------- Anhang ---------------------------------------------------------
+
+\begin{appendix}
+\clearpage
+\pagenumbering{Roman}						% römische Seitenzahlen für Anhang
+\end{appendix}
+
+
+\end{document}
