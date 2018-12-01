@@ -52,8 +52,7 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
 ################### Local ######################
 # This Degeneration runs for local Models
 # Procedere is nearly the same as above
-
-def degenerate (model, image, alternationfn = _noise, label, iterations=10, decay = 0.01, maxloops=2000):
+def degenerate (model, image, label, alternationfn = _noise, iterations=10, decay = 0.01, maxloops=2000):
     totalLoops = 0
     depth = 0
     lastScores,lastImage = predict_single_image(model,image)
@@ -64,7 +63,7 @@ def degenerate (model, image, alternationfn = _noise, label, iterations=10, deca
         degenerated = alternationfn(lastImage.copy())
         degScores,degImage = predict_single_image(model,degenerated)
         degLabelScore=degScores[label]
-        if(degLabelScore> oldLabelScore-decay):
+        if(degLabelScore> lastLabelScore-decay):
             lastImage=degImage
             lastLabelScore=degLabelScore
             depth+=1
@@ -84,11 +83,18 @@ def chain(fns):
         neutral = _compose(neutral,f)
     return neutral
 
+# Uses a model and predicts a single image
+# This should be somewhere around, actually? 
+def predict_single_image(model,img):
+    imgArr = (np.expand_dims(img,0)) # Keras Models want to batch-predict images. Therefore we create a single element array
+    imgArr = imgArr/255 # Aphrodite was trained with Values normed [0,1]
+    return model.predict(imgArr)[0],img
+
 ############## Alternation Bricks #######################
 # Takes an image, and puts some noise on it. 
 # Return the image
-def _noise(image,strength=8):
-    noise = _generate_noise(0.5,strength)
+def _noise(image):
+    noise = _generate_noise(0.5,8)
     altered = image+noise
     return altered
 
@@ -97,19 +103,25 @@ def _normalize(image):
     # Values smaller than 0 will be mapped to high values (e.g. -2 => 253)
     return np.asarray(image,dtype="uint8")
 
+# Takes an image and smooths it with gaussian filter
+def _smooth(image):
+    #Sigma = 2 often is too strong, doesnt yield to good results IMO
+    return ndimage.filters.gaussian_filter(image,2)
+
 # Takes an image, puts noise on it, and smooths it with gaussian filter
-def _smooth(image,sigma=0.5):
+def _softSmooth(image):
     # The Gaussian filter is quite strong, so i've taken only a little sigma
-    return ndimage.filters.gaussian_filter(image,sigma)
+    altered = ndimage.filters.gaussian_filter(image,0.5)
+    return altered
 
 # Sharpes an edge using unsharp masking 
 # Does not work as intented with rgb!   
-def _sharp(image,strength=0.1):
+def _sharp(image):
     mask = image-_smooth(image)
-    return image+mask*strength
+    return image+mask*0.1
 
 # brightens and image by increasing each colour value
-def _brigten(image,strength=5):
+def _brigten(image):
     return image+5
 
 # Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
