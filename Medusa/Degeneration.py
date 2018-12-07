@@ -103,13 +103,19 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
         # Alter the last image and score it
         degenerated = alternationfn(lastImg.copy())
         degeneratedResp = Scorer.send_ppm_image(degenerated)
-        degeneratedScore= Scorer.get_best_score(degeneratedResp.text)
-        print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
-        # If our score is acceptable (better than the set decay) we keep the new image and score
-        if(degeneratedScore> lastScore-decay):
-            lastImg=degenerated
-            lastScore=degeneratedScore
-            depth+=1
+        if (degeneratedResp.status_code==200):
+          degeneratedScore= Scorer.get_best_score(degeneratedResp.text)
+          print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
+          # If our score is acceptable (better than the set decay) we keep the new image and score
+          if(degeneratedScore> lastScore-decay):
+              lastImg=degenerated
+              lastScore=degeneratedScore
+              depth+=1
+        else:
+          print("Error, status code was: ", degeneratedResp.status_code)
+          #Attempts do not count
+          totalLoops-=1
+       
         #We are working remote, we need to take a short break
         time.sleep(1.1)
     #We return the lastImg, this can be something not that good if we just reach maxloops!
