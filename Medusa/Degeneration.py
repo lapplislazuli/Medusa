@@ -36,6 +36,7 @@ def predict_single_image(model,img):
 def _noise(image):
     noise = _generate_noise(0.5,8)
     altered = image+noise
+    altered = _normalize(altered)
     return altered
 
 def _normalize(image):
