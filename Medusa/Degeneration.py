@@ -7,6 +7,7 @@ import ImageHelper as ImgHelper
 import MedusaMongo as MMongo
 
 from scipy import ndimage
+import matplotlib.pyplot as plt
 
 ################### Helpers #####################
 
@@ -70,7 +71,7 @@ def _sharp(image):
     return image+mask*0.1
 
 # brightens and image by increasing each colour value
-def _brigten(image):
+def _brighten(image):
     return image+5
 
 # Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
@@ -138,6 +139,7 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
         time.sleep(1.1)
     #We return the lastImg, this can be something not that good if we just reach maxloops!
     if h!=[] :
+        plotHistory(h)
         return lastScore,lastImage,h
     else:
         return lastScore,lastImage
@@ -166,13 +168,59 @@ def degenerate (model, image, label, alternationfn = _noise, iterations=10, deca
         if verbose:
             print("Score:",degLabelScore,"Depth:",depth, "Loop:" , totalLoops)
         if history:
-            h.append((degLabelScore,depth,totalLoops))
+            h.append((degLabelScore,depth))
 
         if(degLabelScore> lastLabelScore-decay):
             lastImage=degImage
             lastLabelScore=degLabelScore
             depth+=1
     if h!=[] :
+        plotHistory(h)
         return lastLabelScore,lastImage,h
     else:
         return lastLabelScore,lastImage
+
+#################### Plot ######################
+# This function prepares the history object
+# And makes a simple plot and some print statements
+
+def plotHistory(history):
+    #Initate empty variables
+    depths = []
+    scores = []
+    changes = []
+    #iterate over the history which are tuples (score,depth)
+    for i in range(len(history)):
+        #make one list of the depth
+        depths.append(history[i][1])
+        #make one list of the scores
+        scores.append(history[i][0])
+        #make one list where we mark if a change happened
+        changes.append(i>0 and depths[i-1]<depths[i])
+    #We need that for the plot later
+    changes = np.expand_dims(np.asarray(changes),0)
+    ## Data prep completed: Now plot
+
+    # Plot the Depth as a simple line
+    # It's monoton so no worries here
+    ax1 = plt.subplot(311)
+    ax1.set_ylabel('Depth')
+    plt.plot(depths)
+    plt.setp(ax1.get_xticklabels(), visible=False)
+
+    # Plot the recieved score, this is a strongly changing line
+    ax2 = plt.subplot(312, sharex=ax1)
+    ax2.set_ylabel('Score')
+    plt.plot(scores)
+    plt.setp(ax2.get_xticklabels(), visible=False)
+
+    # Plot the changes
+    # This will look like a barcode where white is a change, black is no change
+    ax3 = plt.subplot(313)
+    ax3.imshow(changes, aspect='auto', cmap=plt.cm.gray, interpolation='nearest')
+    ax3.set_xlabel('Iteration')
+    ax3.set_ylabel('Changed')
+    plt.setp(ax3.get_xticklabels(), fontsize=12)
+
+    plt.suptitle('History Summary')
+    plt.show()
