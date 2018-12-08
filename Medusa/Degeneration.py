@@ -35,7 +35,16 @@ def predict_single_image(model,img):
 def _noise(image):
     noise = _generate_noise(0.5,8)
     altered = image+noise
-    altered = _normalize(altered)
+    return altered
+
+def _softNoise(image):
+    noise = _generate_noise(0.4,4)
+    altered = image+noise
+    return altered
+
+def _spareStrongNoise(image):
+    noise = _generate_noise(0.2,30)
+    altered = image+noise
     return altered
 
 def _normalize(image):
@@ -69,6 +78,7 @@ def _brigten(image):
 def _generate_noise(density,strength=10,width=64,height=64):
     noise = np.random.rand(width,height,3)
     noise -=0.5 # to run from [-0.5,0.5]
+    noise = np.asarray([p if np.random.rand()<density else 0 for p in noise.ravel()]).reshape((width,height,3))
     noise*=strength # To have Values bigger than 1, everything else would dissapear
     noise = np.asarray(noise,dtype="int")
     return noise
@@ -84,7 +94,7 @@ def _generate_noise(density,strength=10,width=64,height=64):
 #   The # of loops which i want to do max
 # Scores an image, alters it, and keeps the altered image if its not that worse.
 # Method Logic will be documented in detail throughout the function
-def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 10, maxloops=2000):
+def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 10, maxloops=2000, verbose=True, history=True):
     # First: Check if the Credentials are correct and the image is detected
     initialResp = Scorer.send_ppm_image(image)
     if(initialResp.status_code!=200):
@@ -92,23 +102,31 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
     # Initialise Start-Variables from our first score
     totalLoops = 0 #Counts all loops
     depth = 0 #Counts successfull loops
-    lastImg = image
+    lastImage = image
     lastScore = Scorer.get_best_score(initialResp.text)
     # To check if we put garbage in
     print("StartConfidence:",lastScore)
+
+    if history:
+        h = []    
 
     #We stop if we either reach our depth, or we exceed the maxloops
     while(depth<iterations and totalLoops<maxloops):
         totalLoops+=1
         # Alter the last image and score it
-        degenerated = alternationfn(lastImg.copy())
+        degenerated = alternationfn(lastImage.copy())
         degeneratedResp = Scorer.send_ppm_image(degenerated)
         if (degeneratedResp.status_code==200):
           degeneratedScore= Scorer.get_best_score(degeneratedResp.text)
-          print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
+          # if we verbose, we want console output (then we see directly if anything is not working, e.g. a to strong alternationfn)
+          if verbose:
+            print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
+          # if we have history=True, we collect the same data as in verbose to plot something nice
+          if history:
+              h.append((degeneratedScore,depth,totalLoops))
           # If our score is acceptable (better than the set decay) we keep the new image and score
           if(degeneratedScore> lastScore-decay):
-              lastImg=degenerated
+              lastImage=degenerated
               lastScore=degeneratedScore
               depth+=1
         else:
@@ -119,24 +137,42 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
         #We are working remote, we need to take a short break
         time.sleep(1.1)
     #We return the lastImg, this can be something not that good if we just reach maxloops!
-    return lastScore,lastImg
+    if h!=[] :
+        return lastScore,lastImage,h
+    else:
+        return lastScore,lastImage
 
 ################### Local ######################
 # This Degeneration runs for local Models
 # Procedere is nearly the same as above
-def degenerate (model, image, label, alternationfn = _noise, iterations=10, decay = 0.01, maxloops=2000):
+def degenerate (model, image, label, alternationfn = _noise, iterations=10, decay = 0.01, maxloops=2000,verbose=False,history=True):
     totalLoops = 0
     depth = 0
     lastScores,lastImage = predict_single_image(model,image)
     lastLabelScore=lastScores[label]
-    
+
+    # To check if we put garbage in
+    print("StartConfidence:",lastLabelScore)
+
+    if history:
+        h = []
+
     while(depth<iterations and totalLoops<maxloops):
         totalLoops+=1
         degenerated = alternationfn(lastImage.copy())
         degScores,degImage = predict_single_image(model,degenerated)
         degLabelScore=degScores[label]
+
+        if verbose:
+            print("Score:",degLabelScore,"Depth:",depth, "Loop:" , totalLoops)
+        if history:
+            h.append((degLabelScore,depth,totalLoops))
+
         if(degLabelScore> lastLabelScore-decay):
             lastImage=degImage
             lastLabelScore=degLabelScore
             depth+=1
-    return lastLabelScore,lastImage
+    if h!=[] :
+        return lastLabelScore,lastImage,h
+    else:
+        return lastLabelScore,lastImage
