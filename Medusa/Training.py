@@ -18,6 +18,8 @@ from scipy import misc as scipyMisc
 import tensorflow as tf
 from tensorflow import keras
 
+# Not used, just to show general flow how to train a model using this functions
+# For the later Algorithms a model is required, not necessarily this one
 def main(trainingdatapath, epochs=5,modelname="Aphrodite.h5"):
     rawI, rawL = readTrafficSignsBetter(trainingdatapath)
     goodI, goodL = ImgHelper.prepareTrafficSigns(rawI,rawL)

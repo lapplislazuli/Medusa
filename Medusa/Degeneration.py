@@ -5,7 +5,6 @@ import time
 import Scorer as Scorer
 import ImageHelper as ImgHelper
 import MedusaMongo as MMongo
-import ImageGenerator as MImg
 
 from scipy import ndimage
 

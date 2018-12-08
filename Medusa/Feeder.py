@@ -2,8 +2,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 # our Bibs
-import AphroditeTraining as AT
-import ImageGenerator as IG 
+import ImageGenerTrainingor as IG 
 
 #### Loops ######
 # Loops over the model until any class-confidence is higher than threshhold
