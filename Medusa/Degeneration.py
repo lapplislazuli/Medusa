@@ -6,6 +6,66 @@ import Scorer as Scorer
 import ImageHelper as ImgHelper
 import MedusaMongo as MMongo
 import ImageGenerator as MImg
+import FeedAphrodite as FA
+from scipy import ndimage
+
+################### Helpers #####################
+
+
+# Composes f(x)&g(x) -> f(g(x))
+_compose = lambda g,h : lambda x : g(h(x))
+
+# This methods sticks multiple alternation-functions to one
+# Every method needs to be a monad, exactly taking one image and returning one image
+def chain(fns):
+    neutral = lambda x : x 
+    for f in fns:
+        neutral = _compose(neutral,f)
+    return neutral
+
+
+############## Alternation Bricks #######################
+# Takes an image, and puts some noise on it. 
+# Return the image
+def _noise(image):
+    noise = _generate_noise(0.5,8)
+    altered = image+noise
+    return altered
+
+def _normalize(image):
+    # Image must be reparsed in the valid data-range [0,255]
+    # Values smaller than 0 will be mapped to high values (e.g. -2 => 253)
+    return np.asarray(image,dtype="uint8")
+
+# Takes an image and smooths it with gaussian filter
+def _smooth(image):
+    #Sigma = 2 often is too strong, doesnt yield to good results IMO
+    return ndimage.filters.gaussian_filter(image,2)
+
+# Takes an image, puts noise on it, and smooths it with gaussian filter
+def _softSmooth(image):
+    # The Gaussian filter is quite strong, so i've taken only a little sigma
+    altered = ndimage.filters.gaussian_filter(image,0.5)
+    return altered
+
+# Sharpes an edge using unsharp masking 
+# Does not work as intented with rgb!   
+def _sharp(image):
+    mask = image-_smooth(image)
+    return image+mask*0.1
+
+# brightens and image by increasing each colour value
+def _brigten(image):
+    return image+5
+
+# Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
+# Could be moved to ImgHelper/Generator. Kept it here for a while so noone needs to search it. 
+def _generate_noise(density,strength=10,width=64,height=64):
+    noise = np.random.rand(width,height,3)
+    noise -=0.5 # to run from [-0.5,0.5]
+    noise*=strength # To have Values bigger than 1, everything else would dissapear
+    noise = np.asarray(noise,dtype="int")
+    return noise
 
 ############################### Remote #######################################
 # This Methods runs Remote - the local Degeneration is Beneath
@@ -55,13 +115,13 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
 def degenerate (model, image, label, alternationfn = _noise, iterations=10, decay = 0.01, maxloops=2000):
     totalLoops = 0
     depth = 0
-    lastScores,lastImage = predict_single_image(model,image)
+    lastScores,lastImage = FA.predict_single_image(model,image)
     lastLabelScore=lastScores[label]
     
     while(depth<iterations and totalLoops<maxloops):
         totalLoops+=1
         degenerated = alternationfn(lastImage.copy())
-        degScores,degImage = predict_single_image(model,degenerated)
+        degScores,degImage = FA.predict_single_image(model,degenerated)
         degLabelScore=degScores[label]
         if(degLabelScore> lastLabelScore-decay):
             lastImage=degImage
@@ -69,66 +129,3 @@ def degenerate (model, image, label, alternationfn = _noise, iterations=10, deca
             depth+=1
     return lastLabelScore,lastImage
 
-################### Helpers #####################
-
-
-# Composes f(x)&g(x) -> f(g(x))
-_compose = lambda g,h : lambda x : g(h(x))
-
-# This methods sticks multiple alternation-functions to one
-# Every method needs to be a monad, exactly taking one image and returning one image
-def chain(fns):
-    neutral = lambda x : x 
-    for f in fns:
-        neutral = _compose(neutral,f)
-    return neutral
-
-# Uses a model and predicts a single image
-# This should be somewhere around, actually? 
-def predict_single_image(model,img):
-    imgArr = (np.expand_dims(img,0)) # Keras Models want to batch-predict images. Therefore we create a single element array
-    imgArr = imgArr/255 # Aphrodite was trained with Values normed [0,1]
-    return model.predict(imgArr)[0],img
-
-############## Alternation Bricks #######################
-# Takes an image, and puts some noise on it. 
-# Return the image
-def _noise(image):
-    noise = _generate_noise(0.5,8)
-    altered = image+noise
-    return altered
-
-def _normalize(image):
-    # Image must be reparsed in the valid data-range [0,255]
-    # Values smaller than 0 will be mapped to high values (e.g. -2 => 253)
-    return np.asarray(image,dtype="uint8")
-
-# Takes an image and smooths it with gaussian filter
-def _smooth(image):
-    #Sigma = 2 often is too strong, doesnt yield to good results IMO
-    return ndimage.filters.gaussian_filter(image,2)
-
-# Takes an image, puts noise on it, and smooths it with gaussian filter
-def _softSmooth(image):
-    # The Gaussian filter is quite strong, so i've taken only a little sigma
-    altered = ndimage.filters.gaussian_filter(image,0.5)
-    return altered
-
-# Sharpes an edge using unsharp masking 
-# Does not work as intented with rgb!   
-def _sharp(image):
-    mask = image-_smooth(image)
-    return image+mask*0.1
-
-# brightens and image by increasing each colour value
-def _brigten(image):
-    return image+5
-
-# Generates an (64x64x3) Image with small values. It can be subtracted/added to a normal image to noise it
-# Could be moved to ImgHelper/Generator. Kept it here for a while so noone needs to search it. 
-def _generate_noise(density,strength=10,width=64,height=64):
-    noise = np.random.rand(width,height,3)
-    noise -=0.5 # to run from [-0.5,0.5]
-    noise*=strength # To have Values bigger than 1, everything else would dissapear
-    noise = np.asarray(noise,dtype="int")
-    return noise

@@ -55,3 +55,9 @@ def get_highest_scoredBatchItem_with_label(scorebatch,imagebatch,label):
             index=i
             bestScore = scorebatch[i][label]
     return scorebatch[index][label],imagebatch[index]
+
+# Uses a model and predicts a single image
+def predict_single_image(model,img):
+    imgArr = (np.expand_dims(img,0)) # Keras Models want to batch-predict images. Therefore we create a single element array
+    imgArr = imgArr/255 # Aphrodite was trained with Values normed [0,1]
+    return model.predict(imgArr)[0],img
