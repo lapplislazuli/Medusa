@@ -1,4 +1,4 @@
-
+# Do not commit Latex Buildfiles
 /**/*.aux
 Latex/*.out
 Latex/*.bbl
@@ -9,3 +9,6 @@ Latex/*.blg
 Latex/*.gz
 Latex/*.nlo
 
+# Do not commit Models
+/Medusa/*.h5
+/Medusa/*.hdf5
