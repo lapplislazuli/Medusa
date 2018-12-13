@@ -12,3 +12,7 @@ Latex/*.nlo
 # Do not commit Models
 /Medusa/*.h5
 /Medusa/*.hdf5
+
+# Do not commit Jupyter caches
+/Medusa/__pycache__
+/Medusa/__pycache__/*
