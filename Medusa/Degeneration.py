@@ -120,10 +120,10 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
           if history:
               h.append((degeneratedScore,depth,totalLoops))
           # If our score is acceptable (better than the set decay) we keep the new image and score
-          if(degeneratedScore> lastScore+decay):
-              lastImage=degenerated
-              lastScore=degeneratedScore
-              depth+=1
+          if(degeneratedScore>=lastScore-decay):
+            lastImage=degenerated
+            lastScore=degeneratedScore
+            depth+=1
         else:
           print("Error, status code was: ", degeneratedResp.status_code)
           #Attempts do not count
@@ -164,7 +164,7 @@ def degenerate (model, image, label, alternationfn = _noise, iterations=10, deca
         if history:
             h.append((degLabelScore,depth))
 
-        if(degLabelScore> lastLabelScore-decay):
+        if(degLabelScore>= lastLabelScore-decay):
             lastImage=degImage
             lastLabelScore=degLabelScore
             depth+=1
