@@ -1,7 +1,53 @@
 \chapter{Degeneration}
-\section{Konzept}
-Hier kommt die Idee, der Pseudocode und die Voraussetzungen damit es klappt
+Innerhalb dieses Kapitels wird der Ansatz der \textit{Degeneration} vorgestellt.
 
+Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \todo{genauer, was das ist?}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}.
+
+~\newline Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung des Algorithmus für die Verwendung der unbekannten Trasi-AI vorgestellt, und den Abschluss dieses Kapitels bildet eine lokale Implementierung zuzüglich einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} nicht angeboten haben.
+\section{Konzept}
+Die Grundlegende Idee des Algorithmus bezieht sich darauf, ein Urbild $i$ zu einem Abbild $\hat{i}$ zu manipulieren, welches von dem unbekannten Klassifizierungsalgorithmus weiterhin korrekt erkannt wird. 
+
+~\newline Abhängig von der Stärke der Manipulation soll eine $Tiefe$ gewählt werden, ab welcher der Algorithmus beendet wird. Als Beispiele der Manipulation seien insbesondere Rauschen und Glätten genannt, allerdings auch Kantenschärfung und Veränderungen der Helligkeit und anderer Metaparameter. 
+
+~\newline Mit fortschreitender Tiefe wird nahezu jedes Bild unkenntlich. Zusätzlich sollten allerdings weitere Parameter als Abbruchkriterien aufgenommen werden, konkret eine Anzahl an Gesamt-Iterationen und ein Abbruch, sollten keine weiteren Fortschritte erreicht werden.
+
+\newpage
+\paragraph{Pseudocode} ~\newline 
+Folgende Parameter erwartet unsere (generische) Implementierung des Degeneration-algorithmus: 
+\begin{itemize}
+	\item Einen Eingabewert $i$
+	\item Eine Manipulations-Funktion $a : i \rightarrow \hat{i}$
+	\item Eine Klassifizierungsfunktion $p : i \rightarrow \mathrm{R}$
+	\item Eine gewünschte Tiefe $d$ (empfohlen, nicht notwendig)
+	\item Eine Iterationszahl $its$ (empfohlen, nicht notwendig)
+	\item Ein Schwellwert $t$ , um wie viel \% die Vorhersage schlechter sein darf, als das vorhergegangene Bild 
+\end{itemize}
+Auf einige der Punkte wird in den Anmerkungen gesondert eingegangen. ~\newline
+\IncMargin{1em}
+\begin{algorithm}
+	\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+	\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+	\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+	\Input{i,a,p,d,its,t}
+	\Output{$\hat{i}$, score}
+	\BlankLine
+	$depth  \leftarrow 0$, $loop \leftarrow0$ \;
+	$s \leftarrow p(i)$\;
+	$ii \leftarrow i , is \leftarrow s$ \;
+	\While{$depth<d ~ || ~ loop <its$}{
+		$ai \leftarrow a(i)$ \;
+		$as \leftarrow p(ai)$ \;
+		\If{$as >= is-t$}{
+			$is \leftarrow as$\;
+			$ii \leftarrow ai$\;
+			depth++\;
+		}
+		loop ++\;
+	}
+	return ii,is\;
+	
+	\caption{Degeneration}\label{algo_degen}
+\end{algorithm}\DecMargin{1em}
 \section{Implementierung Remote}
 Hier kommt der konkrete Code, das trennen der Alternation-Funktionen und einige sonstige Ideen hin 
 \section{Ergebnisse Remote}
