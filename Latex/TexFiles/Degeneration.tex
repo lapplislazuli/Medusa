@@ -25,9 +25,8 @@ Folgende Parameter erwartet unsere (generische) Implementierung des Degeneration
 Auf einige der Punkte wird in den Anmerkungen gesondert eingegangen. ~\newline
 \IncMargin{1em}
 \begin{algorithm}
-	\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
-	\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
-	\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+	\SetKwInOut{Input}{input}
+	\SetKwInOut{Output}{output}
 	\Input{i,a,p,d,its,t}
 	\Output{$\hat{i}$, score}
 	\BlankLine
@@ -48,6 +47,24 @@ Auf einige der Punkte wird in den Anmerkungen gesondert eingegangen. ~\newline
 	
 	\caption{Degeneration}\label{algo_degen}
 \end{algorithm}\DecMargin{1em}
+\newpage
+\paragraph{Anmerkungen}~\newline 
+Die Manipulationsfunktionen müssen genau ein Bild der Größe (x,y) erhalten und genau ein Bild der Größe (x,y) wiedergeben, und (für die generischen Implementierungen) keine weiteren Parameter erhalten. 
+
+Zusätzlich sollte die Manipulationsfunktion zufällige Elemente erhalten. Sollte eine einfache,idempotente Glättungsfunktion den Schwellwert nicht erfüllen, so wird niemals eine größere Tiefe erreicht.  
+
+~\newline Tiefe, Schwellwert und Manipulationsfunktion müssen aufeinander abgestimmt werden. Es gibt einige Funktionen, welche eine starke Veränderung hervorrufen, und für welche eine geringe Tiefe bereits ausreicht. Auf der anderen Seite dieses Spektrums können Funktionen, welche lediglich minimale Änderungen vornehmen, schnell große Tiefen erreichen, ohne ein merklich verändertes Bild hervorgerufen zu haben. 
+
+Diese Parameter auszubalancieren obliegt dem Nutzer. 
+
+Bei der Auswahl der Parameter sollte zusätzlich überschlagen werden, wie groß die letztendliche Konfidenz ist, falls die maximale Tiefe erreicht wird. 
+
+~\newline Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden, und zusätzlich erkannt werden, ob der Algorithmus sich festgefahren hat. Üblicherweise kann man erkennen, ob die Manipulationsfunktion \textit{zu stark} ist (bzw. der Schwellwert zu niedrig gewählt wurde).
+
+~\newline Der oben genannte Algorithmus lässt sich auch für Text- oder Sprach-basierte Klassifikationen adaptieren. 
+
+Hierfür müssen lediglich andere Manipulations- und Klassifizierungs-Funktionen gewählt werden.
+\newpage
 \section{Implementierung Remote}
 Hier kommt der konkrete Code, das trennen der Alternation-Funktionen und einige sonstige Ideen hin 
 \section{Ergebnisse Remote}
