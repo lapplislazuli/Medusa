@@ -28,7 +28,11 @@
 \newcommand\pythonstyle{\lstset{
 		language=Python,
 		basicstyle=\ttm,
-		otherkeywords={self,if,print,while,return,def},             % Add keywords here
+		morekeywords={access,and,break,class,continue,def,del,elif,else,except,exec,finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise,return,try,while},
+		morekeywords=[2]{abs,all,any,basestring,bin,bool,bytearray,callable,chr,classmethod,cmp,compile,complex,delattr,dict,dir,divmod,enumerate,eval,execfile,file,filter,float,format,frozenset,getattr,globals,hasattr,hash,help,hex,id,input,int,isinstance,issubclass,iter,len,list,locals,long,map,max,memoryview,min,next,object,oct,open,ord,pow,property,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,vars,xrange,zip,apply,buffer,coerce,intern},%
+		morecomment=[l]\#,%
+		sensitive=true,%
+		%otherkeywords={self,if,print,while,return,def},             % Add keywords here
 		keywordstyle=\ttb\color{deepblue},
 		emph={MyClass,__init__},          % Custom highlighting
 		emphstyle=\ttb\color{deepred},    % Custom highlighting style
