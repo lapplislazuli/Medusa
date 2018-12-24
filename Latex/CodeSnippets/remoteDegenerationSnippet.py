@@ -14,9 +14,7 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
     lastImage = image
     lastScore = Scorer.get_best_score(initialResp.text)
     # To check if we put garbage in
-    print("StartConfidence:",lastScore)
-    if history:
-        h = []    
+    print("StartConfidence:",lastScore)    
     #We stop if we either reach our depth, or we exceed the maxloops
     while(depth<iterations and totalLoops<maxloops):
         totalLoops+=1
@@ -27,14 +25,6 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
             degeneratedScore= Scorer.get_best_score(degeneratedResp.text)
         else:
             print("Error, status code was: ", degeneratedResp.status_code)
-            #Attempts do not count
-            totalLoops-=1
-        # if we verbose, we want console output (then we see directly if anything is not working)
-        if verbose:
-            print("Score:",degeneratedScore,"Depth:",depth, "Loop:" , totalLoops)
-        # if we have history=True, we collect the same data as in verbose to plot something nice
-        if history:
-            h.append((degeneratedScore,depth,totalLoops))
         # If our score is acceptable (better than the set decay) we keep the new image and score
         if(degeneratedScore>=lastScore-decay):
             lastImage=degenerated
@@ -42,9 +32,4 @@ def remoteDegenerate(image, alternationfn = _noise, decay = 0.01, iterations = 1
             depth+=1
         #We are working remote, we need to take a short break
         time.sleep(1.1)
-    print("FinalConfidence:",lastScore)
-    if h!=[] :
-        plotHistory(h)
-        return lastScore,lastImage,h
-    else:
-        return lastScore,lastImage
+    return lastScore,lastImage
