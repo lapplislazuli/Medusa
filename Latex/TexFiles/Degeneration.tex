@@ -59,14 +59,29 @@ Diese Parameter auszubalancieren obliegt dem Nutzer.
 
 Bei der Auswahl der Parameter sollte zusätzlich überschlagen werden, wie groß die letztendliche Konfidenz ist, falls die maximale Tiefe erreicht wird. 
 
-~\newline Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden, und zusätzlich erkannt werden, ob der Algorithmus sich festgefahren hat. Üblicherweise kann man erkennen, ob die Manipulationsfunktion \textit{zu stark} ist (bzw. der Schwellwert zu niedrig gewählt wurde).
+~\newline Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden, und zusätzlich, ob der Algorithmus sich festgefahren hat. Üblicherweise kann man erkennen, wenn die Manipulationsfunktion \textit{zu stark} ist (bzw. der Schwellwert zu niedrig gewählt wurde).
 
 ~\newline Der oben genannte Algorithmus lässt sich auch für Text- oder Sprach-basierte Klassifikationen adaptieren. 
 
 Hierfür müssen lediglich andere Manipulations- und Klassifizierungs-Funktionen gewählt werden.
 \newpage
 \section{Implementierung Remote}
-Hier kommt der konkrete Code, das trennen der Alternation-Funktionen und einige sonstige Ideen hin 
+Im Rahmen des Wettbewerbs wurde mit einer Rest-API \todo{Marker nach oben} gearbeitet, welche besondere Herausforderungen mit sich bringt: 
+
+\begin{itemize}
+	\item Anfragen können fehlschlagen
+	\item zwischen Anfragen muss ein Timeout liegen
+	\item Mehrere Nutzer, welche die API beanspruchen, blockieren sich
+\end{itemize}
+~\newline
+Zusätzlich wurde der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der History können anschließend hilfreiche Plots erstellt werden. 
+
+Ebenso ist anzumerken, das ignoriert wurde, welche Klasse zuerst erzeugt wurde. Solange irgendeine Klasse mit einer passenden Konfidenz gefunden wurde, wird dies als hinreichend erachtet. Im Normalfall bleibt es allerdings bei derselben Klasse. 
+
+\begin{small}
+\pythonexternal{CodeSnippets/remoteDegenerationSnippet.py}
+\end{small}
+\newpage
 \section{Ergebnisse Remote}
 Hier kommen ein paar Beispiele und Plots. 
 
