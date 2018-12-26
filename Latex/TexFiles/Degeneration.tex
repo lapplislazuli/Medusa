@@ -74,20 +74,52 @@ Im Rahmen des Wettbewerbs wurde mit einer Rest-API \todo{Marker nach oben} gearb
 	\item Mehrere Nutzer, welche die API beanspruchen, blockieren sich
 \end{itemize}
 ~\newline
-Zusätzlich wurde der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der History können anschließend hilfreiche Plots erstellt werden. 
+Zusätzlich wurde der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der \textit{History} können anschließend hilfreiche Plots erstellt werden. 
 
+Diese wurden für den untenstehenden Code weggelassen.
+~\newline~\newline
 Ebenso ist anzumerken, das ignoriert wurde, welche Klasse zuerst erzeugt wurde. Solange irgendeine Klasse mit einer passenden Konfidenz gefunden wurde, wird dies als hinreichend erachtet. Im Normalfall bleibt es allerdings bei derselben Klasse. 
+
+~\newline 
+Die Klassifizierungsfunktion wird innerhalb der Remote-Degeneration durch einige Hilfsfunktionen umgesetzt. Diese bereiten ein als \textit{Bytearray} vorliegendes Bild entsprechend auf und senden es an das Trasi-Webinterface (Die Methode \textit{Scorer.Send\_ppm\_image(img)}) und gibt ein JSON-Array der Scores wieder. 
+
+Die Hilfsmethode \textit{Scorer.get\_best\_score(response)} gibt den höchsten gefunden Score wieder.
 \newpage
 \begin{small}
+\improvement{Zeilennummern, Caption}
 \pythonexternal{CodeSnippets/remoteDegenerationSnippet.py}
 \end{small}
-\newpage
 \section{Ergebnisse Remote}
+In diesem Abschnitt werden die mit der Degeneration erzielten Ergebnisse in Bezug auf die Trasi-Schnittstelle vorgestellt. Zunächst werden einige positive Beispiele (Erfolge) gezeigt, anschließend einige Probleme die aufgetreten sind und zuletzt noch ein Zwischenfazit gezogen. 
+\paragraph{Positive Ergebnisse} ~\newline Hier kommen einige positive Beispiele rein, die mit Rauschen und/oder Smoothen erzeugt wurden. Unbedingt mit Zeiten, Iterationen und dem Plot (Insofern muss man die am besten mal abspeichern aus der Spielwiese, )
 Hier kommen ein paar Beispiele und Plots. 
 
-Auch hierhin kommt ein Fazit welche AlternationFunktionen wie gut waren und das die Trainingsbilder nicht geeignet waren
+\paragraph{Negative Ergebnisse} ~\newline Es gab zwei primäre Fehlerquellen in Bezug auf die Remote-Degeneration: Die Auswahl von Bildern, welche im GTSRB-\textit{Training}-Set waren, sowie die Auswahl ungeeigneter Manipulationsfunktionen. 
+~\newline
+Die AI innerhalb der Schnittstelle scheint sich die Bilder aus dem Trainingsset \textit{gemerkt} zu haben. Bereits minimale, unwichtige Änderungen des Schildes (z.B. einfügen einiger blauer Punkte im Hintergrund) führen zu einer drastischen Verschlechterung des Ergebnisses \todo{Beispielbild mit Scores!}. Dieses starke \textit{Ausschlagen} des Scores machte die Benutzung der Degeneration unbrauchbar.
+~\newline
+Dieses Problem hat sich herauskristallisiert, als über einen längeren Zeitraum (\~ 10 Stunden) kein Bild erzeugt wurde, welches auch nur leicht verändert wurde. Die einzigen Änderungen, welche erzielt wurden, waren innerhalb des weißen Bereiches des Überholverbotsschildes \todo{Beispielbild!}. Es wurden aber ebenfalls keine Änderungen vorgenommen außerhalb des Schildes, wo diese zu erwarten wären und bei vorhergehenden Versuchen auch zu beobachten waren. 
+~\newline
+Dieses Problem tritt ausschließlich (allerdings zuverlässig) bei der Verwendung von Bildern aus dem Trainingsset auf. Es tritt nicht auf sobald man Bilder aus dem Test-Set verwendet oder \textit{GTSRB-fremde} Bilder (vorausgesetzt, sie besitzen eine akzeptable Startkonfidenz). 
 
-Sehr wichtig sind die benötigten Zeiten.
+Innerhalb der lokalen Implementierung ist dieses Problem ebenfalls aufgetreten, konnte allerdings behoben werden, sobald man das Overfitting erkannt hatte. 
+\paragraph{Fazit} ~\newline
+Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile der Degeneration zusammengefasst werden: ~\newline ~\newline  
+\begin{tabular}{|p{7.5cm}|p{7.5cm}|}
+	\hline 
+	\textbf{Vorteile} & \textbf{Nachteile} \\ 
+	\hline 
+	\textbf{Model-Agnostic:} Der Algorithmus funktioniert unabhängig und ohne Wissen über das zugrundeliegende Modell & \textbf{Zeitintensiv:} \newline v.A. die Remote-Variante benötigt größere Zeitspannen \\ 
+	\hline 
+	\textbf{Kontext-Unabhängig:} Die Herangehensweise ist nicht auf Bilderkennungen limitiert & \textbf{Vorwissen benötigt:} Der Sinn des zugrundeliegenden Models muss bekannt sein, und ein geeignetes Startbild muss ausgewählt werden  \\ 
+	\hline 
+	\textbf{Erweiterbar:} Die Manipulationsfunktionen können weiter ausgebaut werden und haben noch großes Potenzial & Die Degeneration erzielt bei empfindlichen Modellen schlechter Ergebnisse - gerade \textit{professionelle} Modelle sollten lange brauchen, um so überlistet zu werden \\ 
+	\hline 
+	\textbf{Simple:} Der Algorithmus ist einfach implementiert und erläutert, er benötigt keine höhere Mathematik oder Vorwissen zur Thematik \textit{Machine Learning}& Im Remote-Umfeld kann die Degeneration als DDoS wahrgenommen werden und entsprechend frühzeitig unterbunden werden. \\ 
+	\hline 
+\end{tabular}
+
+\newpage
 \section{Implementierung Lokal}
 Ich weiß nicht ob das ein extra Punkt ist, aber an sich würde ich hier das Model bei uns kurz vorstellen
 
