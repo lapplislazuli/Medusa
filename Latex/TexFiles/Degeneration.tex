@@ -102,32 +102,90 @@ Dieses Problem hat sich herauskristallisiert, als über einen längeren Zeitraum
 ~\newline
 Dieses Problem tritt ausschließlich (allerdings zuverlässig) bei der Verwendung von Bildern aus dem Trainingsset auf. Es tritt nicht auf sobald man Bilder aus dem Test-Set verwendet oder \textit{GTSRB-fremde} Bilder (vorausgesetzt, sie besitzen eine akzeptable Startkonfidenz). 
 
-Innerhalb der lokalen Implementierung ist dieses Problem ebenfalls aufgetreten, konnte allerdings behoben werden, sobald man das Overfitting erkannt hatte. 
+Innerhalb der lokalen Implementierung ist dieses Problem ebenfalls aufgetreten, konnte allerdings behoben werden, sobald man das Overfitting erkannt hatte.
+\newpage 
 \paragraph{Fazit} ~\newline
 Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile der Degeneration zusammengefasst werden: ~\newline ~\newline  
 \begin{tabular}{|p{7.5cm}|p{7.5cm}|}
 	\hline 
 	\textbf{Vorteile} & \textbf{Nachteile} \\ 
 	\hline 
-	\textbf{Model-Agnostic:} Der Algorithmus funktioniert unabhängig und ohne Wissen über das zugrundeliegende Modell & \textbf{Zeitintensiv:} \newline v.A. die Remote-Variante benötigt größere Zeitspannen \\ 
+	\textbf{Model-Agnostic:} \newline Der Algorithmus funktioniert unabhängig und ohne Wissen über das zugrundeliegende Modell & \textbf{Zeitintensiv:} \newline v.A. die Remote-Variante benötigt größere Zeitspannen \\ 
 	\hline 
-	\textbf{Kontext-Unabhängig:} Die Herangehensweise ist nicht auf Bilderkennungen limitiert & \textbf{Vorwissen benötigt:} Der Sinn des zugrundeliegenden Models muss bekannt sein, und ein geeignetes Startbild muss ausgewählt werden  \\ 
+	\textbf{Kontext-Unabhängig:} \newline Die Herangehensweise ist nicht auf Bilderkennungen limitiert & \textbf{Vorwissen benötigt:} \newline Der Sinn des zugrundeliegenden Models muss bekannt sein, und ein geeignetes Startbild muss ausgewählt werden  \\ 
 	\hline 
-	\textbf{Erweiterbar:} Die Manipulationsfunktionen können weiter ausgebaut werden und haben noch großes Potenzial & Die Degeneration erzielt bei empfindlichen Modellen schlechter Ergebnisse - gerade \textit{professionelle} Modelle sollten lange brauchen, um so überlistet zu werden \\ 
+	\textbf{Erweiterbar:} \newline Die Manipulationsfunktionen können weiter ausgebaut werden und haben noch großes Potenzial & Die Degeneration erzielt bei empfindlichen Modellen schlechter Ergebnisse - gerade \textit{professionelle} Modelle sollten lange brauchen, um so überlistet zu werden \\ 
 	\hline 
-	\textbf{Simple:} Der Algorithmus ist einfach implementiert und erläutert, er benötigt keine höhere Mathematik oder Vorwissen zur Thematik \textit{Machine Learning}& Im Remote-Umfeld kann die Degeneration als DDoS wahrgenommen werden und entsprechend frühzeitig unterbunden werden. \\ 
+	\textbf{Simple:} \newline Der Algorithmus ist einfach implementiert und erläutert, er benötigt keine höhere Mathematik oder Vorwissen zur Thematik \textit{Machine Learning} und der Modelle/Verfahren im Speziellen & Im Remote-Umfeld kann die Degeneration als DDoS wahrgenommen werden und entsprechend frühzeitig unterbunden werden. \\ 
 	\hline 
-\end{tabular}
+\end{tabular} \improvement{Caption und Label} ~\newline ~\newline
+Als besonderen Fall sind solche Modelle zu nennen, die mit jeder Anfrage \textit{hinzulernen}: ~\newline Diese sind entweder besonders anfällig gegenüber der Degeneration, weil sie die bereits veränderten Bilder als \textit{korrekte} klassifizieren und somit den Entstehungsprozess der Degeneration verinnerlichen, oder sie \textit{härten} sich mit jedem Versuch gegen die neuen Änderungen und sind de facto immun gegen diesen Angriff.  
+
+\todo{Solche Modelle sind selten im Einsatz, weil zuviel Schabernack damit getrieben werden kann. Hierfür brauche ich noch eine Quelle}
+\newpage
+\section{Implementierung Lokal \newline Anpassungen und Verbesserungen}[Implementierung Lokal] 
+
+Innerhalb dieses Abschnittes werden zunächst die Änderungen bei der lokalen Verwendung des Algorithmus kurz behandelt, und anschließend zwei konzeptionelle Verbesserungen vorgestellt: Parallel- und Batch-Varianten des Algorithmus. 
+
+Auf weitere Code-Beispiele wird im Rahmen des Umfanges verzichtet - sie befinden sich im Anhang.
+
+\paragraph{Anpassungen} ~\newline Für die lokale Implementierung wurde zunächst ein eigenes Modell (von Grund auf) trainiert mithilfe der GTSRB-Daten. Das \textit{Scoring} der Remote-Implementierung wird durch die \textit{predict()}-Funktion des Models ersetzt.
+
+Als zusätzliche Erweiterung wurde für die lokale Implementierung umgesetzt, dass sich der Nutzer für eine bestimmte Klasse entscheiden kann, auf welche die Degeneration ausgelegt ist. Es wird also zuverlässig bspw. ein Stoppschild erzeugt, und kein beliebiges Schild mit hohem Score. 
+
+~\newline Des Weiteren entfällt die Wartezeit, welche für die Schnittstelle benötigt wurde, sowie die Wartezeit. Letzteres erhöht die Geschwindigkeit des Algorithmus maßgeblich. 
+
+~\newline Eine zusätzliche, passive Verbesserung wurde erzielt, indem die Verwendung der \textit{GPU-Acceleration} von Tensorflow eingebunden wurde \todo{Quelle? Oder Ausarbeiten?}. Diese beschleunigte nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen, insbesondere für die Batch-Variante, wurden um ein vielfaches (\~Faktor 20) schneller.  
+
+\paragraph{Fazit}~\newline Das wichtigste Fazit, welches im Umgang mit der lokalen Implementierung gezogen werden konnte, ist die nicht-verwendbarkeit der lokalen Bilder für die Schnittstelle. Während dies ursprünglich die Motivation war, schnell lokal Irrbilder zu erzeugen und Remote zu verwenden, stellte sich heraus das die lokalen Irrbilder keine guten Scores an der Schnittstelle erzielten und vice versa. 
+
+~\newline Es ist anzunehmen, das die Modelle dieselben stärken haben (Verkehrsschilder korrekt zu erkennen), allerdings unterschiedliche \textit{Schwächen}. Die erzeugten Irrbilder scheinen im Model selbst zu fußen und sind somit hochgradig spezifisch. 
+
+~\newline Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei der jeweilig erstellen AI Werte >90\%, und bei der anderen Implementierung zuverlässig einen Score von \~30\%. 
+
+Für ein Bild, welches an sich nichts mehr mit einem Verkehrsschild zu tun hat, sind dies immernoch unwahrscheinlich hohe Werte, und die Zuverlässigkeit mit der dieser Zusammenhang auftritt, lässt einen leichten, inhaltlichen Zusammenhang der Bilder erahnen.
+\todo{Beispielbild, Remote 90 \% und Lokal 30\% oder vice versa}
 
 \newpage
-\section{Implementierung Lokal}
-Ich weiß nicht ob das ein extra Punkt ist, aber an sich würde ich hier das Model bei uns kurz vorstellen
-
-\section{Anpassung und Verbesserung Lokal}
-Hier kommen zunächst so Dinge wie "wait" rauszunehmen aber GPU-Acceleration würde ich auch hernehmen. 
 \subsection{Batch-Degeneration}
-Ist noch ein To-Do: Degenerieren von 100 Bildern, Wahl des "besten". Mach ich noch.
-\subsection{Parallel-Degeneration}
-Nur Ansatz: Hat nicht geklappt das zu basteln weil numpy Arrays echt nervig sind bei Parallelverarbeitung. 
+Innerhalb des Batch-Variante wird anstatt eines einzelnen Bildes ein Array aus $n$ veränderten Bildern erzeugt. 
 
-Vorstellen kann man das allerdings kurz. Konflikt mit GPUAcceleration. 
+Diese werden alle bewertet und falls das beste Bild des Batches den Threshold erfüllt wird mit dem besten Bild weitergearbeitet. \todo{Nähe zu genetischen Algorithmen herausbringen, Quelle!}
+
+~\newline Dieses Verhalten für Remote einzusetzen ist möglich, allerdings wurde aufgrund der Wartezeit zwischen den Anfragen davon abgesehen. 
+
+~\newline Diese Variante profitiert maßgeblich von der \textit{GPU-Acceleration} innerhalb Tensorflows. 
+
+Selbst ohne die Verwendung des CUDA-Frameworks ist ein Tensorflow-Model auf Batch-Verarbeitung ausgelegt \todo{Quelle!} (Dies merkt man z.B. daran, dass ein einzelnes Bild künstlich zu einem ein-elementigen-Array erweitert werden muss). 
+
+Die optimale Batchgröße zu finden ist Systemabhängig und sollte kurz überschlagen werden. 
+\subsection{Parallel-Degeneration}
+Die Parallel-Variante stützt sich auf die Idee, mehrere Threads zu starten, welche gleichzeitig eine Degeneration durchführen.
+
+Sobald ein einzelner Thread die gewünschte Tiefe erreicht hat, wird der Prozess beendet. 
+
+~\newline Die Implementierung der Parallel-Degeneration ist aufgrund mehrerer technischer Gründe gescheitert: 
+
+\begin{itemize}
+	\item Modelgröße: Jeder Thread braucht ein eigenes Model, welches allerdings zu groß war. Naive Benutzung eines gemeinsamen Models führen zu Race-Conditions, \textit{geschickte} Benutzung des Models führen zu einem Verhalten wie innerhalb der Batch-Variante
+	\item Numpy-Arrays: Die Bilder für die lokale Degeneration lagen als Numpy-Arrays vor, welche ein besonderes Verhalten und eine besondere Benutzung innerhalb der Parallelverarbeitung benötigen \footnote{Dieses Problem ist sicherlich lösbar - allerdings tief verankert im Bereich der Parallelverarbeitung und somit nicht im Scope dieser Arbeit}. 
+	\item Grafikkarteneinbindung: Sobald die GPU-Acceleration innerhalb Tensorflows eingerichtet ist, werden (nahezu alle) Anfragen an die Grafikkarte weitergeleitet. Diese unterstützt das parallele Verhalten der einzelnen Threads nicht. 
+\end{itemize} 
+~\newline ~\newline
+Die Probleme sind Hardware- oder Frameworkbezogen. Je nach Umfeld können diese allerdings entfallen. 
+
+Die Probleme mit Numpy entfallen (automatisch) sobald man in einer anderen Sprache unterwegs ist. Race-Conditions entfallen beispielsweise, sollte man in der Cloud arbeiten.
+
+~\newline Diese Variante war für die Remote-Implementierung nicht umsetzbar, da gleichzeitige Anfragen (mit dem selben API-Key) fehlschlagen. Ein internes Scheduling der Anfragen führt nicht zu schnelleren Ergebnissen. 
+\subsection{Tree-Degeneration}
+Diese Variante führt eine Merkstruktur ein, welche die bisherigen Ergebnisse und Schritte zwischenspeichert. 
+
+~\newline Das bisherige verhalten entspricht dem einer Liste, bei welcher lediglich der letzte Knoten verwendet wird. Mit dem jeweils letzten Bild wird weitergearbeitet, bis entweder ein neues korrektes Bild erzeugt wurde, oder der Algorithmus endet. \todo{Schaubild: Liste vs. Tree}
+
+~\newline Die Variation beinhaltet das führen eines \textit{Retry-Counters} welcher bei jedem Versuch von einem Knoten erhöht wird. Sollte eine gewisse Anzahl an Versuchen ergebnislos bleiben, wird der aktuelle Knoten verworfen und der Vorgänger benutzt. 
+
+~\newline Dieses Verhalten führt, je nach gewählter Maximalanzahl Kinder eines Knotens, zu einem (Binär-)Baum. Das Abbruchkriterium der Tiefe kann weiterhin beibehalten werden und entspricht der Tiefe des Baumes. Im Falle eines Versuch- oder Zeitbedingten Abbruchs wird das Bild mit der bisher größten Tiefe ausgegeben.
+
+~\newline Die Entwicklung dieser Variante entstand durch Beobachtung, dass die Geschwindigkeit der Degeneration stark abhängig sind vom Ausgangsbild. Es kann ein Bild erreicht werden, welches sehr \textit{sensibel} wahrgenommen wird und deutlich schwerer Änderungen \textit{toleriert}.
+
+~\newline Die Batch-Degeneration ist mit dieser Variante frei kombinierbar.  
