@@ -10,9 +10,9 @@ Latex/*.gz
 Latex/*.nlo
 
 # Do not commit Models
-/Medusa/*.h5
-/Medusa/*.hdf5
+/DegenerationCode/*.h5
+/DegenerationCode/*.hdf5
 
 # Do not commit Jupyter caches
-/Medusa/__pycache__
-/Medusa/__pycache__/*
+/DegenerationCode/__pycache__
+/DegenerationCode/__pycache__/*
