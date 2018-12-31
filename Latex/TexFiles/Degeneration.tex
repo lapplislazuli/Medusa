@@ -13,7 +13,7 @@ Die Grundlegende Idee des Algorithmus bezieht sich darauf, ein Urbild $i$ zu ein
 
 \newpage
 \paragraph{Pseudocode} ~\newline 
-Folgende Parameter erwartet unsere (generische) Implementierung des Degeneration-algorithmus: 
+Folgende Parameter erwartet unsere (generische) Implementierung des Degeneration-Algorithmus: 
 \begin{itemize}
 	\item Einen Eingabewert $i$
 	\item Eine Manipulations-Funktion $a : i \rightarrow \hat{i}$
@@ -90,20 +90,50 @@ Die Hilfsmethode \textit{Scorer.get\_best\_score(response)} gibt den höchsten g
 \pythonexternal{CodeSnippets/remoteDegenerationSnippet.py}
 \end{small}
 \section{Ergebnisse Remote}
-In diesem Abschnitt werden die mit der Degeneration erzielten Ergebnisse in Bezug auf die Trasi-Schnittstelle vorgestellt. Zunächst werden einige positive Beispiele (Erfolge) gezeigt, anschließend einige Probleme die aufgetreten sind und zuletzt noch ein Zwischenfazit gezogen. 
-\paragraph{Positive Ergebnisse} ~\newline Hier kommen einige positive Beispiele rein, die mit Rauschen und/oder Smoothen erzeugt wurden. Unbedingt mit Zeiten, Iterationen und dem Plot (Insofern muss man die am besten mal abspeichern aus der Spielwiese, )
-Hier kommen ein paar Beispiele und Plots. 
+In diesem Abschnitt werden die mit der Degeneration erzielten Ergebnisse in Bezug auf die Trasi-Schnittstelle vorgestellt. Zunächst werden einige positive Beispiele (Erfolge) gezeigt, anschließend einige Probleme die aufgetreten sind und zuletzt noch ein kurzes Zwischenfazit gezogen. 
+\paragraph{Positive Ergebnisse} ~\newline Die zuverlässigsten Ergebnisse wurden mit einfachem Rauschen erzeugt. Die Abbildung \ref{fig:stoptiefe600} zeigt, dass zunächst vorallem die Pixel außerhalb des eigentlichen Schildes verändert werden - ein erwartetes verhalten. Die farbstarken bunten Pixel sind hierbei entstanden, da Werte welche die gültige Reichweite [0,255] verlassen, wieder zyklisch zurück in den Farbbereich geholt werden. Sollte ein Farbwert durch das Rauschen einen Wert -2 erreichen, wird er auf 253 gesetzt.  
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Images/DegenSamples/StopTiefe600}
+	\caption[Degeneration Tiefe 600]{Rausch - Degeneration mit 600 Iterationen}
+	\label{fig:stoptiefe600}
+\end{figure}
+
+Während die Abbildung \ref{fig:stoptiefe600} noch als Verkehrsschild zu erkennen ist, führt ein längeres ausführen der Degeneration zu einem Ergebniss wie in Abbildung \ref{fig:stoptiefe4000}. Um dieses Ergebnis zu erzielen wurden 4400 sekunden benötigt, also ca. 73 Minuten.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\linewidth]{Images/DegenSamples/StopTiefe4000}
+	\caption[Degeneration Tiefe 4000]{Rausch - Degeneration mit 4000 Iterationen}
+	\label{fig:stoptiefe4000}
+\end{figure}
+
+Die Plots in Abbildung \ref{fig:plotTiefe4000} stellen den Verlauf des Algorithmus dar: Das erste Diagramm zeigt einen Verlauf der aktuellen \textit{Tiefe} über die Iterationen dar, der zweite die jeweils produzierten Genauigkeit der jeweiligen Iteration (nicht nur die der akkzeptierten), und der letzte Plot visualisiert diejenigen Iterationen, an welchen eine Änderung stattgefunden hat (weißer Strich) oder keine (schwarzer Strich). Innerhalb der Implementierung werden ebenfalls standartmäßig diese Plots erzeugt.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\linewidth]{Images/DegenSamples/StopTiefe4000Plot}
+	\caption[Plot Degeneration]{Plot der Rausch-Degeneration}
+	\label{fig:plotTiefe4000}
+\end{figure}
+~\newline Es wurden ebenfalls einige sehr positive Ergebnisse mit einer Mischung aus starkem Rauschen und Glätten erzeugt, allerdings waren diese nicht zuverlässig reproduzierbar. 
 
 \paragraph{Negative Ergebnisse} ~\newline Es gab zwei primäre Fehlerquellen in Bezug auf die Remote-Degeneration: Die Auswahl von Bildern, welche im GTSRB-\textit{Training}-Set waren, sowie die Auswahl ungeeigneter Manipulationsfunktionen. 
 ~\newline
-Die AI innerhalb der Schnittstelle scheint sich die Bilder aus dem Trainingsset \textit{gemerkt} zu haben. Bereits minimale, unwichtige Änderungen des Schildes (z.B. einfügen einiger blauer Punkte im Hintergrund) führen zu einer drastischen Verschlechterung des Ergebnisses \todo{Beispielbild mit Scores!}. Dieses starke \textit{Ausschlagen} des Scores machte die Benutzung der Degeneration unbrauchbar.
+Die AI innerhalb der Schnittstelle scheint sich die Bilder aus dem Trainingsset \textit{gemerkt} zu haben. Bereits minimale, unwichtige Änderungen des Schildes (z.B. einfügen einiger blauer Punkte im Hintergrund) führen zu einer drastischen Verschlechterung des Ergebnisses. Dieses starke \textit{Ausschlagen} des Scores machte die Benutzung der Degeneration unbrauchbar.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Images/DegenSamples/OverFitSmaller}
+	\caption[Degeneration overfit]{Rausch-Degeneration auf Trainingsbild - 36000 Iterationen}
+	\label{fig:DegenOverfit}
+\end{figure}
 ~\newline
-Dieses Problem hat sich herauskristallisiert, als über einen längeren Zeitraum (\~ 10 Stunden) kein Bild erzeugt wurde, welches auch nur leicht verändert wurde. Die einzigen Änderungen, welche erzielt wurden, waren innerhalb des weißen Bereiches des Überholverbotsschildes \todo{Beispielbild!}. Es wurden aber ebenfalls keine Änderungen vorgenommen außerhalb des Schildes, wo diese zu erwarten wären und bei vorhergehenden Versuchen auch zu beobachten waren. 
+Dieses Problem hat sich herauskristallisiert, als über einen längeren Zeitraum (\~ 10 Stunden) kein Bild erzeugt wurde, welches auch nur leicht verändert wurde. Die einzigen Änderungen, welche erzielt wurden, waren innerhalb des weißen Bereiches des Überholverbotsschildes wie in Abbildung \ref{fig:DegenOverfit}. Es wurden aber ebenfalls keine Änderungen vorgenommen außerhalb des Schildes, wo diese zu erwarten wären und bei vorhergehenden Versuchen auch zu beobachten waren (vgl. Abbildung \ref{fig:stoptiefe600}). 
 ~\newline
 Dieses Problem tritt ausschließlich (allerdings zuverlässig) bei der Verwendung von Bildern aus dem Trainingsset auf. Es tritt nicht auf sobald man Bilder aus dem Test-Set verwendet oder \textit{GTSRB-fremde} Bilder (vorausgesetzt, sie besitzen eine akzeptable Startkonfidenz). 
 
 Innerhalb der lokalen Implementierung ist dieses Problem ebenfalls aufgetreten, konnte allerdings behoben werden, sobald man das Overfitting erkannt hatte.
-\newpage 
 \paragraph{Fazit} ~\newline
 Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile der Degeneration zusammengefasst werden: ~\newline ~\newline  
 \begin{tabular}{|p{7.5cm}|p{7.5cm}|}
@@ -116,14 +146,13 @@ Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile
 	\hline 
 	\textbf{Erweiterbar:} \newline Die Manipulationsfunktionen können weiter ausgebaut werden und haben noch großes Potenzial & Die Degeneration erzielt bei empfindlichen Modellen schlechter Ergebnisse - gerade \textit{professionelle} Modelle sollten lange brauchen, um so überlistet zu werden \\ 
 	\hline 
-	\textbf{Simple:} \newline Der Algorithmus ist einfach implementiert und erläutert, er benötigt keine höhere Mathematik oder Vorwissen zur Thematik \textit{Machine Learning} und der Modelle/Verfahren im Speziellen & Im Remote-Umfeld kann die Degeneration als DDoS wahrgenommen werden und entsprechend frühzeitig unterbunden werden. \\ 
+	\textbf{Simpel:} \newline Der Algorithmus ist einfach implementiert und erläutert, er benötigt keine höhere Mathematik oder Vorwissen zur Thematik \textit{Machine Learning} und der Modelle/Verfahren im Speziellen & Im Remote-Umfeld kann die Degeneration als DDoS wahrgenommen werden und entsprechend frühzeitig unterbunden werden. \\ 
 	\hline 
 \end{tabular} \improvement{Caption und Label} ~\newline ~\newline
 Als besonderen Fall sind solche Modelle zu nennen, die mit jeder Anfrage \textit{hinzulernen}: ~\newline Diese sind entweder besonders anfällig gegenüber der Degeneration, weil sie die bereits veränderten Bilder als \textit{korrekte} klassifizieren und somit den Entstehungsprozess der Degeneration verinnerlichen, oder sie \textit{härten} sich mit jedem Versuch gegen die neuen Änderungen und sind de facto immun gegen diesen Angriff.  
 
 \todo{Solche Modelle sind selten im Einsatz, weil zuviel Schabernack damit getrieben werden kann. Hierfür brauche ich noch eine Quelle}
-\newpage
-\section{Implementierung Lokal \newline Anpassungen und Verbesserungen}[Implementierung Lokal] 
+\section[Implementierung Lokal]{Implementierung Lokal \newline Anpassungen und Verbesserungen} 
 
 Innerhalb dieses Abschnittes werden zunächst die Änderungen bei der lokalen Verwendung des Algorithmus kurz behandelt, und anschließend zwei konzeptionelle Verbesserungen vorgestellt: Parallel- und Batch-Varianten des Algorithmus. 
 
@@ -135,7 +164,7 @@ Als zusätzliche Erweiterung wurde für die lokale Implementierung umgesetzt, da
 
 ~\newline Des Weiteren entfällt die Wartezeit, welche für die Schnittstelle benötigt wurde, sowie die Wartezeit. Letzteres erhöht die Geschwindigkeit des Algorithmus maßgeblich. 
 
-~\newline Eine zusätzliche, passive Verbesserung wurde erzielt, indem die Verwendung der \textit{GPU-Acceleration} von Tensorflow eingebunden wurde \todo{Quelle? Oder Ausarbeiten?}. Diese beschleunigte nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen, insbesondere für die Batch-Variante, wurden um ein vielfaches (\~Faktor 20) schneller.  
+~\newline Eine zusätzliche, passive Verbesserung wurde erzielt, indem die Verwendung der \textit{GPU-Acceleration} von Tensorflow eingebunden wurde \todo{Quelle? Oder Ausarbeiten?}. Diese beschleunigte nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen, insbesondere für die Batch-Variante, wurden um ein vielfaches ($\approx$Faktor 20) schneller.  
 
 \paragraph{Fazit}~\newline Das wichtigste Fazit, welches im Umgang mit der lokalen Implementierung gezogen werden konnte, ist die nicht-verwendbarkeit der lokalen Bilder für die Schnittstelle. Während dies ursprünglich die Motivation war, schnell lokal Irrbilder zu erzeugen und Remote zu verwenden, stellte sich heraus das die lokalen Irrbilder keine guten Scores an der Schnittstelle erzielten und vice versa. 
 
@@ -156,9 +185,9 @@ Diese werden alle bewertet und falls das beste Bild des Batches den Threshold er
 
 ~\newline Diese Variante profitiert maßgeblich von der \textit{GPU-Acceleration} innerhalb Tensorflows. 
 
-Selbst ohne die Verwendung des CUDA-Frameworks ist ein Tensorflow-Model auf Batch-Verarbeitung ausgelegt \todo{Quelle!} (Dies merkt man z.B. daran, dass ein einzelnes Bild künstlich zu einem ein-elementigen-Array erweitert werden muss). 
+Selbst ohne die Verwendung des CUDA-Frameworks ist ein Tensorflow-Model auf Batch-Verarbeitung ausgelegt. 
 
-Die optimale Batchgröße zu finden ist Systemabhängig und sollte kurz überschlagen werden. 
+Die optimale Batchgröße zu finden ist Systemabhängig und sollte kurz getestet werden. 
 \subsection{Parallel-Degeneration}
 Die Parallel-Variante stützt sich auf die Idee, mehrere Threads zu starten, welche gleichzeitig eine Degeneration durchführen.
 
