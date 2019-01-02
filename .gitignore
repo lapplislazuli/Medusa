@@ -12,7 +12,12 @@ Latex/*.nlo
 # Do not commit Models
 /DegenerationCode/*.h5
 /DegenerationCode/*.hdf5
+/GAFCode/*.pth 
 
 # Do not commit Jupyter caches
 /DegenerationCode/__pycache__
 /DegenerationCode/__pycache__/*
+
+# Do not commit unused items from GAF Code
+/GAFCode/__pycache__/*
+/GAFCode/__pycache__
