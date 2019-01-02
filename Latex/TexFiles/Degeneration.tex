@@ -186,13 +186,29 @@ Innerhalb des Batch-Variante wird anstatt eines einzelnen Bildes ein Array aus $
 
 Diese werden alle bewertet und falls das beste Bild des Batches den Threshold erfüllt wird mit dem besten Bild weitergearbeitet. \todo{Nähe zu genetischen Algorithmen herausbringen, Quelle!}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Images/DegenSamples/BatchDegPlotTiefe1000}
+	\includegraphics[width=0.35\linewidth]{Images/DegenSamples/BatchDegTiefe1000}
+	\caption[Batch-Degeneration-Plot]{Verlauf der Batch-Degeneration mit Batchsize=10 und Tiefe=1000}
+	\label{fig:batchdegplottiefe1000}
+\end{figure}
+
+Abbildung \ref{fig:batchdegplottiefe1000} zeigt den deutlich besseren Verlauf der Batch-Degeneration gegenüber der unveränderten Implementierung in Abbildung \ref{fig:plotTiefe4000}. Auffallend ist die durchgängige Veränderung und die gleichbleibend hohe Konfidenz von mehr als 99.9\% \footnote{Innerhalb des Plots wird es auf 1 gerundet}. 
+
 ~\newline Dieses Verhalten für Remote einzusetzen ist möglich, allerdings wurde aufgrund der Wartezeit zwischen den Anfragen davon abgesehen. 
 
 ~\newline Diese Variante profitiert maßgeblich von der \textit{GPU-Acceleration} innerhalb Tensorflows. 
 
 Selbst ohne die Verwendung des CUDA-Frameworks ist ein Tensorflow-Model auf Batch-Verarbeitung ausgelegt. 
 
-Die optimale Batchgröße zu finden ist Systemabhängig und sollte kurz getestet werden. 
+Die optimale Batchgröße zu finden ist Systemabhängig und sollte kurz getestet werden. Insgesamt benötigt die Batch-Degeneration trotzdem maßgeblich mehr Zeit: Für das Beispiel in Abbildung \ref{fig:batchdegplottiefe1000} wurden ca. 15 Minuten benötigt, was knapp 5 mal so lange ist wie die ursprüngliche Implementierung. 
+
+~\newline \textbf{Anmerkung:} Ein prinzipielles Problem der Batch-Degeneration liegt in der Zufälligkeit der Manipulationsfunktion. Als Beispiel sei einfaches Rauschen gewählt worden. 
+
+Ein naheliegendes Verhalten für den Algorithmus ist, von den 100 erzeugten Bildern dieses auszuwählen, welches das geringste Rauschen aufweist, und als solches am wenigsten verändert wurde. Im Normalfall weißt das am wenigsten veränderte Bild den nähesten Score auf. 
+
+Glücklicherweise ist dies ein hypothetisches Problem, und in der tatsächlichen Implementierung nicht aufgetreten. Dennoch sollte es vor Allem für die Manipulationsfunktion berücksichtigt werden. Im Falle einer Manipulationsfunktion, welche konstante Elemente beinhaltet (zum Beispiel Glätten oder statische Veränderungen der Helligkeit) fördert die Batch-Degeneration den selektiven Ansatz.
 \subsection{Parallel-Degeneration}
 Die Parallel-Variante stützt sich auf die Idee, mehrere Threads zu starten, welche gleichzeitig eine Degeneration durchführen.
 
