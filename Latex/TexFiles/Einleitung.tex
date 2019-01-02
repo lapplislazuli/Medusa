@@ -7,9 +7,40 @@
 
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
+Ziel dieser Arbeit ist es, Methoden und Herangehensweisen vorzustellen, um die Aufgabenstellung des Informaticup 2019 \todo{Hyperlink!} zu erfüllen: 
 
+Hierbei soll ein neuronales Netz, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden - es sollen absichtlich Bilder erzeugt werden, welche für den Menschen keine Verkehrsschilder sind aber mit einer Konfidenz von über 90\% als solche erkannt werden. 
+
+Die gefundenen Methoden sollen reproduzierbar sein und in einem Maße flexibel, um beliebig viele Irrbilder zu erzeugen. 
+
+~\newline Der erweiterte Rahmen dieser Arbeit umfasst eine Dokumentation der Methoden sowie Verbesserungen und Schlussfolgerungen aus den Implementierungen zu ziehen. 
+
+Ebenfalls geliefert werden alle Elemente, um die erzielten Ergebnisse zu reproduzieren und variieren. 
+
+~\newline Nicht Ziel dieser Arbeit ist, einen Überblick über neuronale Netze, künstliche Intelligenz oder Bildbearbeitung zu vermitteln. 
+
+~\newline Ebenfalls außerhalb dieser Arbeit liegt eine Auswertung, welche Bilder von einem Menschen als Verkehrschilder erkannt werden. Die Aussagen über solche stützen sich ausschließlich auf die persönliche Einschätzung des Projektteams. 
 \section{Aufbau der Arbeit}
+Innerhalb dieser Arbeit werden zunächst in Kapitel \ref{cha:TrasiAnalyse} Informationen über die Webschnittstelle gesammelt und aufbereitet. 
 
+Im Abschnitt \ref{sec:TrainingsDaten} werden hierfür zunächst die \textit{German-Trafficsign-Recognition-Benchmark} (Kurz: GTSRB) vorgestellt, welche für das Training der Webschnittstelle verwendet wurden. Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der verfolgten Ansätze.
+
+Anschließend werden in Abschnitt \ref{sec:TrasiModell} die Eigenschaften des Modells zusammengefasst. 
+Diese bestehen zum einen aus den offiziellen Angaben der Gesellschaft der Informatiker, zum anderen aus gewonnenen Erkenntnissen. Dieses Kapitel bildet die Grundlage, um die Schnittstelle einzuschätzen. 
+
+~\newline Anschließend werden verschiedene Lösungsansätze vorgestellt, beginnend mit der \textit{Degeneration} in Kapitel \ref{cha:Degeneration}. 
+
+Dieser Ansatz verändert iterativ ein Verkehrsschild, und behält die Änderungen bei, sollte der erzielte Score im akzeptablen Bereich liegen. Mit passender Bildveränderungen erzielen höhere Iterationen unkenntliche Ergebnisse. 
+
+Innerhalb des Kapitels wird zunächst im Abschnitt \ref{sec:DegenerationKonzept} die Idee anhand von Pseudocode weiter erläutert und anschließend in Abschnitt  \ref{sec:DegenerationRemote} die Implementierung für die Webschnittstelle gezeigt. Die Ergebnisse liegen gesondert im Abschnitt \ref{sec:DegenerationErgebnisse} vor. 
+
+Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich waren.
+
+~\newline ANPE \todo{Gradient Ascent Fooling Aufbau!}
+
+~\newline ANPE \todo{Saliency Map Aufbau!}
+
+~\newline Abschluss dieser Arbeit bildet im Kapitel \ref{cha:Schluss} ein Fazit über die gefundenen Methoden, sowie ein Ausblick auf weiterführende Arbeiten. 
 \section{Verwandte Werke und Primärquellen}
 \label{sec:VerwandteWerke}
 

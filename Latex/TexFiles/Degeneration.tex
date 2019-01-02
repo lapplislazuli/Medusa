@@ -1,10 +1,12 @@
 \chapter{Degeneration}
+\label{cha:Degeneration}
 Innerhalb dieses Kapitels wird der Ansatz der \textit{Degeneration} vorgestellt.
 
 Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \todo{genauer, was das ist?}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}.
 
 ~\newline Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung des Algorithmus für die Verwendung der unbekannten Trasi-AI vorgestellt, und den Abschluss dieses Kapitels bildet eine lokale Implementierung zuzüglich einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} nicht angeboten haben.
 \section{Konzept}
+\label{sec:DegenerationKonzept}
 Die Grundlegende Idee des Algorithmus bezieht sich darauf, ein Urbild $i$ zu einem Abbild $\hat{i}$ zu manipulieren, welches von dem unbekannten Klassifizierungsalgorithmus weiterhin korrekt erkannt wird. 
 
 ~\newline Abhängig von der Stärke der Manipulation soll eine $Tiefe$ gewählt werden, ab welcher der Algorithmus beendet wird. Als Beispiele der Manipulation seien insbesondere Rauschen und Glätten genannt, allerdings auch Kantenschärfung und Veränderungen der Helligkeit und anderer Metaparameter. 
@@ -66,6 +68,7 @@ Bei der Auswahl der Parameter sollte zusätzlich überschlagen werden, wie groß
 Hierfür müssen lediglich andere Manipulations- und Klassifizierungs-Funktionen gewählt werden.
 \newpage
 \section{Implementierung Remote}
+\label{sec:DegenerationRemote}
 Im Rahmen des Wettbewerbs wurde mit einer Rest-API \todo{Marker nach oben} gearbeitet, welche besondere Herausforderungen mit sich bringt: 
 
 \begin{itemize}
@@ -90,6 +93,7 @@ Die Hilfsmethode \textit{Scorer.get\_best\_score(response)} gibt den höchsten g
 \pythonexternal{CodeSnippets/remoteDegenerationSnippet.py}
 \end{small}
 \section{Ergebnisse Remote}
+\label{sec:DegenerationErgebnisse}
 In diesem Abschnitt werden die mit der Degeneration erzielten Ergebnisse in Bezug auf die Trasi-Schnittstelle vorgestellt. Zunächst werden einige positive Beispiele (Erfolge) gezeigt, anschließend einige Probleme die aufgetreten sind und zuletzt noch ein kurzes Zwischenfazit gezogen. 
 \paragraph{Positive Ergebnisse} ~\newline Die zuverlässigsten Ergebnisse wurden mit einfachem Rauschen erzeugt. Die Abbildung \ref{fig:stoptiefe600} zeigt, dass zunächst vorallem die Pixel außerhalb des eigentlichen Schildes verändert werden - ein erwartetes verhalten. Die farbstarken bunten Pixel sind hierbei entstanden, da Werte welche die gültige Reichweite [0,255] verlassen, wieder zyklisch zurück in den Farbbereich geholt werden. Sollte ein Farbwert durch das Rauschen einen Wert -2 erreichen, wird er auf 253 gesetzt.  
 
@@ -152,7 +156,8 @@ Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile
 Als besonderen Fall sind solche Modelle zu nennen, die mit jeder Anfrage \textit{hinzulernen}: ~\newline Diese sind entweder besonders anfällig gegenüber der Degeneration, weil sie die bereits veränderten Bilder als \textit{korrekte} klassifizieren und somit den Entstehungsprozess der Degeneration verinnerlichen, oder sie \textit{härten} sich mit jedem Versuch gegen die neuen Änderungen und sind de facto immun gegen diesen Angriff.  
 
 \todo{Solche Modelle sind selten im Einsatz, weil zuviel Schabernack damit getrieben werden kann. Hierfür brauche ich noch eine Quelle}
-\section[Implementierung Lokal]{Implementierung Lokal \newline Anpassungen und Verbesserungen} 
+\section[Implementierung Lokal]{Implementierung Lokal \newline Anpassungen und Verbesserungen}
+\label{sec:DegenerationLokal}
 
 Innerhalb dieses Abschnittes werden zunächst die Änderungen bei der lokalen Verwendung des Algorithmus kurz behandelt, und anschließend zwei konzeptionelle Verbesserungen vorgestellt: Parallel- und Batch-Varianten des Algorithmus. 
 
