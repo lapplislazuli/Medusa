@@ -23,3 +23,6 @@ Latex/*.nlo
 /GAFCode/__pycache__
 /GAFCode/.ipynb_checkpoints
 /GAFCode/.ipynb_checkpoints/*
+# Do not commit generated images from GAF Code
+/GAFCode/generated
+/GAFCode/generated/*
