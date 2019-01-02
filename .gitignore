@@ -21,3 +21,5 @@ Latex/*.nlo
 # Do not commit unused items from GAF Code
 /GAFCode/__pycache__/*
 /GAFCode/__pycache__
+/GAFCode/.ipynb_checkpoints
+/GAFCode/.ipynb_checkpoints/*
