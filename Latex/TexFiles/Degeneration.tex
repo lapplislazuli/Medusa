@@ -175,7 +175,7 @@ Als zusätzliche Erweiterung wurde für die lokale Implementierung umgesetzt, da
 
 ~\newline Es ist anzunehmen, das die Modelle dieselben stärken haben (Verkehrsschilder korrekt zu erkennen), allerdings unterschiedliche \textit{Schwächen}. Die erzeugten Irrbilder scheinen im Model selbst zu fußen und sind somit hochgradig spezifisch. 
 
-~\newline Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei der jeweilig erstellen AI Werte >90\%, und bei der anderen Implementierung zuverlässig einen Score von \~30\%. 
+~\newline Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei der jeweilig erstellen AI Werte >90\%, und bei der anderen Implementierung zuverlässig einen Score von $\approx$30\%. 
 
 Für ein Bild, welches an sich nichts mehr mit einem Verkehrsschild zu tun hat, sind dies immernoch unwahrscheinlich hohe Werte, und die Zuverlässigkeit mit der dieser Zusammenhang auftritt, lässt einen leichten, inhaltlichen Zusammenhang der Bilder erahnen.
 \todo{Beispielbild, Remote 90 \% und Lokal 30\% oder vice versa}
@@ -222,9 +222,7 @@ Sobald ein einzelner Thread die gewünschte Tiefe erreicht hat, wird der Prozess
 	\item Grafikkarteneinbindung: Sobald die GPU-Acceleration innerhalb Tensorflows eingerichtet ist, werden (nahezu alle) Anfragen an die Grafikkarte weitergeleitet. Diese unterstützt das parallele Verhalten der einzelnen Threads nicht. 
 \end{itemize} 
 ~\newline ~\newline
-Die Probleme sind Hardware- oder Frameworkbezogen. Je nach Umfeld können diese allerdings entfallen. 
-
-Die Probleme mit Numpy entfallen (automatisch) sobald man in einer anderen Sprache unterwegs ist. Race-Conditions entfallen beispielsweise, sollte man in der Cloud arbeiten.
+Die Probleme sind Hardware- oder Frameworkbezogen. Je nach Umfeld können diese somit entfallen. Race-Conditions entfallen beispielsweise, sollte man in der Cloud arbeiten.
 
 ~\newline Diese Variante war für die Remote-Implementierung nicht umsetzbar, da gleichzeitige Anfragen (mit dem selben API-Key) fehlschlagen. Ein internes Scheduling der Anfragen führt nicht zu schnelleren Ergebnissen. 
 \subsection{Tree-Degeneration}
