@@ -45,3 +45,43 @@ Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kap
 \label{sec:VerwandteWerke}
 
 \section{Rahmenbedingungen des Informaticups}
+Die Umsetzung der Implementierung erfolgte innerhalb der webbasierten, interaktiven Entwicklungsumgebung Jupyter Notebook \ref{todo} (in der Version 5.7.4) zusammen mit der objektorientierten höheren Programmiersprache Python \ref{todo} (in der Version 3.6.5).
+
+
+Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \ref{todo}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeleibtesten Technologie des Jahres 2017 gewählt \ref{todo}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in quell- oder binärform verfügbar \ref{todo}.
+
+
+Als Paketmanager wurde die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \ref{todo}. Schließlich erlaubt “Anaconda Accelerate” den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \ref{todo}.
+
+
+Zur fehlerfreien Ausführung des Codes (Saliency Map Verfahren beziehungsweise Gradient Ascent Verfahren) müssen sowohl Python 3.6.5 als auch folgende Python-Bibliotheken in der wie folgt spezifizierten Version in der zur Laufzeit verwendeten Anaconda Environment vorliegen, wie in Tabelle \ref{tabelle} aufgeschlüsselt.
+
+
+\begin{table}
+	\centering
+\begin{tabular}{|l|l|p{10.4cm}|}
+	\hline 
+	Name & Version & Beschreibung \\ 
+	\hline\hline 
+	Keras& 2.2.4  & Enthält Funktionen für Deep-Learning Anwendungen [7] \\ 
+	\hline 
+	Torchvision& 0.2.1 & Enthält Datensätze, Modellarchitekturen und gängige Bildtransformationsoperationen für Computer-Vision Anwendungen [8] \\ 
+	\hline 
+	OpenCV& 3.4.2  & Enthält Funktionen für echtzeit Computer-Vision Anwendungen [9] \\ 
+	\hline 
+	NumPy&  1.15.3& Enthält Funktionen zur effizienten Durchführung von Vektor- oder Matrizenberechnungen [10] \\ 
+	\hline 
+	Requests& 2.18.4 & Enthält Funktionen zur Vereinfachung von HTTP Requests [11] \\ 
+	\hline 
+	Pillow& 5.2.0 & Enthält Funktionen zum laden, modifizieren und speichern von verschiedenen Bilddateiformaten [12] \\ 
+	\hline 
+	Matplotlib& 2.2.3 & Enthält Funktionen zum Plotten von Graphen oder Bildern [13] \\ 
+	\hline 
+	SciPy& 1.1.0  & Enthält wissenschaftliche und technische Funktionen zur Datenverarbeitung [14] \\ 
+	\hline 
+\end{tabular} 
+	\caption{Paketabhängigkeiten der implementierten Software}
+\label{tab:parameter}
+\end{table}
+
+Um die Voraussetzungen zur benötigten Python Version respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Öffnen des Jupyter Notebooks zum Saliency Map Verfahren beziehungsweise zum Gradient Ascent Verfahren immer der Code zur Rubrik “Managing Anaconda Environment” zuerst ausgeführt werden. Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.

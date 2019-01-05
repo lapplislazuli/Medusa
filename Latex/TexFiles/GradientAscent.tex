@@ -1,0 +1,32 @@
+\chapter{Gradient Ascent}
+\label{GenAlgo}
+\section{Konzept}
+Unsere Implementation ist eine art von DIRECT encoding. Aber anstelle von lediglich Der Confidenz und einer Klasse, werden die Gradienten mittels einer Kreuz-Entropie zu einer Zielklasse berechnet, welche dann als „orientierungshilfe“ für die weiter manipulation der bilder dienen. -> Das wird als Targeted Backpropagation bezeichnet.
+
+
+The method keeps the same, whether a random “noisy” image or a “real” image is used initially. Only the modification weights need do be smaller, as the goal is to keep the “original image” as much as recognizable as possible.
+
+\section{Implementierung}
+Training und Evaluierung des AlexNet Modells
+WICHTIG, aber eigentlich ist können wir das genauso wichtig behandeln wie die Aphrodite?
+Unterschied zur Aphrodite? Eigenes modell vs Alexnet architektur die auf die 43-Klassen angepasst wurde. 
+Training und Evaluierung des AlexNet mit dem GTSRB Datensatz
+
+
+Bilderzeugung anhand des Gradient Ascent Fooling Verfahrens
+WICHTIG
+Anwendung des Gradient Ascent Fooling Verfahrens auf das trainierte AlexNet
+
+
+Generierung eines zufallsbildes (random noise)
+iterativer ablauf: 
+prediction
+gradienten berechnung durch kreuzentropie zur gewünschten klasse
+modifikation des bildes durch anteil der gradienten 
+
+Der vorgestellte ansatz ändert sich nicht bei eingabe eines ausgewählten Bildes, die veränderungsrate solle aber gering gehalten werden, um das bild so wenig wie nötig zu verändern
+
+\section{Ergebnisse}
+
+
+Klappt gut. Ist cool
