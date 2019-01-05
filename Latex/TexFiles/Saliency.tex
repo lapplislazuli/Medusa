@@ -1,4 +1,37 @@
-\chapter{Saliency Maps ANPE}
-Hier kommt Andreas und Peters Teil.
+\chapter{Saliency Maps}
 
-Das File zu Evolutionären Algorithmen ist noch vorhanden, nur nicht eingebunden.
+\section{Konzept}
+Ein verbreitetes Verfahren aus dem Bereich Computer Vision zur Visualisierung relevanter Pixel ist die Erstellung von Saliency Maps (dt. Ausprägungskarten). Diese können verwendet werden, um die Qualität, sprich Aussagekraft, jedes einzelnen Bildpunkts ersichtlich zu machen. Simonyan et al. [3] führt die grundlegende Methodik entsprechend Saliency Maps weiter aus und unterscheidet zwischen einer allgemeinen “Klassen-Definierenden” Saliency Map sowie einer Saliency Map zu einem gegebenen Eingabe(bild) entsprechend der Zielklassen.
+
+
+Gebräuchliche anwendung dieses Verfahrens im Machine Learning bereiches betreffen der Darstellung von High level Features einzelner Neuronen [Beispiel Quelle] im bezug auf eine gezielte Klasse. Diesen Ansatz weiterverfolgend, entsprechen die erzeugten Saliency Maps im letzten Layer einer starken Neuronenaktivierung, die einer “high level” darstellung der gezielten klasse entspricht, die vom NN für das Bild errechnet wurde. 
+
+
+Diese Saliency Map sollte also im rückschluss mit einer hohen konfidenz bezüglich der entsprechende Klasse klassifiziert werden, wenn das erzeugte bild als eingabe verwendet wird. Daraus ergibt sich die Hypothese, mithilfe dieser visualisierung für den menschen semantisch nicht erkennbare Verkehrszeichen Bilder zu erzeugen, die hohe Zielkonfidenzen mit $90\%$ oder mehr erreichen. Die beschriebene Methode wird in der Implementierung als “Vanilla Saliency” bezeichnet.
+
+\section{Implementierung}
+2 sätze, was und warum
+-dimensionsreduzierung der bilder (flatting)
+-Konvertierung der PPM-Bilder in das PNG-Bildformat und Speicherung im Dateisystem
+
+
+2 sätze, warum und ergebniss
+Lokale Klassifizierung der PNG-Eingabebilder mittels trainiertem Keras Modell  (Aphrodite)
+Verwendung des vorgestellten, trainierten Aprodite Modell -> klassifizierung von bild mit hoher Konfidenz für jede klasse
+
+
+Bilderzeugung anhand verschiedener Saliency Map Verfahren
+WICHTIG, aufgliedern der verschiedenen Verfahren
+die klassifzierten bilder werden hergenommen um die saliency maps zu erzeugen
+
+
+
+<Bilderreihen, Inputbild+3 besten saliency maps oder so>
+Anwendung verschiedener Saliency Masks Verfahren auf die klassifizierten Eingabebilder
+Wie unterscheiden sich die verfahren im Code? Codevorbereitung etc.? Wir müssen beweisen dass wir verstanden haben was wir da machen
+
+
+\section{Ergebnisse}
+
+<Evaluierung der verschiedenen Saliency Mask Verfahren am Black-Box Modell
+Vergleich untereinander, auswahl von 1-2 verfahren für die “globale evaluation und diskussion”>

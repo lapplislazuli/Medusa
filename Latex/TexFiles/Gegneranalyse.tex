@@ -1,19 +1,37 @@
 \chapter{Analyse der Webschnittstelle}
 \label{cha:TrasiAnalyse}
 In das Kapitel kommen die Dinge die wir über die Trasi-AI wissen
-\section{Ursprungsdaten}
+\section{Eigenschaften des bereitgestellten Neuronalen Netz}
 \label{sec:TrainingsDaten}
-Hier gehen wir kurz auf die Trainingsdaten ein die wir haben, zeigen ein paar Bilder und wie fürchterlich hässlich die sind in 64x64
 
-\section{Modellschätzungen}
-\label{sec:TrasiModell}
-Hier kommen unsere Erfahrungen, die wir mit dem Modell gemacht haben
+
+
+
+33 verschiedene aufgezeichnete klassenlabels (im vergleich GTSRB datensatz 43)
 
 \begin{enumerate}
-	\item Gekürzte Klassen: Aus unserer MongoDB können wir ziemlich sicher sagen, dass wir nur 33 Klassen von Trasi haben, keine 43. Wir können nachsehen welche fehlen
-	\item Softmax-Ausgabefunktion
+	\item 
+	Aus der aufgabenstellung 64x64x3
+	\item 
+	bilder aus dem GTSRB [quelle] datensatz
+	\item Gekürzte Klassen: Aus der analyse geht die Vermutung hervor, dass nur 33 Klassen unterschieden werden, keine 43 wie im orginal datensatz
+	\item Softmax-Ausgabefunktion 
 	\item Interpolationsfunktion (vllt mit einem Bild in 3 Interpolationsversionen und jeweiligen Score) 
 	\item Overfitting bei Trainingsdaten
 	\item unzuverlässigkeit bei nicht-Schildern (z.B. OhmLogo)
 \end{enumerate}
 
+\section{Transferierbarkeit von Angriffen auf ein Blackbox Modell}
+\label{sec:TrasiModell}
+Verwandte arbeiten bestätigen  die Transferierbarkeit von Angriffen, die auf einem "eigenen" neuronalen Netz erzeugt wurden und gegen ein unbekanntes Blackbox modell funktioniern
+
+Einschränkungen? Probleme? Rechtfertigung der Implementation eines eigenen Modells
+
+
+\section{Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern (Aphrodite)}
+-beschreibung des APhrodite Modells
+
+
+begründungen für die Designentscheidungen? Strategie/Vorbilder?
+
+\todo{Leonhart}
