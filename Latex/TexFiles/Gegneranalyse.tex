@@ -29,9 +29,16 @@ Einschränkungen? Probleme? Rechtfertigung der Implementation eines eigenen Mode
 
 
 \section{Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern (Aphrodite)}
--beschreibung des APhrodite Modells
+Für die lokale Degeneration in Kapitel \ref{cha:Degeneration} wurde mithilfe Tensorflows ein eigenes Keras-Model erstellt zur Verkehrsschilderkennung. \todo{at Peter: Bezug der Aphrodite in Gradient Ascent Fooling?}
 
+~\newline Das (am meisten verwendete) Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. Ein detaillierter Aufbau des Netzes befindet sich im Anhang\todo{Netzzusammenfassung als Tabelle in den Anhang}\todo{Link in den Anhang}.
 
-begründungen für die Designentscheidungen? Strategie/Vorbilder?
+~\newline Für das Training wurden die GTSRB-Trainings- und Test-Daten verwendet. Diese wurden um die richtige Auflösung zu erreichen auf 64x64 interpoliert. 
 
-\todo{Leonhart}
+Da nicht sicher war, welche Interpolationsfunktion innerhalb der Remote-Schnittstelle verwendet wurde, wurde für das Training jedes Bild mehrfach interpoliert und ebenfalls mehrfach für das Training verwendet. Für die Testdaten wurde eine zufällige Interpolationsfunktion ausgesucht. 
+
+~\newline \textit{Aphrodite} erreichte eine Genauigkeit von 96.5 \% auf die Trainingsdaten. Eine Übersicht über die Trainingsparameter findet sich im Repository unter /DegenerationCode/Training.py. \todo{Sollte man das anders schreiben? Oder packen wir das file in den Anhang?}
+
+~\newline Der Name Aphrodite wurde gewählt, um dem ersten Modell (Model A) innerhalb des Projektes einen sprechenden Namen zu geben.
+
+\todo{ANPE: Das ALEXNET-Model hier auch listen?}
