@@ -2,26 +2,35 @@
 \label{cha:Einleitung}
 \setlength{\epigraphwidth}{4in}
 
-\section{Motivation}
+%\section{Motivation}
 Der Traum von einem autonom gelenkten Automobil ist so alt wie das Automobil selbst \cite{maurer_autonomes_2015}. Fabian Dröger schreibt dazu in seinem Beitrag "`Das automatisierte Fahren im gesellschaftswissenschaftlichen und kulturwissenschaftlichen Kontext"' in dem Sammelwerk "`Autonomes Fahren"' von Markus Maurer et al., wie die zunehmende Anzahl an Verkehrstoten in den USA zu Beginn des 20. Jahrhunderts in Verbindung mit den technischen Errungenschaften in der frühen Flugzeug- und Radiotechnik den Wunsch nach einem selbstfahrenden Automobil aufkommen ließen. Die Vision war, dass ein Automobil ähnlich wie ein Flugzeug durch einen Autopiloten in der Spur gehalten und gesteuert werden könnte. Für die Ansteuerung der mechanischen Teile setzte man auf eine Fernsteuerung mit Funk, die zu dieser Zeit im Bereich der \emph{Radioguidance} erforscht wurde.
 
 Der aktuelle Stand der Technik zeigt, dass sich die Umsetzung dieser Vision schwieriger gestaltet, als zunächst angenommen. Anstelle einer autonomen Steuerung finden sich in heutigen Automobilen verschiedene Techniken zur Erhöhung der Fahrsicherheit und des Komforts. Beispiele sind Spurhalteassistenten, automatische Abstandshalter oder Einparkhilfen. Diese Funktionen unterstützen einen menschlichen Fahrer, ermöglichen jedoch noch kein selbstständiges Fahren.
 
 Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern\cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobilherstellern\cite{bmw_autonomes_nodate} und der Presse\cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich Künstliche Intelligenz hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann.   
 
- 
-
-
-Autonomes Fahren, Begeisterung seit Anbeginn der Motorisierung, verschiedenen Stufen der Automatisierung, elektromechanisches System muss immer sicherer sein als mechanisches, aktuelle Ansätze von autonomen Autos nutzen KI, Überprüfung der Sicherheit einer KI 
+%Content merke:
+%Autonomes Fahren, Begeisterung seit Anbeginn der Motorisierung, verschiedenen Stufen der Automatisierung, elektromechanisches System muss immer sicherer sein als mechanisches, aktuelle Ansätze von autonomen Autos nutzen KI, Überprüfung der Sicherheit einer KI 
 
 \section{Problemstellung}
-KI arbeitet bei Bilderkennung mit Features, KI kann getäuscht werden, wie müssen Bilder beschaffen sein, die KI täuschen können
+Im Bereich der Bilderkennung erreichen neuronale Netze bahnbrechende Erfolge. Im Zuge der Forschung trat allerdings ein neues Phänomen auf, die sogenannten \textit{Adversarial Attacks} \cite{todo}. 
 
-\section{Ziel der Arbeit}
+Innerhalb dieser Angriffe werden gezielt Gewichte stimuliert, um gewünschtes Feedback des neuronalen Netzes zu erzielen. Die dabei erzeugten Fragmente haben selten etwas mit einem \textit{echten} Bild zu tun - sie wirken entweder wie Rauschen oder moderne Kunst. 
+
+~\newline Da diese präparierten Bilder eben nicht aussehen, wie beispielsweise ein Verkehrsschild, kann ein Mensch schwer erkennen ob ein Angriff unternommen wird. 
+
+Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Sektoren des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden erzeugen und stellen ein lohnendes Ziel dar. 
+
+Vor allem im Bereich des autonomen Fahrens, welcher ohnehin geprägt ist durch die Debatte über \textit{Vertrauen in Technik} \cite{todo}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen - und das gesamte Themengebiet frühzeitig begraben. 
+
+~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige dieser \textit{Irrbilder} benötigt. Anschließend können, um das neuronale Netz zu härten, Tests durchgeführt werden und die Angriffe berücksichtigt werden. 
+
+Diese Irrbilder zu erzeugen stellt das Kernziel dieser Arbeit dar. 
+\section{Ziele der Arbeit}
 \label{sec:ZielDerArbeit}
 Ziel dieser Arbeit ist es, Methoden und Herangehensweisen vorzustellen, um die Aufgabenstellung des Informaticup 2019 \todo{Hyperlink!} zu erfüllen: 
 
-Hierbei soll ein neuronales Netz, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden - es sollen absichtlich Bilder erzeugt werden, welche für den Menschen keine Verkehrsschilder sind aber mit einer Konfidenz von über 90\% als solche erkannt werden. 
+Hierbei soll ein neuronales Netz, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden - es sollen absichtlich Bilder erzeugt werden, welche für den Menschen keine Verkehrsschilder sind allerdings mit einer Konfidenz von über 90\% als solche erkannt werden. 
 
 Die gefundenen Methoden sollen reproduzierbar sein und in einem Maße flexibel, um beliebig viele Irrbilder zu erzeugen. 
 
