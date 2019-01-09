@@ -26,11 +26,12 @@ Vor allem im Bereich des autonomen Fahrens, welcher ohnehin geprägt ist durch d
 ~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige dieser \textit{Irrbilder} benötigt. Anschließend können, um das neuronale Netz zu härten, Tests durchgeführt werden und die Angriffe berücksichtigt werden. 
 
 Diese Irrbilder zu erzeugen stellt das Kernziel dieser Arbeit dar. 
-\section{Ziele der Arbeit}
+
+\section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
 Ziel dieser Arbeit ist es, Methoden und Herangehensweisen vorzustellen, um die Aufgabenstellung des Informaticup 2019 \todo{Hyperlink!} zu erfüllen: 
 
-Hierbei soll ein neuronales Netz, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden - es sollen absichtlich Bilder erzeugt werden, welche für den Menschen keine Verkehrsschilder sind allerdings mit einer Konfidenz von über 90\% als solche erkannt werden. 
+Hierbei soll ein neuronales Netz, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden - es sollen absichtlich Bilder erzeugt werden, welche für den Menschen keine Verkehrsschilder sind aber mit einer Konfidenz von über 90\% als solche erkannt werden. 
 
 Die gefundenen Methoden sollen reproduzierbar sein und in einem Maße flexibel, um beliebig viele Irrbilder zu erzeugen. 
 
@@ -57,9 +58,10 @@ Innerhalb des Kapitels wird zunächst im Abschnitt \ref{sec:DegenerationKonzept}
 
 Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich waren.
 
-~\newline ANPE \todo{Gradient Ascent Fooling Aufbau!}
 
-~\newline ANPE \todo{Saliency Map Aufbau!}
+~\newline Desweiteren werden in Kapitel \ref{cha:saliency} verschiedene Methoden zur Erzeugung von sog. \textit{Saliency Maps} (dt. Ausprägungskarte) vorgestellt. Unveränderte Bilder mit einer hohen Konfidenz werden ausgewählt, um die einzelnen Pixel hervorzuheben, welche für die Klassifikation den höchsten Einfluss hatten.
+
+~\newline In Kapitel \ref{cha:gascent} wird das Verfahren des \textit{Gradient Ascent} beschrieben und evaluiert. Dabei wird mithilfe einer \textit{targeted Backpropagation} für jede Klasse ein Bild erzeugt, der die Funktion in Richtung der Zielklasse maximiert, bis die enthaltenen Merkmale eine hohe Konfidenz in der gewünschten Klasse ermöglichen.
 
 ~\newline Abschluss dieser Arbeit bildet im Kapitel \ref{cha:Schluss} ein Fazit über die gefundenen Methoden, sowie ein Ausblick auf weiterführende Arbeiten. 
 \section{Verwandte Werke und Primärquellen}
@@ -69,7 +71,7 @@ Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kap
 Die Umsetzung der Implementierung erfolgte innerhalb der webbasierten, interaktiven Entwicklungsumgebung Jupyter Notebook \ref{todo} (in der Version 5.7.4) zusammen mit der objektorientierten höheren Programmiersprache Python \ref{todo} (in der Version 3.6.5).
 
 
-Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \ref{todo}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeleibtesten Technologie des Jahres 2017 gewählt \ref{todo} \todo{ist das WIRKLICH nötig?}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in quell- oder binärform verfügbar \ref{todo}.
+Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \ref{todo}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeleibtesten Technologie des Jahres 2017 gewählt \ref{todo}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in quell- oder binärform verfügbar \ref{todo}.
 
 
 Als Paketmanager wurde die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \ref{todo}. Schließlich erlaubt “Anaconda Accelerate” den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \ref{todo}.
@@ -99,8 +101,6 @@ Zur fehlerfreien Ausführung des Codes (Saliency Map Verfahren beziehungsweise G
 	Matplotlib& 2.2.3 & Enthält Funktionen zum Plotten von Graphen oder Bildern [13] \\ 
 	\hline 
 	SciPy& 1.1.0  & Enthält wissenschaftliche und technische Funktionen zur Datenverarbeitung [14] \\ 
-	\hline 
-	Tensorflow & 1.12.0  & Machine Learning Framework mit Fokus auf neuronale Netze \\ 
 	\hline 
 \end{tabular} 
 	\caption{Paketabhängigkeiten der implementierten Software}
