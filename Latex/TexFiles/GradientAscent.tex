@@ -1,44 +1,40 @@
 \chapter{Gradient Ascent}
 \label{cha:gascent}
 \section{Konzept}
+
+
 Unsere Implementation ist eine art von DIRECT encoding. Aber anstelle von lediglich Der Confidenz und einer Klasse, werden die Gradienten mittels einer Kreuz-Entropie zu einer Zielklasse berechnet, welche dann als „orientierungshilfe“ für die weiter manipulation der bilder dienen. -> Das wird als Targeted Backpropagation bezeichnet.
 
 
-The method keeps the same, whether a random “noisy” image or a “real” image is used initially. Only the modification weights need do be smaller, as the goal is to keep the “original image” as much as recognizable as possible.
+Die Methode sollte nach aussage von Nguyen et al. [] auf für selbst ausgewählte "echte" Bilder funktionieren. Um jedoch die Erkennbarkeit der ursprünglichen Bildes zu erhalten, sollten kleinere Modifikationsparameter verwendet werden. So wird ein "über das Ziel hinausschießen" verhindert und nur so gering wie nötig abgeändert, benötigt dann allerdings auch mehr Iterationsdurchläufe.
+Diese Implementation wurde allerdings nicht weiter verfolgt, da das Konzept auch mit Zufallsbildern bestätigt werden konnte.
 
 \section{Implementierung}
-Code modifiziert auf Basis von https://github.com/utkuozbulak/pytorch-cnn-adversarial-attacks
+Der verwendete Code zur Erzeugung der Schadbilder mithilfe des Gradient Ascent Verfahrens basiert auf einer modifizierten Version von [https://github.com/utkuozbulak/pytorch-cnn-adversarial-attacks]. Desweiteren wird ein angepasstes Modell basierend auf der AlexNet Architektur [https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf] verwendet, mit Eingabedimensionen $64\times64\times3$ und einer Softmax Ausgabe von den 43 Klassen des GTSRB Datensatz. 
+Dieser Datensatz wurde für ein Training des NN verwendet. 
+Die final verwendete Version unseres AlexNet erreichte in der Validierung eine Genauigkeit von 0.89
 
 
-Training und Evaluierung des AlexNet Modells
+Es wird ein zufälliges Bild erzeugt, welches als Eingabeparameter für das trainierte NN verwendet wird. 
+Daraus werden durch Anwendung der \textit{categorical cross entropy} die Gradienten entsprechend für eine Zielklasse berechnet. Diese Gradienten werden nicht verwendet um die Parameter des NN zu ändern (wie es beim Training der Fall wäre), sondern um das eingegebene Bild gezielt zu modifizieren, indem die entsprechenden Pixel der aktivierten Neuronen je nach Aktivierungsstärke den Pixelwerten addiert werden.
+Dieser Prozess wird iterativ wiederholt, bis das veränderte Bild die gewünschte Mindestkonfidenz einer ausgewählten Klasse erreicht hat. 
 
-Quelle Des AlexNet hinzufügen.
-https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf
+Die verwendete Implementation modifiziert Bilder, bis im lokalen NN eine Konfidenz von 1 erreicht wurde. Diese Bilder werden im darauffolgenden Schritt an das Blackbox Modell gesendet und klassifiert. 
 
-WICHTIG, aber eigentlich ist können wir das genauso wichtig behandeln wie die Aphrodite?
-Unterschied zur Aphrodite? Eigenes modell vs Alexnet architektur die auf die 43-Klassen angepasst wurde. 
-Training und Evaluierung des AlexNet mit dem GTSRB Datensatz
+Ergebnisbilder mit einer Konfidenz >0.9 für irgendeine Klasse, wurden in eine gesonderte Textdatei mit Referenz auf den Speicherort, die erkannte Klasse und zugehörige Konfidenz abgespeichert.
 
-Abschluss des Training mit genauigkeit von 89%
-
-
-Bilderzeugung anhand des Gradient Ascent Fooling Verfahrens REF NGUYEN
-
-WICHTIG
-Anwendung des Gradient Ascent Fooling Verfahrens auf das trainierte AlexNet
-
-
-Generierung eines zufallsbildes (random noise)
-iterativer ablauf: 
-prediction
-gradienten berechnung durch kreuzentropie zur gewünschten klasse
-modifikation des bildes durch anteil der gradienten 
-
-Der vorgestellte ansatz ändert sich nicht bei eingabe eines ausgewählten Bildes, die veränderungsrate solle aber gering gehalten werden, um das bild so wenig wie nötig zu verändern
+%
+%Generierung eines zufallsbildes (random noise)
+%iterativer ablauf: 
+%prediction
+%gradienten berechnung durch kreuzentropie zur gewünschten klasse
+%modifikation des bildes durch anteil der gradienten 
+%
 
 \section{Ergebnisse}
-43 bilder Erzeugt respektive 1 pro vorhandene Klasse (im GTSRB Datensatz)
-20 Bilder für mit 10 verschiednen klassen erreichten konfidenz höher 0.9
+Als Ergebnis des Algorithmus wurden 43 Bilder respektive der 43 Klassen des letzten Layers erzeugt. Die Evaluation am zu überlistenden NN ergab Konfidenzen >0.9 für 20 der 43 Bilder. Durch die Ähnlichkeit zwischen verschiedenen Klassen bzw. Straßenschildern, beispielsweise Höchstgeschwindigkeit 30 und 50, wurden nur 10 verschiedene Klassen in den 20 "erfolgreichen" Bildern erkannt.
+Nachfolgende Grafiken [] zeigen verschieden Beispiele für die erzeugten Bilder mit initialen Zufallswerten. Wieder kam es zu Ergebnissen, welche eine andere Klasse lieferten, als für die Erzeugung verwendet wurde. Das für die Klasse \textit{Links Abbiegen} erzeugte Bild wurde vom Trasi-NN beispielsweise als \textit{Kreisverkehr} erkannt.
+
 
 \begin{tabular}{cc}
 	\centering
@@ -48,3 +44,5 @@ Der vorgestellte ansatz ändert sich nicht bei eingabe eines ausgewählten Bilde
 	\includegraphics[width=.23\linewidth]{Images/AnPe/39_RechtsVorbeiOrigLinksvorbei} &\includegraphics[width=.23\linewidth]{Images/AnPe/40_kreisverkehr}  \\
 	Rechts Vorbei& Kreisverkehr\\
 \end{tabular}
+
+Abschließend kann bestätigt werden, dass das Gradient Ascent verfahren die erzeugung von Täuschungsbildern ermöglicht. Einschränkungen des Verfahrens belaufen sich auf die Architektur und Ähnlichkeit des NN. Es steht die Annahme, dass das verfahren mit größeren Bildern bessere Ergebnisse liefert.
