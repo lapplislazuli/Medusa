@@ -22,13 +22,15 @@ In das Kapitel kommen die Dinge die wir über die Trasi-AI wissen
 \end{enumerate}
 
 \section{Transferierbarkeit von Angriffen auf ein Blackbox Modell}
-\label{sec:TrasiModell}
-Verwandte arbeiten bestätigen  die Transferierbarkeit von Angriffen, die auf einem "eigenen" neuronalen Netz erzeugt wurden und gegen ein unbekanntes Blackbox modell funktioniern
 
-Einschränkungen? Probleme? Rechtfertigung der Implementation eines eigenen Modells
+
+\label{sec:TrasiModell}
+Eine Herausforderung des Wettbewerbs ist der Umgang mit dem zu täuschenden Neuronalen Netz. Die oberflächliche Analyse der Web-Schnittstelle ermöglicht keine genauen Informationen über die verwendete Architektur oder anderen Details. Dennoch wurde bereits bestätigt, dass es selbst für “Blackbox” Modelle möglich ist, Irrbeispiele und Bilder zu erzeugen. 
+\\Papernot & Goodfellow et al.[https://arxiv.org/pdf/1602.02697.pdf][] bestätigten, dass Täuschungen auf ein bekanntes Netz mit hoher Wahrscheinlichkeit auch auf fremden Modellen fehlklassifiziert werden, also dass die Ergebnisse nicht nur ein zufälliges Ereignis aufgrund von Overfitting des spezifischen Neuronalen Netzes sind. Die Ergebnisse wurde an verschiedenen Modelltypen getestet (LR, SVM, DNN) und zeigten immer eine - in ihrer ausprägung schwankende- korrelation zwischen Fehlklassifikation auf einem fremden modell im vergleich zu bekannten Modellen. 
+
+\newlineDiese Ergebnisse führten zu dem Entschluss, ein eigenes Neuronales Netz zu modellieren, welches als Substitute (dt. Ersatz) dient.
 
 Transferability https://openreview.net/pdf?id=Sys6GJqxl
-
 
 Blackbox Attacks: https://arxiv.org/pdf/1602.02697.pdf
 
