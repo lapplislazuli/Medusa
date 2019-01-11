@@ -2,20 +2,30 @@
 \label{cha:Einleitung}
 \setlength{\epigraphwidth}{4in}
 
-\section{Motivation}
+%\section{Motivation}
 Der Traum von einem autonom gelenkten Automobil ist so alt wie das Automobil selbst \cite{maurer_autonomes_2015}. Fabian Dröger schreibt dazu in seinem Beitrag "`Das automatisierte Fahren im gesellschaftswissenschaftlichen und kulturwissenschaftlichen Kontext"' in dem Sammelwerk "`Autonomes Fahren"' von Markus Maurer et al., wie die zunehmende Anzahl an Verkehrstoten in den USA zu Beginn des 20. Jahrhunderts in Verbindung mit den technischen Errungenschaften in der frühen Flugzeug- und Radiotechnik den Wunsch nach einem selbstfahrenden Automobil aufkommen ließen. Die Vision war, dass ein Automobil ähnlich wie ein Flugzeug durch einen Autopiloten in der Spur gehalten und gesteuert werden könnte. Für die Ansteuerung der mechanischen Teile setzte man auf eine Fernsteuerung mit Funk, die zu dieser Zeit im Bereich der \emph{Radioguidance} erforscht wurde.
 
 Der aktuelle Stand der Technik zeigt, dass sich die Umsetzung dieser Vision schwieriger gestaltet, als zunächst angenommen. Anstelle einer autonomen Steuerung finden sich in heutigen Automobilen verschiedene Techniken zur Erhöhung der Fahrsicherheit und des Komforts. Beispiele sind Spurhalteassistenten, automatische Abstandshalter oder Einparkhilfen. Diese Funktionen unterstützen einen menschlichen Fahrer, ermöglichen jedoch noch kein selbstständiges Fahren.
 
 Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern\cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobilherstellern\cite{bmw_autonomes_nodate} und der Presse\cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich Künstliche Intelligenz(KI) hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf dem Erkennen von Bilder aus der Umwelt mittels KI. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern von Bedeutung. 
 
- 
-
-
-Autonomes Fahren, Begeisterung seit Anbeginn der Motorisierung, verschiedenen Stufen der Automatisierung, elektromechanisches System muss immer sicherer sein als mechanisches, aktuelle Ansätze von autonomen Autos nutzen KI, Überprüfung der Sicherheit einer KI 
+%Content merke:
+%Autonomes Fahren, Begeisterung seit Anbeginn der Motorisierung, verschiedenen Stufen der Automatisierung, elektromechanisches System muss immer sicherer sein als mechanisches, aktuelle Ansätze von autonomen Autos nutzen KI, Überprüfung der Sicherheit einer KI 
 
 \section{Problemstellung}
-KI arbeitet bei Bilderkennung mit Features, KI kann getäuscht werden, wie müssen Bilder beschaffen sein, die KI täuschen können
+Im Bereich der Bilderkennung erreichen neuronale Netze bahnbrechende Erfolge. Im Zuge der Forschung trat allerdings ein neues Phänomen auf, die sogenannten \textit{Adversarial Attacks} \cite{todo}. 
+
+Innerhalb dieser Angriffe werden gezielt Gewichte stimuliert, um gewünschtes Feedback des neuronalen Netzes zu erzielen. Die dabei erzeugten Fragmente haben selten etwas mit einem \textit{echten} Bild zu tun - sie wirken entweder wie Rauschen oder moderne Kunst. 
+
+~\newline Da diese präparierten Bilder eben nicht aussehen, wie beispielsweise ein Verkehrsschild, kann ein Mensch schwer erkennen ob ein Angriff unternommen wird. 
+
+Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Sektoren des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden erzeugen und stellen ein lohnendes Ziel dar. 
+
+Vor allem im Bereich des autonomen Fahrens, welcher ohnehin geprägt ist durch die Debatte über \textit{Vertrauen in Technik} \cite{todo}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen - und das gesamte Themengebiet frühzeitig begraben. 
+
+~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige dieser \textit{Irrbilder} benötigt. Anschließend können, um das neuronale Netz zu härten, Tests durchgeführt werden und die Angriffe berücksichtigt werden. 
+
+Diese Irrbilder zu erzeugen stellt das Kernziel dieser Arbeit dar. 
 
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
@@ -48,9 +58,10 @@ Innerhalb des Kapitels wird zunächst im Abschnitt \ref{sec:DegenerationKonzept}
 
 Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich waren.
 
-~\newline ANPE \todo{Gradient Ascent Fooling Aufbau!}
 
-~\newline ANPE \todo{Saliency Map Aufbau!}
+~\newline Desweiteren werden in Kapitel \ref{cha:saliency} verschiedene Methoden zur Erzeugung von sog. \textit{Saliency Maps} (dt. Ausprägungskarte) vorgestellt. Unveränderte Bilder mit einer hohen Konfidenz werden ausgewählt, um die einzelnen Pixel hervorzuheben, welche für die Klassifikation den höchsten Einfluss hatten.
+
+~\newline In Kapitel \ref{cha:gascent} wird das Verfahren des \textit{Gradient Ascent} beschrieben und evaluiert. Dabei wird mithilfe einer \textit{targeted Backpropagation} für jede Klasse ein Bild erzeugt, der die Funktion in Richtung der Zielklasse maximiert, bis die enthaltenen Merkmale eine hohe Konfidenz in der gewünschten Klasse ermöglichen.
 
 ~\newline Abschluss dieser Arbeit bildet im Kapitel \ref{cha:Schluss} ein Fazit über die gefundenen Methoden, sowie ein Ausblick auf weiterführende Arbeiten. 
 \section{Verwandte Werke und Primärquellen}

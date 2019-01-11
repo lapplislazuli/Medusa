@@ -22,16 +22,29 @@ In das Kapitel kommen die Dinge die wir über die Trasi-AI wissen
 \end{enumerate}
 
 \section{Transferierbarkeit von Angriffen auf ein Blackbox Modell}
+
+
 \label{sec:TrasiModell}
-Verwandte arbeiten bestätigen  die Transferierbarkeit von Angriffen, die auf einem "eigenen" neuronalen Netz erzeugt wurden und gegen ein unbekanntes Blackbox modell funktioniern
+Eine Herausforderung des Wettbewerbs ist der Umgang mit dem zu täuschenden Neuronalen Netz. Die oberflächliche Analyse der Web-Schnittstelle ermöglicht keine genauen Informationen über die verwendete Architektur oder anderen Details. Dennoch wurde bereits bestätigt, dass es selbst für “Blackbox” Modelle möglich ist, Irrbeispiele und Bilder zu erzeugen. 
+\\Papernot & Goodfellow et al.[https://arxiv.org/pdf/1602.02697.pdf][] bestätigten, dass Täuschungen auf ein bekanntes Netz mit hoher Wahrscheinlichkeit auch auf fremden Modellen fehlklassifiziert werden, also dass die Ergebnisse nicht nur ein zufälliges Ereignis aufgrund von Overfitting des spezifischen Neuronalen Netzes sind. Die Ergebnisse wurde an verschiedenen Modelltypen getestet (LR, SVM, DNN) und zeigten immer eine - in ihrer ausprägung schwankende- korrelation zwischen Fehlklassifikation auf einem fremden modell im vergleich zu bekannten Modellen. 
 
-Einschränkungen? Probleme? Rechtfertigung der Implementation eines eigenen Modells
+\newlineDiese Ergebnisse führten zu dem Entschluss, ein eigenes Neuronales Netz zu modellieren, welches als Substitute (dt. Ersatz) dient.
 
+Transferability https://openreview.net/pdf?id=Sys6GJqxl
+
+Blackbox Attacks: https://arxiv.org/pdf/1602.02697.pdf
 
 \section{Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern (Aphrodite)}
--beschreibung des APhrodite Modells
+Für die lokale Degeneration in Kapitel \ref{cha:Degeneration} wurde mithilfe Tensorflows ein eigenes Keras-Model erstellt zur Verkehrsschilderkennung. \todo{at Peter: Bezug der Aphrodite in Gradient Ascent Fooling?}
 
+~\newline Das (am meisten verwendete) Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. Ein detaillierter Aufbau des Netzes befindet sich im Anhang\todo{Netzzusammenfassung als Tabelle in den Anhang}\todo{Link in den Anhang}.
 
-begründungen für die Designentscheidungen? Strategie/Vorbilder?
+~\newline Für das Training wurden die GTSRB-Trainings- und Test-Daten verwendet. Diese wurden um die richtige Auflösung zu erreichen auf 64x64 interpoliert. 
 
-\todo{Leonhart}
+Da nicht sicher war, welche Interpolationsfunktion innerhalb der Remote-Schnittstelle verwendet wurde, wurde für das Training jedes Bild mehrfach interpoliert und ebenfalls mehrfach für das Training verwendet. Für die Testdaten wurde eine zufällige Interpolationsfunktion ausgesucht. 
+
+~\newline \textit{Aphrodite} erreichte eine Genauigkeit von 96.5 \% auf die Trainingsdaten. Eine Übersicht über die Trainingsparameter findet sich im Repository unter /DegenerationCode/Training.py. \todo{Sollte man das anders schreiben? Oder packen wir das file in den Anhang?}
+
+~\newline Der Name Aphrodite wurde gewählt, um dem ersten Modell (Model A) innerhalb des Projektes einen sprechenden Namen zu geben.
+
+\todo{ANPE: Das ALEXNET-Model hier auch listen?}
