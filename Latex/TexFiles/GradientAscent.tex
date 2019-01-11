@@ -2,11 +2,9 @@
 \label{cha:gascent}
 \section{Konzept}
 
+Mit Zugriff auf die berechneten Gradienten des Modells, können diese verwendet werden um gezielt Bilder zu verändern. Dieses Verfahren wird als \textit{Gradient Ascent bezeichnet}, welches als Pendant zum Gradient Descent, einem Verfahren zum Training von neuronalen Netzen, verstanden werden kann. Demnach bedeutet der Ascent (dt. Aufstieg), dass die Eingabe verändert wird, um die Funktion und Neuronenaktivierung zu maximieren. Mithilfe einer \textit{targeted Backpropagation} werden demnach die Gradienten berechnet, die zum erreichen einer Zielausgabe (sprich Klasse) am relevantesten sind. Die Gradienten werden dann von dem ursprünglichen Bild (üblicherweise Zufallsgeneriert) mit einem Skalierungsfaktor mathematisch subtrahiert. Dabei kann man beobachten, dass relevante Pixel stärker mutiert werden und unwichtige Pixel weitgehend unverändert bleiben.
 
-Unsere Implementation ist eine art von DIRECT encoding. Aber anstelle von lediglich Der Confidenz und einer Klasse, werden die Gradienten mittels einer Kreuz-Entropie zu einer Zielklasse berechnet, welche dann als „orientierungshilfe“ für die weiter manipulation der bilder dienen. -> Das wird als Targeted Backpropagation bezeichnet.
-
-
-Die Methode sollte nach aussage von Nguyen et al. [] auf für selbst ausgewählte "echte" Bilder funktionieren. Um jedoch die Erkennbarkeit der ursprünglichen Bildes zu erhalten, sollten kleinere Modifikationsparameter verwendet werden. So wird ein "über das Ziel hinausschießen" verhindert und nur so gering wie nötig abgeändert, benötigt dann allerdings auch mehr Iterationsdurchläufe.
+Die Methode sollte nach aussage von Ngunyen et al. [] auf für selbst ausgewählte "echte" Bilder funktioniere. Um jedoch die Erkennbarkeit der ursprünglichen Bildes zu erhalten, sollten kleinere Skalierungsfaktoren verwendet werden. So wird ein "über das Ziel hinausschießen" verhindert und nur so gering wie nötig abgeändert, benötigt dann allerdings auch mehr Iterationsdurchläufe.
 Diese Implementation wurde allerdings nicht weiter verfolgt, da das Konzept auch mit Zufallsbildern bestätigt werden konnte.
 
 \section{Implementierung}
@@ -33,16 +31,21 @@ Ergebnisbilder mit einer Konfidenz >0.9 für irgendeine Klasse, wurden in eine g
 
 \section{Ergebnisse}
 Als Ergebnis des Algorithmus wurden 43 Bilder respektive der 43 Klassen des letzten Layers erzeugt. Die Evaluation am zu überlistenden NN ergab Konfidenzen >0.9 für 20 der 43 Bilder. Durch die Ähnlichkeit zwischen verschiedenen Klassen bzw. Straßenschildern, beispielsweise Höchstgeschwindigkeit 30 und 50, wurden nur 10 verschiedene Klassen in den 20 "erfolgreichen" Bildern erkannt.
-Nachfolgende Grafiken [] zeigen verschieden Beispiele für die erzeugten Bilder mit initialen Zufallswerten. Wieder kam es zu Ergebnissen, welche eine andere Klasse lieferten, als für die Erzeugung verwendet wurde. Das für die Klasse \textit{Links Abbiegen} erzeugte Bild wurde vom Trasi-NN beispielsweise als \textit{Kreisverkehr} erkannt.
+Nachfolgende Grafiken \ref{tab:gasc1} zeigen verschieden Beispiele für die erzeugten Bilder mit initialen Zufallswerten. Wieder kam es zu Ergebnissen, welche eine andere Klasse lieferten, als für die Erzeugung verwendet wurde. Das für die Klasse \textit{Links Abbiegen} erzeugte Bild wurde vom Trasi-NN beispielsweise als \textit{Kreisverkehr} erkannt.
 
-
-\begin{tabular}{cc}
+\begin{table}
 	\centering
-	\includegraphics[width=.23\linewidth]{Images/AnPe/17_Einfahrtverbot} &\includegraphics[width=.23\linewidth]{Images/AnPe/34_kreisverkehr_origTurnleft}  \\
+\begin{tabular}{p{4.4cm}p{4.4cm}}
+	\centering
+	\includegraphics[width=\linewidth]{Images/AnPe/17_Einfahrtverbot} &\includegraphics[width=\linewidth]{Images/AnPe/34_kreisverkehr_origTurnleft}  \\
 	Einfahrt Verboten & Kreisverkehr \\
 	& (Ursprünglich als Links abbiegen erzeugt)\\
-	\includegraphics[width=.23\linewidth]{Images/AnPe/39_RechtsVorbeiOrigLinksvorbei} &\includegraphics[width=.23\linewidth]{Images/AnPe/40_kreisverkehr}  \\
+	\includegraphics[width=\linewidth]{Images/AnPe/39_RechtsVorbeiOrigLinksvorbei} &\includegraphics[width=\linewidth]{Images/AnPe/40_kreisverkehr}  \\
 	Rechts Vorbei& Kreisverkehr\\
 \end{tabular}
+
+\caption{Beispiele für Irrbilder mit Konfidenz >0.9}
+\label{tab:gasc1}
+\end{table}
 
 Abschließend kann bestätigt werden, dass das Gradient Ascent verfahren die erzeugung von Täuschungsbildern ermöglicht. Einschränkungen des Verfahrens belaufen sich auf die Architektur und Ähnlichkeit des NN. Es steht die Annahme, dass das verfahren mit größeren Bildern bessere Ergebnisse liefert.
