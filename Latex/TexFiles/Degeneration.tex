@@ -2,7 +2,7 @@
 \label{cha:Degeneration}
 Innerhalb dieses Kapitels wird der Ansatz der \textit{Degeneration} vorgestellt.
 
-Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \todo{genauer, was das ist?}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}.
+Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \cite{heistermann2013genetische}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}. Anstatt allerdings \textit{gute Gene} zu kombinieren \cite{schoneburg1994genetische}, wird ein Genmutation erzeugt, und überprüft ob es den Anforderungen der Klassifizierung noch genügt. 
 
 ~\newline Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung des Algorithmus für die Verwendung der unbekannten Trasi-AI vorgestellt, und den Abschluss dieses Kapitels bildet eine lokale Implementierung zuzüglich einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} nicht angeboten haben.
 \section{Konzept}
@@ -137,7 +137,9 @@ Dieses Problem tritt ausschließlich (allerdings zuverlässig) bei der Verwendun
 
 Innerhalb der lokalen Implementierung ist dieses Problem ebenfalls aufgetreten, konnte allerdings behoben werden, sobald man das Overfitting erkannt hatte.
 \paragraph{Fazit} ~\newline
-Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile der Degeneration zusammengefasst werden: ~\newline ~\newline  
+Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile der Degeneration zusammengefasst werden:
+\begin{table}[h]
+	\centering
 \begin{tabular}{|p{7.5cm}|p{7.5cm}|}
 	\hline 
 	\textbf{Vorteile} & \textbf{Nachteile} \\ 
@@ -150,10 +152,13 @@ Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile
 	\hline 
 	\textbf{Simpel:} \newline Der Algorithmus ist einfach implementiert und erläutert, er benötigt keine höhere Mathematik oder Vorwissen zur Thematik \textit{Machine Learning} und der Modelle/Verfahren im Speziellen & Im Remote-Umfeld kann die Degeneration als DDoS wahrgenommen werden und entsprechend frühzeitig unterbunden werden. \\ 
 	\hline 
-\end{tabular} \improvement{Caption und Label} ~\newline ~\newline
+\end{tabular} 
+\caption{Zwischenfazit Degeneration}
+\label{tab:FazitDegeneration}
+\end{table}
 Als besonderen Fall sind solche Modelle zu nennen, die mit jeder Anfrage \textit{hinzulernen}: ~\newline Diese sind entweder besonders anfällig gegenüber der Degeneration, weil sie die bereits veränderten Bilder als \textit{korrekte} klassifizieren und somit den Entstehungsprozess der Degeneration verinnerlichen, oder sie \textit{härten} sich mit jedem Versuch gegen die neuen Änderungen und sind de facto immun gegen diesen Angriff.  
 
-\todo{Solche Modelle sind selten im Einsatz, weil zuviel Schabernack damit getrieben werden kann. Hierfür brauche ich noch eine Quelle}
+Solche permanent trainierenden Modelle sind in der Praxis allerdings selten im Einsatz, da sie für eine ganze Bandbreite an Angriffen anfällig sind. Als einfaches Beispiel ist der Chatbot \textit{Tay} von Microsoft zu nennen: Dieser sollte angenehme Unterhaltungen mit Twitternutzern führen und aus den enstandenen Konversationen kontinuierlich weiterentwickelt werden \cite{mstay}. Innerhalb weniger Stunden gelang es einigen böswilligen Nutzern, dass Tay rassistische Äußerungen von sich gab \cite{mstaydown}. Microsoft hat den Service von Tay am zweiten Tag eingestellt. 
 \section[Implementierung Lokal]{Implementierung Lokal \newline Anpassungen und Verbesserungen}
 \label{sec:DegenerationLokal}
 
@@ -167,7 +172,7 @@ Als zusätzliche Erweiterung wird für die lokale Implementierung umgesetzt, das
 
 ~\newline Des Weiteren entfällt die Wartezeit, welche für die Schnittstelle benötigt wird, sowie die Wartezeit. Letzteres erhöht die Geschwindigkeit des Algorithmus maßgeblich. 
 
-~\newline Eine zusätzliche, passive Verbesserung wird erzielt, indem die Verwendung der \textit{GPU-Acceleration} von Tensorflow eingebunden wurde \todo{Quelle? Oder Ausarbeiten?}. Diese beschleunigte nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen, insbesondere für die Batch-Variante, wurden um ein vielfaches ($\approx$Faktor 20) schneller.  
+~\newline Eine zusätzliche, passive Verbesserung wird erzielt, indem die Verwendung der \textit{GPU-Acceleration} von Tensorflow eingebunden wurde. Diese beschleunigte nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen, insbesondere für die Batch-Variante, wurden um ein vielfaches ($\approx$Faktor 20) schneller.  
 
 \paragraph{Fazit}~\newline Das wichtigste Fazit, welches im Umgang mit der lokalen Implementierung gezogen werden kann, ist die Nichtverwendbarkeit der lokalen Bilder für die Schnittstelle. Während dies ursprünglich die Motivation war, schnell lokal Irrbilder zu erzeugen und Remote zu verwenden, stellte sich heraus, dass die lokalen Irrbilder keine guten Scores an der Schnittstelle erzielten und vice versa. 
 
@@ -176,13 +181,12 @@ Als zusätzliche Erweiterung wird für die lokale Implementierung umgesetzt, das
 ~\newline Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei der jeweilig erstellen AI Werte >90\%, und bei der anderen Implementierung zuverlässig einen Score von $\approx$30\%. 
 
 Für ein Bild, welches an sich nichts mehr mit einem Verkehrsschild zu tun hat, sind dies immernoch unwahrscheinlich hohe Werte, und die Zuverlässigkeit mit der dieser Zusammenhang auftritt, lässt einen leichten, inhaltlichen Zusammenhang der Bilder erahnen.
-\todo{Beispielbild, Remote 90 \% und Lokal 30\% oder vice versa}
 
 \newpage
 \subsection{Batch-Degeneration}
 Innerhalb des Batch-Variante wird anstatt eines einzelnen Bildes ein Array aus $n$ veränderten Bildern erzeugt. 
 
-Diese werden alle bewertet und falls das beste Bild des Batches den Threshold erfüllt wird mit dem besten Bild weitergearbeitet. \todo{Nähe zu genetischen Algorithmen herausbringen, Quelle!}
+Diese werden alle bewertet und falls das beste Bild des Batches den Threshold erfüllt wird mit dem besten Bild weitergearbeitet. Dieses Verfahren entspricht deutlich näher der Genoptimierung von genetischen Algorithmen \cite{gerdes2013evolutionare}: Es wird aus $n$-Genen das beste ausgewählt. 
 
 \begin{figure}[h]
 	\centering
