@@ -1,5 +1,5 @@
 [0] Config.pm:302> INFO - This is Biber 2.11
 [0] Config.pm:305> INFO - Logfile is 'Projekt_Medusa.blg'
-[29] biber-MSWIN64:313> INFO - === 
-[328] Utils.pm:209> ERROR - Cannot find control file 'Projekt_Medusa.bcf'! - Did latex run successfully on your .tex file before you ran biber?
-[328] Biber.pm:114> INFO - ERRORS: 1
+[27] biber-MSWIN64:313> INFO - === 
+[312] Utils.pm:209> ERROR - Cannot find control file 'Projekt_Medusa.bcf'! - Did latex run successfully on your .tex file before you ran biber?
+[312] Biber.pm:114> INFO - ERRORS: 1
