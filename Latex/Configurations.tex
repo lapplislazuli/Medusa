@@ -27,6 +27,23 @@
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
 		language=Python,
+		numbers=left,			% Zeilennummern links
+		stepnumber=1,			% Jede Zeile nummerieren.
+		numbersep=5pt,			% 5pt Abstand zum Quellcode
+		breaklines=true,		% Zeilen umbrechen wenn notwendig.
+		breakautoindent=true,	% Nach dem Zeilenumbruch Zeile einrücken.
+		postbreak=\space,		% Bei Leerzeichen umbrechen.
+		tabsize=2,				% Tabulatorgrösse 2
+		basicstyle=\ttfamily\footnotesize, % Nichtproportionale Schrift, klein für den Quellcode
+		showspaces=false,		% Leerzeichen nicht anzeigen.
+		showstringspaces=false,	% Leerzeichen auch in Strings ('') nicht anzeigen.
+		extendedchars=true,		% Alle Zeichen vom Latin1 Zeichensatz anzeigen.
+		captionpos=b,			% sets the caption-position to bottom
+		xleftmargin=0pt,		% Rand links
+		xrightmargin=0pt,		% Rand rechts
+		frame=single,			% Rahmen an
+		frameround=ffff,
+		rulecolor=\color{darkgray},	% Rahmenfarbe
 		basicstyle=\ttm,
 		morekeywords={access,and,break,class,continue,def,del,elif,else,except,exec,finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise,return,try,while},
 		morekeywords=[2]{abs,all,any,basestring,bin,bool,bytearray,callable,chr,classmethod,cmp,compile,complex,delattr,dict,dir,divmod,enumerate,eval,execfile,file,filter,float,format,frozenset,getattr,globals,hasattr,hash,help,hex,id,input,int,isinstance,issubclass,iter,len,list,locals,long,map,max,memoryview,min,next,object,oct,open,ord,pow,property,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,vars,xrange,zip,apply,buffer,coerce,intern},%
@@ -37,7 +54,7 @@
 		emph={MyClass,__init__},          % Custom highlighting
 		emphstyle=\ttb\color{deepred},    % Custom highlighting style
 		stringstyle=\color{deepgreen},
-		frame=tb,                         % Any extra options here
+		% Any extra options here
 		showstringspaces=false            % 
 }}
 
@@ -96,11 +113,11 @@
 	%pdfborder = {0 0 0},
 	bookmarks=true,         % show bookmarks bar?
 	unicode=false,          % non-Latin characters in Acrobat’s bookmarks
-	pdftitle={Erstellung von Irrbildern zur Überlistung einer Verkehrsschilder erkennenden KI}
-	pdfauthor={Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl},     % author
-	pdfsubject={IT-Projektarbeit},   % subject of the document
-	pdfcreator={Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl},   % creator of the document
-	pdfproducer={Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl}, % producer of the document
+	pdftitle={\titel}
+	pdfauthor={\autor},     % author
+	pdfsubject={\ausarbeitung},   % subject of the document
+	pdfcreator={\autor},   % creator of the document
+	pdfproducer={\autor}, % producer of the document
 	colorlinks=true,       % false: boxed links; true: colored links
 	linkcolor=blue,          % color of internal links (change box color with inkbordercolor)
 	citecolor=CadetBlue,        % color of links to bibliography

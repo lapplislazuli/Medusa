@@ -7,28 +7,23 @@ Nach einer abschließenden Zusammenfassung, werden in diesem Kapitel zusätzlich
 
 Desweiteren konnten Erfolge mit der Erzeugung von Saliency Maps in den geglätteten Varianten verbucht werden. Somit konnte bestätigt werden, dass die Visualisierung der Relevanten Pixel für ein Bild mit hoher Konfidenz geeignet sind, um als "minimale Beispiele" für das NN verwendet werden können. Die entsprechenden Verfahren erzeugten Täuschungen mit Konfidenzen >0.9, allerdings lassen sich keine Aussagen über die allgemeine Verlässlichkeit und Zielgerichtetheit treffen.
 
-Zuletzt konnte auch mit dem \textit{Gradient Ascent} Verfahren sehr gute ergebnisse erzielt werden. für 10 von 43 Klassen konnten Täuschungen mit hohen Konfidenzen am Remote-NN erzielt werden. Es wird vermutet dass die Ausbeute mit weiterer Optimierung vergrößert werden kann oder auch echte Bilder für die Erzeugung der Täuschungen verwendet werden können.
+Zuletzt konnte auch mit dem \textit{Gradient Ascent} Verfahren sehr gute Ergebnisse erzielt werden. Für 10 von 43 Klassen konnten Täuschungen mit hohen Konfidenzen am Remote-NN erzielt werden. Es wird vermutet, dass die Ausbeute mit weiterer Optimierung vergrößert werden kann oder auch echte Bilder für die Erzeugung der Täuschungen verwendet werden können.
 
 
 
 \section{Diskussion}
-Die Herausforderungen des Wettbewerbs wirken sich auf die Erfolge der Verfahren aus. Es wird vermutet das beide Verfahren \textit{Saliency Map} und \textit{Gradient Ascent} bessere ergebnisse liefern Könnten, wenn das verwendete Bild größer als $64\times64$ wäre. Desweiteren kann nichts über die Validierungsgenauigkeit des Trasi-NN gesagt werden, weshalb auch die nicht zielgerichteten Täuschungsbilder als gutes Ergebnis betitelt werden. 
+Die Herausforderungen des Wettbewerbs wirken sich auf die Erfolge der Verfahren aus. Es wird vermutet das beide Verfahren \textit{Saliency Map} und \textit{Gradient Ascent} bessere Ergebnisse liefern könnten, wenn das verwendete Bild größer als $64\times64$ wäre. Desweiteren kann nichts über die Validierungsgenauigkeit des Trasi-NN gesagt werden, weshalb auch die nicht zielgerichteten Täuschungsbilder als gutes Ergebnis betitelt werden. 
 
 
-Im Vergleich der Methoden \textit{Saliency Map} und \textit{Gradient Ascent}, kann das letztere bevorzugt werden. 
+Im Vergleich der Methoden \textit{Saliency Map} und \textit{Gradient Ascent}, kann das letztere Verfahren bevorzugt werden. 
 
 
-
-hier kommen rein
-vergleich der ergebnisse (reproduzierbarkeit, gezielt/random, qualität der bilder)
-- einschränkungen probleme unserer ansätze, 
-
-
-wichtig: eigene fehler oder einschränkungen der methodik erkennen.
+%content 
+%vergleich der ergebnisse (reproduzierbarkeit, gezielt/random, qualität der bilder) - einschränkungen probleme unserer ansätze, wichtig: eigene fehler oder einschränkungen der methodik erkennen.
 
 
 
 \section{Weiterführende Arbeiten}~\newline 
-Die Ergebnisse dieser Arbeit liefern weitere Ansätze für zukünftige Aufgaben. Zum einen können die verwendeten Ansätze individuell weiter Optimiert werden, bezüglich des selbsterstellten lokalen Neuronalem Netz und der Algorithmik bzw. deren Parameter. Desweiteren können verfahren entwickelt werden, die sich aller Methoden gezielt bedienen. 
+Die Ergebnisse dieser Arbeit liefern weitere Ansätze für zukünftige Aufgaben. Zum einen können die verwendeten Ansätze individuell weiter optimiert werden, bezüglich des selbsterstellten lokalen neuronalem Netz und der Algorithmik bzw. deren Parameter. Desweiteren können verfahren entwickelt werden, die sich aller Methoden gezielt bedienen. 
 %content
 %Vergleich mit einem Framework, wie zum Beispiel CleverHans \footnote, Vergleich von einem gut und schlecht trainierten Modell, wie arg unterscheiden sich daraus generierte Bilder (lohnt es sich), wie wichtig ist die Bildgröße, 

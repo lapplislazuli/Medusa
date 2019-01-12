@@ -1,5 +1,13 @@
-[0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is 'Projekt_Medusa.blg'
-[29] biber-MSWIN64:313> INFO - === 
-[328] Utils.pm:209> ERROR - Cannot find control file 'Projekt_Medusa.bcf'! - Did latex run successfully on your .tex file before you ran biber?
-[328] Biber.pm:114> INFO - ERRORS: 1
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Projekt_Medusa.aux
+A level-1 auxiliary file: TexFiles/Titelseite.aux
+A level-1 auxiliary file: TexFiles/Abstract.aux
+A level-1 auxiliary file: TexFiles/Abkuerzungen.aux
+A level-1 auxiliary file: TexFiles/Einleitung.aux
+A level-1 auxiliary file: TexFiles/Gegneranalyse.aux
+A level-1 auxiliary file: TexFiles/TechnischesKonzept.aux
+A level-1 auxiliary file: TexFiles/Degeneration.aux
+A level-1 auxiliary file: TexFiles/Saliency.aux
+A level-1 auxiliary file: TexFiles/GradientAscent.aux
+A level-1 auxiliary file: TexFiles/Fazit.aux
+The style file: plain.bst
+Database file #1: src.bib

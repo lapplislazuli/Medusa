@@ -3,13 +3,13 @@
 Die Umsetzung der Implementierung erfolgt innerhalb der webbasierten, interaktiven Entwicklungsumgebung Jupyter Notebook \footnote{https://jupyter.org/} (in der Version 5.7.4) zusammen mit der objektorientierten höheren Programmiersprache Python \footnote{https://www.python.org/} (in der Version 3.6.5).
 
 
-Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \ref{todo}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeliebtesten Technologie des Jahres 2017 gewählt \ref{todo}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in quell- oder binärform verfügbar \ref{todo}.
+Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \ref{todo}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeliebtesten Technologie des Jahres 2017 gewählt \ref{todo}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in Quell- oder Binärform verfügbar \ref{todo}.
 
 
-Als Paketmanager wurde die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \ref{todo}. Schließlich erlaubt “Anaconda Accelerate” den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \ref{todo}.
+Als Paketmanager wird die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \ref{todo}. Schließlich erlaubt “Anaconda Accelerate” den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \ref{todo}.
 
 
-Zur fehlerfreien Ausführung des Codes (Saliency Map Verfahren beziehungsweise Gradient Ascent Verfahren) müssen sowohl Python 3.6.5 als auch folgende Python-Bibliotheken in der wie folgt spezifizierten Version in der zur Laufzeit verwendeten Anaconda Environment vorliegen, wie in Tabelle \ref{tabelle} aufgeschlüsselt.
+Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgenden Kapiteln muss Python in der Version 3.6.5 verwendet werden. Weiterhin bestehen Abhängigkeiten zu den Bibliotheken, welche in Tabelle \ref{tab:parameter} mit den dazugehörigen Versionen angegeben sind. Durch den Einsatz von Anaconda kann eine Environment erstellt werden, in der die passenden Versionen installiert werden.
 
 
 \begin{table}
@@ -39,17 +39,19 @@ Zur fehlerfreien Ausführung des Codes (Saliency Map Verfahren beziehungsweise G
 	\label{tab:parameter}
 \end{table}
 
-Um die Voraussetzungen zur benötigten Python Version respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Öffnen des Jupyter Notebooks zum Saliency Map Verfahren beziehungsweise zum Gradient Ascent Verfahren immer der Code zur Rubrik “Managing Anaconda Environment” zuerst ausgeführt werden. Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.
+Um die Voraussetzungen zur benötigten Python Version respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Öffnen des Jupyter Notebooks zum Saliency Map Verfahren, beziehungsweise zum Gradient Ascent Verfahren, immer zuerst der Code unter der Rubrik “Managing Anaconda Environment” ausgeführt werden. Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.
 
 \section{Transferierbarkeit von Angriffen auf ein Blackbox Modell}
 
 
 \label{sec:TrasiModell}
-Eine Herausforderung des Wettbewerbs ist der Umgang mit dem zu täuschenden Neuronalen Netz. Die oberflächliche Analyse der Web-Schnittstelle ermöglicht keine genauen Informationen über die verwendete Architektur oder anderen Details. Dennoch wurde bereits bestätigt, dass es selbst für “Blackbox” Modelle möglich ist, Irrbeispiele und Bilder zu erzeugen.
+Eine Herausforderung des Wettbewerbs ist der Umgang mit dem neuronalen Netz, welches getäuscht werden soll. Die oberflächliche Analyse der Web-Schnittstelle in Abschnitt \ref{sec:EigenschaftenTrasi} ermöglicht keine genauen Informationen über die verwendete Architektur oder anderen Details. Dennoch wurde bereits bestätigt, dass es selbst für “Blackbox” Modelle möglich ist, Irrbeispiele und Bilder zu erzeugen.
+
 
 Papernot et al.\cite{papernot_+_2016} bestätigten, dass Täuschungen auf ein bekanntes Netz mit hoher Wahrscheinlichkeit auch auf fremden Modellen fehlklassifiziert werden, also, dass die Ergebnisse nicht nur ein zufälliges Ereignis aufgrund von Overfitting des spezifischen Neuronalen Netzes sind. Die Ergebnisse wurde an verschiedenen Modelltypen getestet (bspw. \ac{SVM}, \ac{DNN}) und zeigten immer eine - in ihrer Ausprägung schwankende- Korrelation zwischen Fehlklassifikation auf einem fremden Modell im Vergleich zu bekannten Modellen. 
 
-Diese Ergebnisse führten zu dem Entschluss, ein eigenes Neuronales Netz zu modellieren, welches als Substitute (dt. Ersatz) dient.
+
+Diese Ergebnisse führten zu dem Entschluss, ein eigenes neuronales Netz zu modellieren, welches als Substitute (dt. Ersatz) dient.
 
 
 \section{Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern (Aphrodite)}

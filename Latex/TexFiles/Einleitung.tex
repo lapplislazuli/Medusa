@@ -7,13 +7,13 @@ Der Traum von einem autonom gelenkten Automobil ist so alt wie das Automobil sel
 
 Der aktuelle Stand der Technik zeigt, dass sich die Umsetzung dieser Vision schwieriger gestaltet, als zunächst angenommen. Anstelle einer autonomen Steuerung finden sich in heutigen Automobilen verschiedene Techniken zur Erhöhung der Fahrsicherheit und des Komforts. Beispiele sind Spurhalteassistenten, automatische Abstandshalter oder Einparkhilfen. Diese Funktionen unterstützen einen menschlichen Fahrer, ermöglichen jedoch noch kein selbstständiges Fahren.
 
-Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern\cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern\cite{bmw_autonomes_nodate} und der Presse\cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf dem Erkennen von Bilder aus der Umwelt mittels KI. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern von Bedeutung. 
+Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern\cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern\cite{bmw_autonomes_nodate} und der Presse\cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf dem Erkennen von Bilder aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern von Bedeutung. 
 
 %Content merke:
 %Autonomes Fahren, Begeisterung seit Anbeginn der Motorisierung, verschiedenen Stufen der Automatisierung, elektromechanisches System muss immer sicherer sein als mechanisches, aktuelle Ansätze von autonomen Autos nutzen KI, Überprüfung der Sicherheit einer KI 
 
 \section{Problemstellung}
-Im Bereich der Bilderkennung erreichen neuronale Netze bahnbrechende Erfolge. Im Zuge der Forschung trat allerdings ein neues Phänomen auf, die sogenannten \textit{Adversarial Attacks} \cite{todo}. 
+Im Bereich der Bilderkennung erreichen neuronale Netze bahnbrechende Erfolge. Im Zuge der Forschung trat allerdings ein neues Phänomen auf, die sogenannten \textit{Adversarial Attacks} \cite{DBLP:journals/corr/HuangPGDA17}. 
 
 Innerhalb dieser Angriffe werden gezielt Gewichte stimuliert, um gewünschtes Feedback des neuronalen Netzes zu erzielen. Die dabei erzeugten Fragmente haben selten etwas mit einem \textit{echten} Bild zu tun - sie wirken entweder wie Rauschen oder moderne Kunst. 
 
@@ -21,11 +21,11 @@ Innerhalb dieser Angriffe werden gezielt Gewichte stimuliert, um gewünschtes Fe
 
 Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Sektoren des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden erzeugen und stellen ein lohnendes Ziel dar. 
 
-Vor allem im Bereich des autonomen Fahrens, welcher ohnehin geprägt ist durch die Debatte über \textit{Vertrauen in Technik} \cite{todo}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen - und das gesamte Themengebiet frühzeitig begraben. 
+Vor allem im Bereich des autonomen Fahrens, welcher ohnehin geprägt ist durch die Debatte über \textit{Vertrauen in Technik} \cite{VertrauenTechnik}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen - und das gesamte Themengebiet frühzeitig begraben. 
 
 ~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige dieser \textit{Irrbilder} benötigt. Anschließend können, um das neuronale Netz zu härten, Tests durchgeführt werden und die Angriffe berücksichtigt werden. 
 
-Diese Irrbilder zu erzeugen stellt das Kernziel dieser Arbeit dar. 
+%Diese Irrbilder zu erzeugen stellt das Kernziel dieser Arbeit dar. 
 
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
@@ -37,15 +37,17 @@ Die gefundenen Methoden sollen reproduzierbar sein und in einem Maße flexibel, 
 
 ~\newline Der erweiterte Rahmen dieser Arbeit umfasst eine Dokumentation der Methoden sowie Verbesserungen und Schlussfolgerungen aus den Implementierungen zu ziehen. 
 
-Ebenfalls geliefert werden alle Elemente, um die erzielten Ergebnisse zu reproduzieren und variieren. 
+Ebenfalls geliefert werden alle Elemente, um die erzielten Ergebnisse zu reproduzieren und zu variieren. 
 
 ~\newline Nicht Ziel dieser Arbeit ist, einen Überblick über neuronale Netze, künstliche Intelligenz oder Bildbearbeitung zu vermitteln. 
 
-~\newline Ebenfalls außerhalb dieser Arbeit liegt eine Auswertung, welche Bilder von einem Menschen als Verkehrschilder erkannt werden. Die Aussagen über solche stützen sich ausschließlich auf die persönliche Einschätzung des Projektteams. 
+~\newline Ebenfalls außerhalb dieser Arbeit liegt eine Auswertung, welche Bilder von einem Menschen als Verkehrsschilder erkannt werden. Die Aussagen über solche stützen sich ausschließlich auf die persönliche Einschätzung des Projektteams. 
 \section{Aufbau der Arbeit}
-Innerhalb dieser Arbeit werden zunächst in Kapitel \ref{cha:AnfAnalyse} Informationen über die Webschnittstelle gesammelt und aufbereitet. 
+Innerhalb dieser Arbeit werden zunächst in Kapitel \ref{cha:AnfAnalyse} Informationen über die Webschnittstelle gesammelt und aufbereitet. Die Webschnittstelle stellt eine zentrale Rahmenbedingung der vorliegenden Arbeit dar.
 
-Im Abschnitt \ref{sec:TrainingsDaten} werden hierfür zunächst die \ac{GTSRB} vorgestellt, welche für das Training der Webschnittstelle verwendet wurden. Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der verfolgten Ansätze.
+
+Im Abschnitt \ref{sec:EigenschaftenTrasi} wird hierfür zunächst der \ac{GTSRB} vorgestellt, welcher für das Training der Webschnittstelle verwendet wurde. Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der verfolgten Ansätze.
+
 
 Anschließend werden in Abschnitt \ref{sec:TrasiModell} die Eigenschaften des Modells zusammengefasst. 
 Diese bestehen zum einen aus den offiziellen Angaben der Gesellschaft der Informatiker, zum anderen aus gewonnenen Erkenntnissen. Dieses Kapitel bildet die Grundlage, um die Schnittstelle einzuschätzen. 
