@@ -5,11 +5,12 @@ Das Saliency Map Verfahren wurde erstmals von den Neurowissenschaftlern Itti et 
 Um also spezifischen Bildmerkmalen eine semantische Bedeutung zuzuordnen, werden beispielsweise Farbbilder anhand des Saliency Map Verfahrens in Schwarzweißbilder umgewandelt, um die stärksten darin vorhandenen Farben zu analysieren und zu extrahieren.
 
 \section{Konzept}
+\label{cha:saliency_konz}
 Bei \ac{CNN} werden Merkmale von Eingabebildern extrahiert, indem zunächst im Input-Layer Low-Level Features und mit jeder weiteren Schicht des Netzwerks immer komplexere Merkmale (High-Level Features), wie etwa Kanten, Rundungen oder Strukturen erlernt werden \cite{stanford_unsupervised_tutorial}.
 
 Diese Kenntnis um \ac{CNN} und Saliency Maps machten sich Simonyan et. al erstmalig im Kontext von Deep Learning zunutze, um die gelernten Merkmale des zugrunde liegenden \ac{CNN} anhand von Saliency Maps zu visualisieren \cite{simonyan_deep_2013}. 
 Die in der Arbeit von Simonyan et. al erzeugten Bilder sind hierbei nicht oder nur ansatzweise für den Menschen erkennbar, wurden jedoch vom zugrunde liegenden \ac{CNN} mit einer hohen Konfidenz richtig klassifiziert werden.
-
+~\newline
 
 Aus dieser Kenntnis ergeben sich folgende Hypothesen:
 \begin{itemize}
@@ -36,20 +37,20 @@ Ein eigenes \ac{CNN} Modell („Aphrodite“) wird mit dem \ac{GTSRB}-Datensatz 
 Die  vorliegenden \ac{PNG}-Bilder werden anhand dem „Aphrodite“-Modell klassifiziert:
 Nur diejenigen Bilder, welche vom „Aphrodite“-Modell mit einer Konfidenz von 100\% korrekt klassifiziert wurden (3.063/12.630) werden im Dateisystem in einem eigenständigen Verzeichnis abgespeichert.
 
-
+~\newline
 Gemäß einer auf die Anforderungen an die Aufgabenstellung abgewandelten Variante zu Anh \cite{anh_implementations_2019}, erfolgt nun die Implementierung der verschiedenen Saliency Map Verfahren.
 
-
+~\newline
 Hierzu werden zunächst die drei Basismethoden „Vanilla“ \cite{simonyan_deep_2013}, „Guided Backpropagation“ \cite{springenberg_striving_2014} und „Integrated Gradient“ \cite{sundararajan_axiomatic_2017} implementiert. 
 Unter Hinzufügung von Zufallsrauschen, gemäß \cite{smilkov_smoothgrad:_2017}, werden die Basismethoden verbessert, wie die Gegenüberstellung der Ergebnisse zu den eingesetzten Verfahren in Kapitel \ref{sec:SalErgebnisse} verdeutlicht.
 Diese optimierten Varianten werden als „Smoothed Vanilla“, „Smoothed Guided Backpropagation“ und „Smoothed Integrated Gradient“ bezeichnet und implementiert.
 
-
-Jedes der Saliency Map Verfahren wird auf die in Schritt 3 erzeugten Bilder angewendet. Diese Bilder werden nacheinander vom Dateisystem geladen und anschließend auf eine Zielbildgröße von 64 x 64 Pixel skaliert. 
+~\newline
+Jedes der Saliency Map Verfahren wird auf die in Schritt 3 erzeugten Bilder angewendet. Diese Bilder werden nacheinander vom Dateisystem geladen und anschließend auf eine Zielbildgröße von $64 \times 64 $ Pixel skaliert. 
 Zur Extraktion und Visualisierung der gelernten Merkmale des zugrunde liegenden Modells (Aphrodite) zu jedem skalierten Eingabebild, wird das gewählte Saliency Map Verfahren auf jedes Eingabebild, unter Verwendung des trainierten „Aphrodite“-Modells, angewendet. 
-Die damit erzeugten Bilder werden anschließend in einem nach dem verwendeten Saliency Map Verfahren bezeichneten Verzeichnis in der Größe 64 x 64 Pixel im Dateisystem abgespeichert.
+Die damit erzeugten Bilder werden anschließend in einem nach dem verwendeten Saliency Map Verfahren bezeichneten Verzeichnis in der Größe $64 \times 64 $ Pixel im Dateisystem abgespeichert.
 
-
+~\newline
 Zur abschließenden Evaluierung der erzeugten Bilder am Black Box Modell, werden alle Bilder zu jedem eingesetzten Saliency Map Verfahren im Zyklus von 60 Bilder pro Minute (Übertragungslimit pro Minute an der Remote-Webschnittstelle) an das Trasi-Webinterface gesendet. Die Informationen, das heißt die vom Black Box Modell erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
 
 
@@ -85,7 +86,7 @@ Dahingegen konnten mit den optimierten Saliency Map Verfahren („Smoothed Vanil
 	\begin{tabular}{p{4.5cm}p{4.5cm}p{4.5cm}}
 		\includegraphics[width=\linewidth]{Images/AnPe/10771} & \includegraphics[width=\linewidth]{Images/AnPe/10771_guided} &
 		\includegraphics[width=\linewidth]{Images/AnPe/10771_vanil}\\ 
-		5.1a Ursprungsbild &5.1b Guided Backprop. &5.1c Vanilla Saliency \\
+		5.1a: Ursprungsbild &5.1b: Guided Backprop. &5.1c: Vanilla Saliency \\
 		Höchstgeschwindigkeit (30) & Überholverbot & Höchstgeschwindigkeit (30)\\
 		& 0.9155 & 0.9283\\
 		
@@ -95,7 +96,7 @@ Dahingegen konnten mit den optimierten Saliency Map Verfahren („Smoothed Vanil
 	\label{tab:sal1}
 \end{table}
 
-
+~\newline
 Tabelle \ref{tab:sal1} zeigt exemplarisch, wie aus dem Ursprungsbild (5.1a „Höchstgeschwindigkeit (30)“), unter Verwendung des „Smoothed Guided Backpropagation“ Verfahrens, ein Bild erzeugt wurde, das vom Black Box Modell mit 91,55\% als „Überholverbot“ klassifiziert wurde (5.1b). 
 Das „Smoothed Vanilla Saliency“ Verfahren erzeugte hingegen aus demselben Ursprungsbild ein Bild, das mit einer Zielkonfidenz von 92,83\% vom Black Box Modell als „Höchstgeschwindigkeit (30)“ erkannt wurde (5.1c).
 %\begin{figure}
@@ -119,6 +120,8 @@ Das „Smoothed Vanilla Saliency“ Verfahren erzeugte hingegen aus demselben Ur
 %	\end{subfigure}
 %\end{figure}
 
+
+~\newline
 Tabelle \ref{tab:sal2} veranschaulicht weitere Beispiele für erfolgreich erzeugte Bilder, unter Verwendung der optimierten Saliency Map Verfahren. Wieder kann beobachtet werden, dass die erzeugten Bilder zwar mit einer Zielkonfidenz von mehr als 90\% vom Black Box Modell klassifiziert wurden, die ursprüngliche Klasse jedoch abweicht.
 
 \begin{table}
@@ -141,8 +144,24 @@ Tabelle \ref{tab:sal2} veranschaulicht weitere Beispiele für erfolgreich erzeug
 \label{tab:sal2}
 \end{table}
 
+%\begin{table}
+%	\centering
+%	\begin{tabular}{p{4.4cm}p{4.4cm}p{4.4cm}}
+%		\includegraphics[height=4.4cm]{Images/AnPe/11240}&
+%		\includegraphics[height=4.4cm]{Images/AnPe/06848}&
+%		\includegraphics[height=4.4cm]{Images/AnPe/04709}\\
+%		Rechts Vorbei & Einfahrt Verboten & Kreisverkehr\\
+%		\includegraphics[width=\linewidth]{Images/AnPe/11240_guided} &\includegraphics[width=\linewidth]{Images/AnPe/06848_s_int}  &\includegraphics[width=\linewidth]{Images/AnPe/04709_int_grad}  \\
+%		Guided Backprop.& Integrated Grad.& Integrated Grad.\\
+%		Einmalige Vorfahrt& Überholverbot&Baustelle\\
+%		0.9678& 0.9571& 0.9999\\
+%	\end{tabular}
+%	\caption{Weitere Beispiele für Irrbilder mit Konfidenz >0.9 inklusive entsprechendem Ursprungsbild und verwendetem Verfahren.}
+%	\label{tab:sal2}
+%\end{table}
 
-Zusammenfassend konnte hiermit gezeigt werden, dass die in Kapitel 5.1 formulierten Hypothesen zutreffen und sich Bilder – unter Verwendung eines eigens trainierten \ac{CNN} Modells („Aphrodite“) sowie verschiedener Saliency Map Verfahren – erzeugen lassen, die zwar keine für den Menschen sinnvolle Bedeutung haben, jedoch beim Black Box Modell Zielkonfidenzen von mehr als 90\% erreichten.
+
+Zusammenfassend konnte hiermit gezeigt werden, dass die in Kapitel \ref{cha:saliency_konz} formulierten Hypothesen zutreffen und sich Bilder – unter Verwendung eines eigens trainierten \ac{CNN} Modells („Aphrodite“) sowie verschiedener Saliency Map Verfahren – erzeugen lassen, die zwar keine für den Menschen sinnvolle Bedeutung haben, jedoch beim Black Box Modell Zielkonfidenzen von mehr als 90\% erreichten.
 
 
 %Zusammenfassend konnte gezeigt werden, dass es mithilfe der Erstellung von Saliency Maps an einem eigenen Modell Bilder erzeugt werden können, welche von einem unbekanntem \ac{NN} mit hohen Konfidenzen verschiedenen Klassen zugeordnet werden. Die Erfolgsrate in Relation zur Anzahl erzeugter Bilder und dem Rechenaufwand ist dabei jedoch gering und es herrscht aktuell keine verlässliche Aussagekraft darüber, welcher Klasse das erzeugte Bild zugeordnet wird. 

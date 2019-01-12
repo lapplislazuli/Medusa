@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Projekt_Medusa.aux
 A level-1 auxiliary file: TexFiles/Titelseite.aux
 A level-1 auxiliary file: TexFiles/Abstract.aux
@@ -12,10 +11,6 @@ A level-1 auxiliary file: TexFiles/GradientAscent.aux
 A level-1 auxiliary file: TexFiles/Fazit.aux
 The style file: plain.bst
 Database file #1: src.bib
-=======
-[0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is 'Projekt_Medusa.blg'
-[27] biber-MSWIN64:313> INFO - === 
-[312] Utils.pm:209> ERROR - Cannot find control file 'Projekt_Medusa.bcf'! - Did latex run successfully on your .tex file before you ran biber?
-[312] Biber.pm:114> INFO - ERRORS: 1
->>>>>>> 705b9198654c6e446a7bd787bfdb932621744b97
+Warning--to sort, need author or key in stanford_unsupervised_tutorial
+Warning--to sort, need author or key in pytorch_datasets_2019
+(There were 2 warnings)
