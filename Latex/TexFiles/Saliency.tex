@@ -2,26 +2,26 @@
 \label{cha:saliency}
 
 \section{Konzept}
-Ein verbreitetes Verfahren aus dem Bereich Computer Vision zur Visualisierung relevanter Pixel ist die Erstellung von Saliency Maps (dt. Ausprägungskarten). Diese können verwendet werden, um die Qualität, sprich Aussagekraft, jedes einzelnen Bildpunkts ersichtlich zu machen. Simonyan et al. \cite{simonyan_deep_2013} führt die grundlegende Methodik entsprechend Saliency Maps weiter aus und unterscheidet zwischen einer allgemeinen “Klassen-Definierenden” Saliency Map sowie einer Saliency Map zu einem gegebenen Eingabebild entsprechend der Zielklassen.
+Ein verbreitetes Verfahren aus dem Bereich Computer Vision zur Visualisierung relevanter Pixel ist die Erstellung von \textit{Saliency Maps} (dt. Ausprägungskarten). Diese können verwendet werden, um die Qualität, sprich Aussagekraft, jedes einzelnen Bildpunkts ersichtlich zu machen. Simonyan et al. \cite{simonyan_deep_2013} führt die grundlegende Methodik entsprechend Saliency Maps weiter aus und unterscheidet zwischen einer allgemeinen “'Klassen-Definierenden”' Saliency Map sowie einer Saliency Map zu einem gegebenen Eingabebild entsprechend der Zielklassen.
 
 
-Gebräuchliche Anwendung dieses Verfahrens im Machine Learning Bereiches betreffen der Darstellung von High level Features einzelner Neuronen \cite{liu_delving_2016} im bezug auf eine gezielte Klasse. Diesen Ansatz weiterverfolgend, entsprechen die erzeugten Saliency Maps im letzten Layer einer starken Neuronenaktivierung, die einer “high level” darstellung der gezielten klasse entspricht, die vom NN für das Bild errechnet wurde. 
+Gebräuchliche Anwendung dieses Verfahrens im Machine Learning Bereiches betreffen der Darstellung von High Level Features einzelner Neuronen \cite{liu_delving_2016} im Bezug auf eine gezielte Klasse. Diesen Ansatz weiterverfolgend, entsprechen die erzeugten Saliency Maps im letzten Layer einer starken Neuronenaktivierung, die einer "'High Level”' Darstellung der gezielten Klasse entspricht, die vom \ac{NN} für das Bild errechnet wurde. 
 
 
-Diese Saliency Map sollte also im Rückschluss mit einer hohen Koinzidenz bezüglich der entsprechende Klasse klassifiziert werden, wenn das erzeugte Bild als Eingabe verwendet wird. Daraus ergibt sich die Hypothese, mithilfe dieser Visualisierung für den menschen semantisch nicht erkennbare Verkehrszeichen Bilder zu erzeugen, die hohe Zielkonfidenzen mit $90\%$ oder mehr erreichen. Die beschriebene Methode wird in der Implementierung als “Vanilla Saliency” bezeichnet.
+Diese Saliency Map sollte also im Rückschluss mit einer hohen Konfidenz bezüglich der entsprechenden Klasse klassifiziert werden, wenn das erzeugte Bild als Eingabe verwendet wird. Daraus ergibt sich die Hypothese, mit Hilfe dieser Visualisierung für den Menschen semantisch nicht erkennbare Verkehrszeichen Bilder zu erzeugen, die hohe Zielkonfidenzen von 0.9 oder mehr erreichen. Die beschriebene Methode wird in der Implementierung als “'Vanilla Saliency”' bezeichnet.
 
 \section{Implementierung}
 
 Die Verfahren zur Erzeugung der Saliency Maps setzen eine identische Datenvorverarbeitung voraus. 
-Die Trainingsbilder des GTSRB Datensatz wurden konvertiert und entsprechend der Eingabeparameter des Aphrodite-Modells als PNG mit Größe $64 \times 64 $ im Dateisystem abgespeichert.
+Die Trainingsbilder des \ac{GTSRB} Datensatz wurden konvertiert und entsprechend der Eingabeparameter des Aphrodite-Modells als PNG mit Größe $64 \times 64 $ im Dateisystem abgespeichert.
 
 Nachfolgend wird der vollständige Datensatz lokal am eigenen Modell klassifiziert und alle Bilder mit einer Konfidenz von 100\% separat gesammelt. 
 
-Die vorgestellten Verfahren Vanilla Saliency\cite{simonyan_deep_2013}, Guided Backpropagation[] und Integrated Gradient[] werden jeweils in einer ungefilterten und und geglätteten Variante verwendet entsprechend einer auf die Aufgabenstellung angepasster Implementation auf der Basis von [https://github.com/experiencor/deep-viz-keras]. 
+Die vorgestellten Verfahren Vanilla Saliency\cite{simonyan_deep_2013}, Guided Backpropagation\cite{springenberg_striving_2014} und Integrated Gradient\cite{sundararajan_axiomatic_2017} werden jeweils in einer ungefilterten und und geglätteten Variante verwendet entsprechend einer auf die Aufgabenstellung angepasster Implementation auf der Basis von \cite{anh_implementations_2019}. 
 
 Ausgegeben wird ein Graustufenbild in der die relevanten Pixelbereiche durch hellere Einfärbung gekennzeichnet werden.
 
-Diese Bilder wurden danach an das Trasi webinterface geschickt und das Resultat der prediction abgespeichert. Zusätzlich wird pro Verfahren ein Logfile erstellt, welches alle Bilder mit einer Konfidenz >0.9 sowie die geschätzte Klasse und das Ursprungsbild festhält.
+Diese Bilder wurden danach an das Trasi Webinterface geschickt und das Resultat der Klassifikation abgespeichert. Zusätzlich wird pro Verfahren ein Logfile erstellt, welches alle Bilder mit einer Konfidenz >0.9 sowie die geschätzte Klasse und das Ursprungsbild festhält.
 %
 %vanilla 58 p min
 %smooth vanilla 37 p m
@@ -38,16 +38,16 @@ Diese Bilder wurden danach an das Trasi webinterface geschickt und das Resultat 
 
 Aus der Implementation konnten folgende Ergebnisse zu den 6 vorgestellten Variationen gesammelt werden. 
 
-Alle ungeglätteten Verfahren konnten keine positiven Ergebnisse bezüglich der Bilderzeugung mit einer Konfidenz $> 0.9$ liefern. Dies lässt sich möglicherweise auf die besonderen Einschaften von CNNs zurückführen, dass ohne Glättung in dem - ohne farbchannel - bereits dimensionsreduziertem Bild keine ausgeprägten Kanten vorhanden sind und nach dem "Falten" Informationen verloren gehen. Desweiteren konnte am Blackbox Modell beobachtet werden, dass alle erzeugten ungegeglätteten Saliency Maps mit einer Konfidenz von $0.45834911$ als Klasse "Baustelle" erkannt werden.
+Alle ungeglätteten Verfahren konnten keine positiven Ergebnisse bezüglich der Bilderzeugung mit einer Konfidenz $> 0.9$ liefern. Dies lässt sich möglicherweise auf die besonderen Einschaften von \acp{CNN} zurückführen, dass ohne Glättung in dem - ohne farbkanäle - bereits dimensionsreduziertem Bild keine ausgeprägten Kanten vorhanden sind und nach dem "'Falten"' Informationen verloren gehen. Desweiteren konnte am Blackbox Modell beobachtet werden, dass alle erzeugten ungegeglätteten Saliency Maps mit einer Konfidenz von $0.45834911$ als Klasse "'Baustelle"' erkannt werden.
 
-Dahingegen konnten bei allen geglätteten Varianten Bilder erzeugt werden, die vom Blackboxmodell mit hoher Sicherheit eine Klasse zugeordnet wurden. Es konnten einige unerwarteten Anomalien bei der Klassifizierung am Fremdmodell beobachtet werden.  Tabelle \ref{tab:sal1} zeigt wie aus Bild \ref{fig:salUrsprung} (Höchstgeschwindigkeit (30))  mit den Verfahren "Smoothed Guided Backpropagation" (vgl. []) und "Smoothed Vanilla Saliency" (vgl. []) ein Bild erzeugt, welche mit einer Konfidenz >0.9 vom Webinterface erkannt wurden. Dabei muss beachtet werden, dass die Bilder als unterschiedliche Klassen eingestuft wurden. "Vanilla Saliency" stimmt überein (Höchstgeschwindigkeit (30), Konfidenz 0.9283), "Guided Backpropagation" wurde vom Fremdmodell einer anderen Klasse zugeordnet (Überholverbot, Konfidenz 0.9155).
+Dahingegen konnten bei allen geglätteten Varianten Bilder erzeugt werden, die vom Blackboxmodell mit hoher Sicherheit eine Klasse zugeordnet wurden. Es konnten einige unerwarteten Anomalien bei der Klassifizierung am Fremdmodell beobachtet werden.  Tabelle \ref{tab:sal1} zeigt wie aus Bild 5.1a (Höchstgeschwindigkeit (30))  mit den Verfahren "'Smoothed Guided Backpropagation"' (vgl. 5.1b) und "'Smoothed Vanilla Saliency"' (vgl. 5.1c) ein Bild erzeugt, welche mit einer Konfidenz >0.9 vom Webinterface erkannt wurden. Dabei muss beachtet werden, dass die Bilder als unterschiedliche Klassen eingestuft wurden. "'Vanilla Saliency"' stimmt überein (Höchstgeschwindigkeit (30), Konfidenz 0.9283), "'Guided Backpropagation"' wurde vom Fremdmodell einer anderen Klasse zugeordnet (Überholverbot, Konfidenz 0.9155).
 
 \begin{table}
 	\centering
 	\begin{tabular}{p{4.4cm}p{4.4cm}p{4.4cm}}
-		\includegraphics[width=\linewidth]{Images/AnPe/10771} \label{fig:salUrsprung}& \includegraphics[width=\linewidth]{Images/AnPe/10771_guided} &
+		\includegraphics[width=\linewidth]{Images/AnPe/10771} & \includegraphics[width=\linewidth]{Images/AnPe/10771_guided} &
 		\includegraphics[width=\linewidth]{Images/AnPe/10771_vanil}\\ 
-		Ursprungsbild & Guided Backprop. & Vanilla Saliency \\
+		\label{fig:salUrsprung} 5.1a Ursprungsbild &5.1b Guided Backprop. &5.1c Vanilla Saliency \\
 		Höchstgeschwindigkeit (30) & Überholverbot & Höchstgeschwindigkeit (30)\\
 		& 0.9155 & 0.9283\\
 		
@@ -94,8 +94,8 @@ Tabelle \ref{tab:sal2} zeigt weitere Beispiele für erfolgreiche Saliency Maps. 
 		Kreisverkehr &Baustelle \\
 		& 0.9999
 	\end{tabular}
-	\caption{Ergebnisse von verschiedenen Verfahren am selben Bild. }
+	\caption{Weitere Beispiele für Irrbilder mit Konfidenz >0.9 inklusive entsprechendem Ursprungsbild. }
 \label{tab:sal2}
 \end{table}
 
-Zusammenfassend konnte gezeigt werden, dass es mithilfe der Erstellung von Saliency Maps an einem eigenen Modell Bilder erzeugt werden können, welche von einem unbekanntem NN mit hohen Konfidenzen verschiedenen Klassen zugeordnet werden. Die Erfolgsrate in Relation zur Anzahl erzeugter Bilder und dem Rechenaufwand ist dabei jedoch gering und es herrscht aktuell keine Aussagekraft darüber, welcher Klasse das erzeugte Bild zugeordnet wird. 
+Zusammenfassend konnte gezeigt werden, dass es mithilfe der Erstellung von Saliency Maps an einem eigenen Modell Bilder erzeugt werden können, welche von einem unbekanntem \ac{NN} mit hohen Konfidenzen verschiedenen Klassen zugeordnet werden. Die Erfolgsrate in Relation zur Anzahl erzeugter Bilder und dem Rechenaufwand ist dabei jedoch gering und es herrscht aktuell keine verlässliche Aussagekraft darüber, welcher Klasse das erzeugte Bild zugeordnet wird. 
