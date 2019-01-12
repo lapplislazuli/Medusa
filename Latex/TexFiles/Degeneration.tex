@@ -88,8 +88,10 @@ Die Klassifizierungsfunktion wird innerhalb der Remote-Degeneration durch einige
 
 Die Hilfsmethode \textit{Scorer.get\_best\_score(response)} gibt den höchsten gefunden Score wieder.
 \newpage
+\begin{scriptsize}
 \pythonexternal[caption=Quellcode der Remote Degeneration, label=lst:remoteDeg]{CodeSnippets/remoteDegenerationSnippet.py}
-
+\end{scriptsize}
+\newpage
 \section{Ergebnisse Remote}
 \label{sec:DegenerationErgebnisse}
 In diesem Abschnitt werden die mit der Degeneration erzielten Ergebnisse in Bezug auf die Trasi-Schnittstelle vorgestellt. Zunächst werden einige positive Beispiele (Erfolge) gezeigt, anschließend wir auf einige Probleme, die aufgetreten sind, eingegangen und zuletzt wird ein kurzes Zwischenfazit gezogen. 
@@ -230,7 +232,14 @@ Die Probleme sind Hardware- oder Frameworkbezogen. Je nach Umfeld können diese 
 \subsection{Tree-Degeneration}
 Diese Variante führt eine Merkstruktur ein, welche die bisherigen Ergebnisse und Schritte zwischenspeichert. 
 
-~\newline Das bisherige Verhalten entspricht dem einer Liste, bei welcher lediglich der letzte Knoten verwendet wird. Mit dem jeweils letzten Bild wird weitergearbeitet, bis entweder ein neues korrektes Bild erzeugt wird oder der Algorithmus endet. \todo{Schaubild: Liste vs. Tree}
+~\newline Das bisherige Verhalten entspricht dem einer Liste, bei welcher lediglich der letzte Knoten verwendet wird. Mit dem jeweils letzten Bild wird weitergearbeitet, bis entweder ein neues korrektes Bild erzeugt wird oder der Algorithmus endet. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Images/DegenTreeNormal}
+	\caption[Tree-Degeneration]{Derzeitige Implementierung und eine Baum-basierte Implementierung}
+	\label{fig:degentreenormal}
+\end{figure}
+
 
 ~\newline Die Variation beinhaltet das führen eines \textit{Retry-Counters}, welcher bei jedem Versuch von einem Knoten erhöht wird. Sollte eine gewisse Anzahl an Versuchen ergebnislos bleiben, wird der aktuelle Knoten verworfen und der Vorgänger benutzt. 
 
