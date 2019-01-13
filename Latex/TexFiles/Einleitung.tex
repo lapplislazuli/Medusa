@@ -7,23 +7,19 @@ Der Traum von einem autonom gelenkten Automobil ist so alt wie das Automobil sel
 
 Der aktuelle Stand der Technik zeigt, dass sich die Umsetzung dieser Vision schwieriger gestaltet, als zunächst angenommen. Anstelle einer autonomen Steuerung finden sich in heutigen Automobilen verschiedene Techniken zur Erhöhung der Fahrsicherheit und des Komforts. Beispiele sind Spurhalteassistenten, automatische Abstandshalter oder Einparkhilfen. Diese Funktionen unterstützen einen menschlichen Fahrer, ermöglichen jedoch noch kein selbstständiges Fahren.
 
-Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern\cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern\cite{bmw_autonomes_nodate} und der Presse\cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf dem Erkennen von Bilder aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern von Bedeutung. 
+Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern\cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern\cite{bmw_autonomes_nodate} und der Presse\cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf dem Erkennen von Bilder aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern von Bedeutung.
 
-%Content merke:
-%Autonomes Fahren, Begeisterung seit Anbeginn der Motorisierung, verschiedenen Stufen der Automatisierung, elektromechanisches System muss immer sicherer sein als mechanisches, aktuelle Ansätze von autonomen Autos nutzen KI, Überprüfung der Sicherheit einer KI 
 
 \section{Problemstellung}
-Im Bereich der Bilderkennung erreichen neuronale Netze bahnbrechende Erfolge. Im Zuge der Forschung trat allerdings ein neues Phänomen auf, die sogenannten \textit{Adversarial Attacks} \cite{DBLP:journals/corr/HuangPGDA17}. 
+Bei der Untersuchung von \acp{KI}, welche auf die Erkennung gewisser Muster mit einem Datensatz trainiert wurden, fiel auf, dass auch Muster, die für den Menschen in keinem erkennbaren Zusammenhang mit dem Trainingsmuster stehen, von der \ac{KI} mit hoher Konfidenz anerkannt werden. Das gezielte Ausnutzen dieses Fehlers wird in der Forschung als \textit{Adversarial Attack} bezeichnet \cite{DBLP:journals/corr/HuangPGDA17}.
 
-Innerhalb dieser Angriffe werden gezielt Gewichte stimuliert, um gewünschtes Feedback des neuronalen Netzes zu erzielen. Die dabei erzeugten Fragmente haben selten etwas mit einem \textit{echten} Bild zu tun - sie wirken entweder wie Rauschen oder moderne Kunst. 
+Der Erfolg von \textit{Adversarial Attacks} liegt in der gezielten Stimulation von Gewichten, die die \ac{KI} basierend auf ihrem Trainingssatz festgelegt hat, beziehungsweise die vom Trainer definiert wurden. Auf diese Weise ist es möglich ein gewünschtes Feedback eines \acs{NN}s zu erhalten, obwohl das Muster für einen Menschen kaum oder gar nicht mit den Mustern des Trainingssatzes in Verbindung gebracht werden kann. Zum Beispiel haben erzeugte Fragmente zur Täuschung einer \ac{KI}, die für die Erkennung von Bildinhalten trainiert ist, selten etwas mit einem \textit{echten} Bild zu tun. Sie wirken eher wie Rauschen oder moderne Kunst. 
 
-~\newline Da diese präparierten Bilder eben nicht aussehen, wie beispielsweise ein Verkehrsschild, kann ein Mensch schwer erkennen ob ein Angriff unternommen wird. 
+~\newline Das Problem an den präparierten Mustern einer \textit{Adversarial Attack} ist, dass ein Mensch schwer erkennen kann, ob ein derartiger Angriff auf die von ihm genutzte \ac{KI} unternommen wird. Er ordnet das manipulierte Muster nicht den relevanten Mustern zu, die seine \ac{KI} anerkennt.
 
-Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Sektoren des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden erzeugen und stellen ein lohnendes Ziel dar. 
+Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Sektoren des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden erzeugen und stellen ein lohnendes Ziel dar. Vor allem im Bereich des autonomen Fahrens, welcher aktuell geprägt ist durch eine Debatte über das \textit{Vertrauen in Technik} \cite{VertrauenTechnik}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen und die Nutzung der Technik verhindern. 
 
-Vor allem im Bereich des autonomen Fahrens, welcher ohnehin geprägt ist durch die Debatte über \textit{Vertrauen in Technik} \cite{VertrauenTechnik}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen - und das gesamte Themengebiet frühzeitig begraben. 
-
-~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige dieser \textit{Irrbilder} benötigt. Anschließend können, um das neuronale Netz zu härten, Tests durchgeführt werden und die Angriffe berücksichtigt werden. 
+~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige Bilder benötigt, die gezielt Gewichte einer \ac{KI} stimulieren und mit hoher Konfidenz anerkannt werden. Anschließend können, um das neuronale Netz zu härten, Tests durchgeführt werden und die Angriffe berücksichtigt werden. 
 
 %Diese Irrbilder zu erzeugen stellt das Kernziel dieser Arbeit dar. 
 
