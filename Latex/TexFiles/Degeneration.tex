@@ -2,16 +2,16 @@
 \label{cha:Degeneration}
 Innerhalb dieses Kapitels wird der Ansatz der \textit{Degeneration} vorgestellt.
 
-Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \cite{heistermann2013genetische}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}. Anstatt allerdings \textit{gute Gene} zu kombinieren \cite{schoneburg1994genetische}, wird ein Genmutation erzeugt, und überprüft ob es den Anforderungen der Klassifizierung noch genügt. 
+Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \cite{heistermann2013genetische}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}. Anstatt allerdings \textit{gute Gene} zu kombinieren \cite{schoneburg1994genetische}, wird wird eine Genmutation erzeugt und überprüft, ob diese den Anforderungen der Klassifizierung noch genügt. 
 
-~\newline Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung des Algorithmus für die Verwendung der unbekannten Trasi-AI vorgestellt, und den Abschluss dieses Kapitels bildet eine lokale Implementierung zuzüglich einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} nicht angeboten haben.
+~\newline Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung eines Algorithmus vorgestellt, der das unbekannte \ac{NN} des Wettbewerbs verwendet. Den Abschluss dieses Kapitels bildet eine lokale Implementierung inklusive einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} des Wettbewerbs nicht angeboten haben.
 \section{Konzept}
 \label{sec:DegenerationKonzept}
 Die grundlegende Idee des Algorithmus bezieht sich darauf, ein Urbild $i$ zu einem Abbild $\hat{i}$ zu manipulieren, welches von dem unbekannten Klassifizierungsalgorithmus weiterhin korrekt erkannt wird. 
 
 ~\newline Abhängig von der Stärke der Manipulation soll eine $Tiefe$ gewählt werden, ab welcher der Algorithmus beendet wird. Als Beispiele der Manipulation seien insbesondere Rauschen und Glätten genannt, allerdings auch Kantenschärfung und Veränderungen der Helligkeit und anderer Metaparameter. 
 
-~\newline Mit fortschreitender Tiefe wird nahezu jedes Bild unkenntlich. Zusätzlich sollten allerdings weitere Parameter als Abbruchkriterien aufgenommen werden, konkret eine Anzahl an Gesamt-Iterationen und ein Abbruch, sollten keine weiteren Fortschritte erreicht werden.
+~\newline Mit fortschreitender Tiefe wird nahezu jedes Bild für den Menschen unkenntlich. Zusätzlich sollten allerdings weitere Parameter als Abbruchkriterien aufgenommen werden, konkret eine Anzahl an Gesamt-Iterationen der Manipulationsfunktionen und eine Abbruchbedingung, beispielsweise wenn keine weiteren Fortschritte erreicht werden.
 
 \newpage
 \paragraph{Pseudocode} ~\newline 
@@ -59,17 +59,14 @@ Zusätzlich sollte die Manipulationsfunktion zufällige Elemente erhalten. Sollt
 
 Diese Parameter auszubalancieren obliegt dem Nutzer. 
 
-Bei der Auswahl der Parameter sollte zusätzlich überschlagen werden, wie groß die letztendliche Konfidenz ist, falls die maximale Tiefe erreicht wird. 
+Bei der Auswahl der Parameter sollte zusätzlich berechnet werden, wie groß die letztendliche Konfidenz ist, falls die maximale Tiefe erreicht wird. 
 
-~\newline Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden und zusätzlich, ob der Algorithmus sich festgefahren hat. Üblicherweise kann man erkennen, wenn die Manipulationsfunktion \textit{zu stark} ist, beziehungsweise der Schwellwert zu niedrig gewählt wurde.
+~\newline Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden und zusätzlich, ob der Algorithmus sich verklemmt hat. Üblicherweise kann man erkennen, wenn die Manipulationsfunktion \textit{zu stark}, beziehungsweise der Schwellwert zu niedrig gewählt ist.
 
-~\newline Der oben genannte Algorithmus lässt sich auch für text- oder sprachbasierte Klassifikationen adaptieren. 
-
-Hierfür müssen lediglich andere Manipulations- und Klassifizierungsfunktionen gewählt werden.
 \newpage
 \section{Implementierung Remote}
 \label{sec:DegenerationRemote}
-Im Rahmen des Wettbewerbs wird mit einer Rest-API gearbeitet, welche in Abschnitt \ref{sec:TrasiModell} analysiert wird und besondere Herausforderungen mit sich bringt: 
+Im Rahmen des Wettbewerbs wird mit einer Rest-API gearbeitet, welche in Abschnitt \ref{sec:EigenschaftenTrasi} analysiert wird und besondere Herausforderungen mit sich bringt: 
 
 \begin{itemize}
 	\item Anfragen können fehlschlagen
@@ -77,7 +74,7 @@ Im Rahmen des Wettbewerbs wird mit einer Rest-API gearbeitet, welche in Abschnit
 	\item Mehrere Nutzer, welche die API mit dem gleichen API Key beanspruchen, blockieren sich
 \end{itemize}
 ~\newline
-Zusätzlich wurde der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der \textit{History} können nach der Ausführung des Algorithmus hilfreiche Plots erstellt werden. 
+Zusätzlich wird der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der \textit{History} können nach der Ausführung des Algorithmus hilfreiche Plots erstellt werden. 
 
 Diese ist in dem nachfolgenden Code in Listing \ref{lst:remoteDeg} nicht enthalten.
 ~\newline~\newline
@@ -121,11 +118,11 @@ Die Plots in Abbildung \ref{fig:plotTiefe4000} stellen den Verlauf des Algorithm
 	\caption[Plot Degeneration]{Plot der Rausch-Degeneration}
 	\label{fig:plotTiefe4000}
 \end{figure}
-~\newline Es wurden ebenfalls einige sehr positive Ergebnisse mit einer Mischung aus starkem Rauschen und Glätten erzeugt, allerdings waren diese nicht zuverlässig reproduzierbar. 
+~\newline Es wurden ebenfalls einige sehr positive Ergebnisse mit einer Mischung aus starkem Rauschen und Glätten erzeugt. Allerdings waren diese nicht zuverlässig reproduzierbar. 
 
 \paragraph{Negative Ergebnisse} ~\newline Es gibt zwei primäre Fehlerquellen in Bezug auf die Remote-Degeneration: Die Auswahl von Bildern, welche im GTSRB-\textit{Training}-Set waren, sowie die Auswahl ungeeigneter Manipulationsfunktionen. 
 ~\newline
-Die AI innerhalb der Schnittstelle scheint sich die Bilder aus dem Trainingsset \textit{gemerkt} zu haben. Bereits minimale, unwichtige Änderungen des Schildes (z.B. einfügen einiger blauer Punkte im Hintergrund) führen zu einer drastischen Verschlechterung des Ergebnisses. Dieses starke \textit{Ausschlagen} des Scores macht die Benutzung der Degeneration unbrauchbar.
+Das \ac{NN} des Wettbewerbs scheint sich die Bilder aus dem Trainingsset \textit{gemerkt} zu haben. Bereits minimale, unwichtige Änderungen des Schildes (z.B. Einfügen einiger blauer Punkte im Hintergrund) führen zu einer drastischen Verschlechterung des Ergebnisses. Dieses starke \textit{Ausschlagen} des Scores macht die Benutzung der Degeneration unbrauchbar.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\linewidth]{Images/DegenSamples/OverFitSmaller}
@@ -133,9 +130,9 @@ Die AI innerhalb der Schnittstelle scheint sich die Bilder aus dem Trainingsset 
 	\label{fig:DegenOverfit}
 \end{figure}
 ~\newline
-Dieses Problem hat sich herauskristallisiert, als über einen längeren Zeitraum (\~ 10 Stunden) kein Bild erzeugt wurde, welches auch nur leicht verändert wurde. Die einzigen Änderungen, welche erzielt werden, befinden sich innerhalb des weißen Bereiches des Überholverbotsschildes wie in Abbildung \ref{fig:DegenOverfit}. Es werden aber keine Änderungen außerhalb des Schildes vorgenommen, wo diese zu erwarten wären und bei vorhergehenden Versuchen auch zu beobachten sind (vgl. Abbildung \ref{fig:stoptiefe600}). 
+Dieses Problem hat sich herauskristallisiert, als über einen längeren Zeitraum (\textasciitilde  10 Stunden) kein Bild erzeugt wurde, welches auch nur leicht verändert wurde. Die einzigen Änderungen, welche erzielt werden, befinden sich innerhalb des weißen Bereiches des Überholverbotsschildes, wie in Abbildung \ref{fig:DegenOverfit}. Es werden aber keine Änderungen außerhalb des Schildes vorgenommen, wo diese zu erwarten wären und bei vorhergehenden Versuchen auch zu beobachten sind (vgl. Abbildung \ref{fig:stoptiefe600}). 
 ~\newline
-Dieses Problem tritt ausschließlich (allerdings zuverlässig) bei der Verwendung von Bildern aus dem Trainingsset auf. Es tritt nicht auf sobald man Bilder aus dem Test-Set verwendet oder \textit{GTSRB-fremde} Bilder (vorausgesetzt, sie besitzen eine akzeptable Startkonfidenz). 
+Dieses Problem tritt ausschließlich, allerdings zuverlässig, bei der Verwendung von Bildern aus dem Trainingsset auf. Es tritt nicht auf, sobald man Bilder aus dem Test-Set oder \textit{GTSRB-fremde} Bilder verwendet. Voraussetzung dabei ist, dass sie eine akzeptable Startkonfidenz besitzen. 
 
 Innerhalb der lokalen Implementierung ist dieses Problem ebenfalls aufgetreten, konnte allerdings behoben werden, sobald man das Overfitting erkannt hatte.
 \paragraph{Fazit} ~\newline
