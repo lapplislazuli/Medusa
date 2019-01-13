@@ -11,3 +11,6 @@ A level-1 auxiliary file: TexFiles/GradientAscent.aux
 A level-1 auxiliary file: TexFiles/Fazit.aux
 The style file: plain.bst
 Database file #1: src.bib
+Warning--to sort, need author or key in stanford_unsupervised_tutorial
+Warning--to sort, need author or key in pytorch_datasets_2019
+(There were 2 warnings)
