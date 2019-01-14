@@ -1,37 +1,42 @@
 \chapter{Anforderungsanalyse und Rahmenbedingungen}
 \label{cha:AnfAnalyse}
 
-Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die Bilderzeugungsverfahren zur Überlistung einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingungen des Wettbewerbs ergänzt, die im wesentlichen aus dem bereitgestellten \acl{NN} besteht.
+Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die Bilderzeugungsverfahren zur Überlistung einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus dem bereitgestellten \acl{NN} besteht.
 
 \section{Funktionale Anforderungen}
-Die Kernaufgabe der implementierten Lösungen der nachfolgenden Kapitel \ref{cha:Degeneration} bis \ref{cha:gascent} besteht darin Bilder zu genieren. Als Eingangsparameter dürfen dafür Bilder verwendet werden, die anschließend durch Algorithmen modifiziert werden.
-
-Die implementieren Lösungen müssen nachvollziehbar und reproduzierbar sein. Das bedeutet, dass eine Modifikation mit den selben Eingangsparametern zu dem selben Ergebnis führen muss. Grundvoraussetzung für diese Anforderung 
+Die Kernaufgabe der implementierten Lösungen der nachfolgenden Kapitel \ref{cha:Degeneration} bis \ref{cha:gascent} besteht darin Bilder zu genieren. Als Eingangsparameter dürfen dafür Bilder verwendet werden, die anschließend durch Algorithmen modifiziert werden.\\
+Neben der Generierung von Bildern zur Täuschung des \ac{NN} des \ac{GI}-Wettbewerbs sollen Funktionen bereitgestellt werden, mit denen die erzeugten Bilder bewertet werden. Dazu sollen die Bilder an die Webschnittstelle des Wettbewerbs gesendet und das Ergebnis aufbereitet werden.
 
 \section{Nichtfunktionale Anforderungen}
+Die implementieren Lösungen müssen nachvollziehbar und reproduzierbar sein. Das bedeutet, dass eine Modifikation mit den selben Eingangsparametern zu dem selben Ergebnis führen muss. Grundvoraussetzung für diese Anforderung ist, dass das \ac{NN} des \ac{GI}-Wettbewerbs während des Wettbewerbzeitraums nicht verändert wird.
 
-%Content
-%Bewertung nach Confidence und nach Spektrum der Klassen des GTSRB Datensatzes
+Weiterhin ergibt sich aus der Aufgabenstellung des \ac{GI}-Wettbewerbs eine qualitative Anforderung an die erzeugten Bilder zur Täuschung der Black Box \ac{KI}. Die erzeugten Bilder müssen mindestens mit einer Konfidenz von 90\% von der Black Box \ac{KI} als Verkehrszeichen erkannt werden. \cite{gesellschaft_fur_informatik_e.v._informaticup2019-irrbilder.pdf_2018} \\
+Um diese Anforderung zu erfüllen, muss eine weitere indirekte Anforderung erfüllt sein, die sich aus den Hinweisen und der nachfolgenden Untersuchung des \ac{NN} des \ac{GI}-Wettbewerbs ergibt. Da die Black Box \ac{KI} mit dem \ac{GTSRB} Datensatz trainiert wurde, müssen die generierten Bilder der in Kapitel \ref{cha:Degeneration} - \ref{cha:gascent} folgenden Implementierungen den Klassen zugeordnet werden können, die der \ac{GTSRB} enthält, beziehungsweise, die vom \ac{NN} des Wettbewerbs erkannt werden. 
 
+Abschließend legt die Aufgabenstellung des \ac{GI}-Wettbewerbs fest, dass die erzeugten Bilder zur Täuschung der \ac{KI} des Wettbewerbs nicht von einem Menschen als Straßenschild erkennbar sein dürfen. Die Beurteilung dieses Faktes wird durch ein persönliches Urteil der Autoren vorgenommen.
 
-\section{Eigenschaften des \acl{NN}es des GI Wettbewerbs}
+\section{Eigenschaften des \acl{NN}es des \ac{GI}-Wettbewerbs}
 \label{sec:EigenschaftenTrasi}
-
-
-
-
-33 verschiedene aufgezeichnete klassenlabels (im vergleich GTSRB datensatz 43)
+Die Rahmenbedingung der vorliegenden Arbeit ergibt sich aus der Aufgabenstellung und den Ressourcen des \ac{GI}-Wettbewerbs, die den Teilnehmern zur Verfügung gestellt werden. Bei den Ressourcen handelt es sich um ein \ac{NN}, an welches über eine Webschnittstelle Anfragen gestellt werden können, und Informationen über dieses Netz.\\
+Um ausführlichere Informationen über das Black Box \ac{NN} des Wettbewerbs zu sammeln, werden zu Beginn und während des Wettbewerbs verschiedene Tests an der Webschnittstelle durchgeführt. Die gewonnenen Erkenntnisse befinden sich in der folgenden Aufzählung:
 
 \begin{enumerate}
-	\item 
-	Aus der aufgabenstellung 64x64x3
-	\item 
-	bilder aus dem GTSRB [quelle] datensatz
-	\item Gekürzte Klassen: Aus der analyse geht die Vermutung hervor, dass nur 33 Klassen unterschieden werden, keine 43 wie im orginal datensatz
-	\item Softmax-Ausgabefunktion 
-	\item Interpolationsfunktion (vllt mit einem Bild in 3 Interpolationsversionen und jeweiligen Score) 
-	\item Overfitting bei Trainingsdaten
-	\item unzuverlässigkeit bei nicht-Schildern (z.B. OhmLogo)
+	\item Aus der Aufgabenstellung ist abzulesen, dass das \ac{NN} des Wettbewerbs PNG-Bilder in der Auflösung 64x64 verarbeitet. Vermutlich wurde das Netz auch mit derartigen Bildern trainiert
+	\item Die Bilder, mit denen die Black Box \ac{KI} trainiert wurde, stammen aus dem GTSRB\footnote{http://benchmark.ini.rub.de/?section=gtsrb\&subsection=dataset} Datensatz
+	\begin{enumerate}
+		\item Datensatz enthält 43 verschiedene Klassen, die 43 verschiedenen deutschen Straßenschildern entsprechen
+		\item Datensatz enthält insgesamt mehr als 50.000 Bilder
+		\item Datensatz ist gegliedert in Trainings- und Testbilder
+		\item Bei den Bildern des Datensatzes handelt es sich um reale Bilder
+		\item Die Bilder sind einzigartig, kommen also im Datensatz nur jeweils einmal vor
+	\end{enumerate}
+	\item Die Black Box \ac{KI} liefert Konfidenz-Scores zu 33 verschiedenen Klassenlabels, zehn Klassen des \ac{GTSRB} Datensatzes werden nicht genutzt
+	\item Die Webschnittstelle liefert als Antwort auf eine Anfrage mit einem zu bewertenden Bild ein JSON-Objekt mit Konfidenzwerten verschiedener Klassen zurück
+	\item Bei der Rückgabe der Konfidenz-Scores wird eine Softmax-Aufgabefunktion genutzt, da die Summe der einzelnen Scores eines bewerteten Bildes teilweise unter 100\% liegt
+	\item Das \ac{NN} des Wettbewerbs besitzt keine Klasse "`Kein Straßenschild"' und liefert für jedes Bild Konfidenz Werte für Straßenschilder zurück
+	\item Beim Training der Black Box \ac{KI} wurde vermutlich eine Interpolationsfunktion genutzt, da die ursprüngliche Größe eines Bildes keinen Einfluss auf die Scores der Schnittstelle hat  
+	\item Die Black Box \ac{KI} enthält ein starkes Overfitting bezüglich den Trainingsdaten
+	\item Das \ac{NN} ist sehr unzuverlässig bei Nicht-Schildern. Zum Beispiel erreicht das Logo der technischen Hochschule Georg Simon Ohm einen Konfidenz-Score von 99,81\% für die Klasse "`Ausschließlich geradeaus"'
 \end{enumerate}
 
 
