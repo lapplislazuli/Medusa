@@ -1,20 +1,20 @@
 \chapter{Gradient Ascent}
 \label{cha:gascent}
 
-Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte wi und der Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
-Die Kostenfunktion geht also über jedes einzelne Bild aus dem Trainingsdatensatz und berechnet den Unterschied zwischen der gewünschten Ausgabe und dem Ausgabevektor a des Netzwerks.
-Der Ausgabevektor a ist hierbei abhängig vom Eingabebild, dem Gewicht $wi$ und dem Schwellwert.
+Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte \textit{wi} und der Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
+Die Kostenfunktion geht also über jedes einzelne Bild aus dem Trainingsdatensatz und berechnet den Unterschied zwischen der gewünschten Ausgabe und dem Ausgabevektor $\vec{a}$ des Netzwerks.
+Der Ausgabevektor $\vec{a}$ ist hierbei abhängig vom Eingabebild, dem Gewicht $wi$ und dem Schwellwert.
 Die Kostenfunktion hat den Wert 0 in etwa dann angenähert, wenn das Eingabebild annähernd dem Ausgabevektor $a$ entspricht, was das Ziel des Trainings eines künstlichen neuronalen Netzwerks darstellt. Denn dann wurde das Eingabebild korrekt erkannt.
 Im Rahmen des Trainings sollen also eine Reihe von Gewichten $wi$ und Schwellwerte gefunden werden, welche die Kostenfunktion möglichst klein halten. 
 Dies wird erreicht mit dem Algorithmus, der als Gradient Descent bezeichnet wird \cite{zhou_understanding_2018}.
 Dieser Algorithmus berechnet wiederkehrend den Gradienten. 
 
 
-Das Gradient Ascent Verfahren ist als Pendant zum Gradient Descent Verfahren zu verstehen. Hier wird auf die berechneten Gradienten eines trainierten Convolutional Neural Networks zugegriffen und das Eingabebild so lange verändert, bis dies dem gewünschten Ergebnisbild entspricht.
+Das \textit{Gradient Ascent} Verfahren ist als Pendant zum Gradient Descent Verfahren zu verstehen. Hier wird auf die berechneten Gradienten eines trainierten Convolutional Neural Networks zugegriffen und das Eingabebild so lange verändert, bis dies dem gewünschten Ergebnisbild entspricht.
 
 
 \section{Konzept}
-Um gegebene \ac{CNN} gezielt anzugreifen, das heißt Bilder zu erzeugen, die einer bestimmten Zielklasse entsprechen und gleichzeitig vom Menschen nicht als solche erkannt werden, eignet sich die Methode „Targeted Backpropagation“, welche eine Variante des Gradient Ascent Verfahrens darstellt \cite{liu_delving_2016}.
+Um gegebene \ac{CNN} gezielt anzugreifen, das heißt Bilder zu erzeugen, die einer bestimmten Zielklasse entsprechen und gleichzeitig vom Menschen nicht als solche erkannt werden, eignet sich die Methode \textit{Targeted Backpropagation}, welche eine Variante des \textit{Gradient Ascent} Verfahrens darstellt \cite{liu_delving_2016}.
 Diese Methode setzt ein bereits trainiertes \ac{CNN} voraus, greift auf die Gradienten des Modells zu und verändert das Eingabebild – wie etwa ein zufallsgeneriertes Bild – so lange, bis es der gewünschten Zielklasse entspricht oder diese annähert. 
 Bei diesem Verfahren kann man beobachten, dass relevante Pixel, welche die bedeutendsten Stellen im Bild repräsentieren, stärker mutiert werden als unwichtige Pixel, die weitgehend unverändert bleiben.
 
@@ -25,7 +25,7 @@ Zunächst wurde als vorverarbeitender Schritt ein \ac{CNN} unter Verwendung der 
 Die hierbei verwendete Architektur des AlexNet entstammt \cite{pytorch_datasets_2019} und wurde dahingehend modifiziert, dass das AlexNet zu Eingabebildern der Größe $64 \times 64$ Pixel, drei Farbkanälen (RGB) sowie zu den 43 Klassen aus dem \ac{GTSRB} Datensatz kompatibel ist. 
 Die Bilder aus dem \ac{GTSRB} Trainingsdatensatz, welche unterschiedliche Bildgrößen aufweisen, wurden im Zuge des Trainings auf eine Bildgröße von ebenfalls 64 x 64 Pixel normiert. 
 Das Training des AlexNet erfolgte 50 Epochen lang mit dem \ac{GTSRB} Trainingsdatensatz und erzielte mit dem \ac{SGD} Optimierer eine Genauigkeit von annährend 89\% (validiert mit dem \ac{GTSRB} Testdatensatz).
-Die Implementierung des Gradient Ascent Verfahrens, unter Verwendung der „Targeted Backpropagation“ Methode und dem trainierten AlexNet, erfolgte in einer modifizierten Variante zu \cite{ozbulak_pytorch_2019}. 
+Die Implementierung des \textit{Gradient Ascent} Verfahrens, unter Verwendung der \textit{Targeted Backpropagation} Methode und dem trainierten AlexNet, erfolgte in einer modifizierten Variante zu \cite{ozbulak_pytorch_2019}. 
 
 ~\newline
 Unter Angabe der Zielklasse sowie der minimalen Zielkonfidenz erzeugt der Algorithmus zunächst ein Zufallsbild, welches als Eingabeparameter für das trainierte AlexNet verwendet wird. Unter Anwendung des SGD-Optimierers auf das Eingabebild werden die Gradienten entsprechend der spezifizierten Zielklasse berechnet. 
@@ -35,7 +35,7 @@ Dieser Prozess wird so lange wiederholt, bis das veränderte Bild die gewünscht
 ~\newline
 
 Der Algorithmus wurde für jede der 43 \ac{GTSRB}-Klassen so lange wiederholt, bis das veränderte Bild die gewünschte Mindest-Konfidenz von 100\% erreicht.
-Zur abschließenden Evaluierung der erzeugten Bilder am Black Box Model, werden alle Bilder an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom Black Box Modell erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
+Zur abschließenden Evaluierung der erzeugten Bilder am \ac{NN} des \ac{GI}-Wettbewerbs, werden alle Bilder an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom \ac{NN} des \ac{GI}-Wettbewerbs erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
 
 
 
@@ -57,9 +57,9 @@ Zur abschließenden Evaluierung der erzeugten Bilder am Black Box Model, werden 
 
 
 \section{Ergebnisse}
-Mit dem Gradient Ascent Verfahren, unter Verwendung der „Targeted Backpropagation“ Methode, wurden 43 Farbbilder – also je ein Farbbild zu jeder \ac{GTSRB}-Klasse – erzeugt. 
-Die erzeugten Bilder sind hierbei vom Menschen nicht als Verkehrszeichen wahrnehmbar. Jedoch klassifizierte das Black Box Modell 20 der 43 erzeugten Bilder mit einer Konfidenz von über 90\% als Verkehrszeichen. 
-Unter diesen 20 erzeugten Bildern stimmte lediglich bei 10 Bildern die im Algorithmus angegebene Zielklasse mit der vom Black Box Modell ausgegebenen Klasse überein.
+Mit dem \textit{Gradient Ascent} Verfahren, unter Verwendung der \textit{Targeted Backpropagation} Methode, wurden 43 Farbbilder – also je ein Farbbild zu jeder \ac{GTSRB}-Klasse – erzeugt. 
+Die erzeugten Bilder sind hierbei vom Menschen nicht als Verkehrszeichen wahrnehmbar. Jedoch klassifizierte das \ac{NN} des \ac{GI}-Wettbewerbs 20 der 43 erzeugten Bilder mit einer Konfidenz von über 90\% als Verkehrszeichen. 
+Unter diesen 20 erzeugten Bildern stimmte lediglich bei 10 Bildern die im Algorithmus angegebene Zielklasse mit der vom \ac{NN} des \ac{GI}-Wettbewerbs ausgegebenen Klasse überein.
 
 
 %Als Ergebnis des Algorithmus wurden 43 Bilder respektive der 43 Klassen des letzten Layers erzeugt. Die Evaluation am zu überlistenden \ac{NN} ergab Konfidenzen >0.9 für 20 der 43 Bilder. Durch die Ähnlichkeit zwischen verschiedenen Klassen bzw. Straßenschildern, beispielsweise Höchstgeschwindigkeit 30 und 50, wurden nur 10 verschiedene Klassen in den 20 "'erfolgreichen"' Bildern erkannt.
@@ -67,11 +67,11 @@ Unter diesen 20 erzeugten Bildern stimmte lediglich bei 10 Bildern die im Algori
 ~\newline
 
 
-Tabelle \ref{tab:gasc1} veranschaulicht vier repräsentative Ergebnisse, welche mit dem Gradient Ascent Verfahren erzeugt und vom Black Box Modell mit einer Konfidenz von über 90\% als Verkehrszeichen klassifiziert werden. Die Abbildungen oben links und unten rechts werden vom Black Box Modell als „Einfahrt Verboten“ mit 99,99\% Konfidenz beziehungsweise als „Kreisverkehr“ mit 98,68\% Konfidenz korrekt klassifiziert. 
+Tabelle \ref{tab:gasc1} veranschaulicht vier repräsentative Ergebnisse, welche mit dem \textit{Gradient Ascent} Verfahren erzeugt und vom \ac{NN} des \ac{GI}-Wettbewerbs mit einer Konfidenz von über 90\% als Verkehrszeichen klassifiziert werden. Die Abbildungen oben links und unten rechts werden vom \ac{NN} des \ac{GI}-Wettbewerbs als "`Einfahrt Verboten"' mit 99,99\% Konfidenz beziehungsweise als "`Kreisverkehr"' mit 98,68\% Konfidenz korrekt klassifiziert. 
 Das heißt, die im Algorithmus angegebene Zielklasse entsprechen der tatsächlichen Zielklasse.
 Hingegen weicht bei den beiden anderen Bildern (oben rechts und unten links) die im Algorithmus angegebene Zielklasse von der tatsächlich erkannten Zielklasse ab. 
-Bei Abbildung oben rechts wird im Algorithmus „Ausschließlich links“ als Zielklasse angegeben. Das erzeugte Bild wird mit einer Konfidenz von 95,35\% vom Black Box Modell als „Kreisverkehr“ erkannt.
-Bei Abbildung unten links wird im Algorithmus „Links vorbei“ als Zielklasse angegeben. Das erzeugte Bild wird mit einer Konfidenz von 99,50\% als „Rechts vorbei“ vom Black Box Modell erkannt.
+Bei Abbildung oben rechts wird im Algorithmus "`Ausschließlich links"' als Zielklasse angegeben. Das erzeugte Bild wird mit einer Konfidenz von 95,35\% vom \ac{NN} des \ac{GI}-Wettbewerbs als "`Kreisverkehr"' erkannt.
+Bei Abbildung unten links wird im Algorithmus "`Links vorbei"' als Zielklasse angegeben. Das erzeugte Bild wird mit einer Konfidenz von 99,50\% als "`Rechts vorbei"' vom \ac{NN} des \ac{GI}-Wettbewerbs erkannt.
 
 
 \begin{table}
@@ -79,14 +79,14 @@ Bei Abbildung unten links wird im Algorithmus „Links vorbei“ als Zielklasse 
 \begin{tabular}{p{4.4cm}p{4.4cm}}
 	\centering
 	\includegraphics[width=\linewidth]{Images/AnPe/17_Einfahrtverbot} &\includegraphics[width=\linewidth]{Images/AnPe/34_kreisverkehr_origTurnleft}  \\
-	6.1a: Einfahrt Verboten & 6.1b: Kreisverkehr \\
-	0.9999&0.9535\\
+	6.1a: Einfahrt verboten & 6.1b: Kreisverkehr \\
+	99,99\% Konfidenz&95,35\% Konfidenz\\
 	\includegraphics[width=\linewidth]{Images/AnPe/39_RechtsVorbeiOrigLinksvorbei} &\includegraphics[width=\linewidth]{Images/AnPe/40_kreisverkehr}  \\
 	6.1c: Rechts Vorbei&6.1d: Kreisverkehr\\
-	0.9950&0.9868\\
+	99,50\% Konfidenz&98,68\% Konfidenz\\
 \end{tabular}
 
-\caption{Beispiele für Irrbilder mit Konfidenz >0.9}
+\caption{Ergebnisse mit dem \textit{Gradient Ascent} Verfahren (\textit{Targeted Backpropagation})}
 \label{tab:gasc1}
 \end{table}
 

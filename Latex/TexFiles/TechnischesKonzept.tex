@@ -6,7 +6,7 @@ Die Umsetzung der Implementierung erfolgt innerhalb der webbasierten, interaktiv
 Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \cite{india_why_2018}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeliebtesten Technologie des Jahres 2017 gewählt \cite{noauthor_stack_nodate}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in Quell- oder Binärform verfügbar \cite{noauthor_what_nodate}.
 
 
-Als Paketmanager wird die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \cite{noauthor_managing_nodate}. Schließlich erlaubt “Anaconda Accelerate” den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \cite{noauthor_anaconda_nodate}.
+Als Paketmanager wird die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \cite{noauthor_managing_nodate}. Schließlich erlaubt "`Anaconda Accelerate"' den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \cite{noauthor_anaconda_nodate}.
 
 
 Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgenden Kapiteln muss Python in der Version 3.6.5 verwendet werden. Weiterhin bestehen Abhängigkeiten zu den Bibliotheken, welche in Tabelle \ref{tab:parameter} mit den dazugehörigen Versionen angegeben sind. Durch den Einsatz von Anaconda kann eine Environment erstellt werden, in der die passenden Versionen installiert werden.
@@ -39,16 +39,16 @@ Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgende
 	\label{tab:parameter}
 \end{table}
 
-Um die Voraussetzungen zur benötigten Python Version respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Öffnen des Jupyter Notebooks zum Saliency Map Verfahren beziehungsweise zum Gradient Ascent Verfahren immer zuerst der Code unter der Rubrik “Managing Anaconda Environment” ausgeführt werden. Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.
+Um die Voraussetzungen zur benötigten Python Version respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Öffnen des Jupyter Notebooks zum \textit{Saliency Map} Verfahren beziehungsweise zum \textit{Gradient Ascent} Verfahren immer zuerst der Code unter der Rubrik "'Managing Anaconda Environment” ausgeführt werden. Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.
 
 \section{Transferierbarkeit von Adversarial Attacks}
 
 
 \label{sec:TrasiModell}
-Eine Herausforderung des Wettbewerbs ist der Umgang mit dem neuronalen Netz, welches getäuscht werden soll. Die Analyse der Web-Schnittstelle in Abschnitt \ref{sec:EigenschaftenTrasi} liefert keine genauen Informationen über das zugrunde liegende Modell, was deren Architektur oder weitere Eigenschaften angeht. Dennoch wurde bereits bestätigt, dass es selbst für "`Black Box"' Modelle möglich ist, Irrbeispiele und Bilder zu erzeugen.
+Eine Herausforderung des Wettbewerbs ist der Umgang mit dem neuronalen Netz, welches getäuscht werden soll. Die Analyse der Web-Schnittstelle in Abschnitt \ref{sec:EigenschaftenTrasi} liefert keine genauen Informationen über das zugrunde liegende Modell, was deren Architektur oder weitere Eigenschaften angeht. Dennoch wurde bereits bestätigt, dass es selbst für "`Black Box"' Modelle möglich ist, Adversarial Attacks und Bilder zu erzeugen.
 
 
-Papernot et al.\cite{papernot_+_2016} bestätigten, dass Täuschungen auf ein bekanntes Netz mit hoher Wahrscheinlichkeit auch auf fremden Modellen fehlklassifiziert werden, also, dass die Ergebnisse nicht nur ein zufälliges Ereignis aufgrund von Overfitting des spezifischen \acl{NN}es sind. Die Ergebnisse wurde an verschiedenen Modelltypen getestet (bspw. \ac{SVM}, \ac{DNN}) und zeigten immer eine in ihrer Ausprägung schwankende Korrelation zwischen Fehlklassifikation auf einem fremden Modell im Vergleich zu bekannten Modellen. 
+Papernot et al. \cite{papernot_+_2016} bestätigten, dass Täuschungen auf ein bekanntes Netz mit hoher Wahrscheinlichkeit auch auf fremden Modellen fehlklassifiziert werden, also, dass die Ergebnisse nicht nur ein zufälliges Ereignis aufgrund von Overfitting des spezifischen \acl{NN}es sind. Die Ergebnisse wurde an verschiedenen Modelltypen getestet (bspw. \ac{SVM}, \ac{DNN}) und zeigten immer eine in ihrer Ausprägung schwankende Korrelation zwischen Fehlklassifikation auf einem fremden Modell im Vergleich zu bekannten Modellen. 
 
 
 Diese Ergebnisse führten zu dem Entschluss, ein eigenes neuronales Netz zu modellieren, welches als Substitute (dt. Ersatz) dient.
@@ -56,7 +56,7 @@ Diese Ergebnisse führten zu dem Entschluss, ein eigenes neuronales Netz zu mode
 
 \section{Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern (Aphrodite)}
 \label{sec:ImplAphrodite}
-Für einige der nachfolgenden Umsetzungen wird ein selbst modelliertes \ac{NN} als Substitute verwendet. Das Modell wird im Projekt unter dem Namen \textit{Aphrodite} geführt. Bei dem \ac{NN} handelt es sich um ein Keras-Modell, welches mithilfe von Tensorflow für die Erkennung von Verkehrsschildern trainiert wurde. Das \ac{NN} wird für die lokale Degeneration in Kapitel \ref{cha:Degeneration} und im Saliency Maps Verfahren eingesetzt.
+Für einige der nachfolgenden Umsetzungen wird ein selbst modelliertes \ac{NN} als Substitute verwendet. Das Modell wird im Projekt unter dem Namen \textit{Aphrodite} geführt. Bei dem \ac{NN} handelt es sich um ein Keras-Modell, welches mithilfe von Tensorflow für die Erkennung von Verkehrsschildern trainiert wurde. Das \ac{NN} wird für die lokale Degeneration in Kapitel \ref{cha:Degeneration} und im \textit{Saliency Map}s Verfahren eingesetzt.
 
 ~\newline Das Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. Ein detaillierter Aufbau des Netzes befindet sich im Anhang\todo{Netzzusammenfassung als Tabelle in den Anhang}\todo{Link in den Anhang}.
 

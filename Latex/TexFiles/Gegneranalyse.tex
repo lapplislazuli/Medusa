@@ -1,14 +1,14 @@
 \chapter{Anforderungsanalyse und Rahmenbedingungen}
 \label{cha:AnfAnalyse}
 
-Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die Bilderzeugungsverfahren zur Überlistung einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus dem bereitgestellten \acl{NN} besteht.
+Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die Bilderzeugungsverfahren zur Überlistung einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus dem bereitgestellten neuronalen Netz besteht.
 
 \section{Funktionale Anforderungen}
 Die Kernaufgabe der implementierten Lösungen der nachfolgenden Kapitel \ref{cha:Degeneration} bis \ref{cha:gascent} besteht darin Bilder zu genieren. Als Eingangsparameter dürfen dafür Bilder verwendet werden, die anschließend durch Algorithmen modifiziert werden.\\
 Neben der Generierung von Bildern zur Täuschung des \ac{NN} des \ac{GI}-Wettbewerbs sollen Funktionen bereitgestellt werden, mit denen die erzeugten Bilder bewertet werden. Dazu sollen die Bilder an die Webschnittstelle des Wettbewerbs gesendet und das Ergebnis aufbereitet werden.
 
 \section{Nichtfunktionale Anforderungen}
-Die implementieren Lösungen müssen nachvollziehbar und reproduzierbar sein. Das bedeutet, dass eine Modifikation mit den selben Eingangsparametern zu dem selben Ergebnis führen muss. Grundvoraussetzung für diese Anforderung ist, dass das \ac{NN} des \ac{GI}-Wettbewerbs während des Wettbewerbzeitraums nicht verändert wird.
+Die implementieren Lösungen müssen nachvollziehbar und reproduzierbar sein. Das bedeutet, dass eine Modifikation mit denselben Eingangsparametern zu dem selben Ergebnis führen muss. Grundvoraussetzung für diese Anforderung ist, dass das \ac{NN} des \ac{GI}-Wettbewerbs während des Wettbewerbzeitraums nicht verändert wird.
 
 Weiterhin ergibt sich aus der Aufgabenstellung des \ac{GI}-Wettbewerbs eine qualitative Anforderung an die erzeugten Bilder zur Täuschung der Black Box \ac{KI}. Die erzeugten Bilder müssen mindestens mit einer Konfidenz von 90\% von der Black Box \ac{KI} als Verkehrszeichen erkannt werden. \cite{gesellschaft_fur_informatik_e.v._informaticup2019-irrbilder.pdf_2018} \\
 Um diese Anforderung zu erfüllen, muss eine weitere indirekte Anforderung erfüllt sein, die sich aus den Hinweisen und der nachfolgenden Untersuchung des \ac{NN} des \ac{GI}-Wettbewerbs ergibt. Da die Black Box \ac{KI} mit dem \ac{GTSRB} Datensatz trainiert wurde, müssen die generierten Bilder der in Kapitel \ref{cha:Degeneration} - \ref{cha:gascent} folgenden Implementierungen den Klassen zugeordnet werden können, die der \ac{GTSRB} enthält, beziehungsweise, die vom \ac{NN} des Wettbewerbs erkannt werden. 
@@ -35,7 +35,7 @@ Um ausführlichere Informationen über das Black Box \ac{NN} des Wettbewerbs zu 
 	\item Bei der Rückgabe der Konfidenz-Scores wird eine Softmax-Aufgabefunktion genutzt, da die Summe der einzelnen Scores eines bewerteten Bildes teilweise unter 100\% liegt
 	\item Das \ac{NN} des Wettbewerbs besitzt keine Klasse "`Kein Straßenschild"' und liefert für jedes Bild Konfidenz Werte für Straßenschilder zurück
 	\item Beim Training der Black Box \ac{KI} wurde vermutlich eine Interpolationsfunktion genutzt, da die ursprüngliche Größe eines Bildes keinen Einfluss auf die Scores der Schnittstelle hat  
-	\item Die Black Box \ac{KI} enthält ein starkes Overfitting bezüglich den Trainingsdaten
+	\item Die Black Box \ac{KI} enthält ein starkes Overfitting bezüglich der Trainingsdaten
 	\item Das \ac{NN} ist sehr unzuverlässig bei Nicht-Schildern. Zum Beispiel erreicht das Logo der technischen Hochschule Georg Simon Ohm einen Konfidenz-Score von 99,81\% für die Klasse "`Ausschließlich geradeaus"'
 \end{enumerate}
 
