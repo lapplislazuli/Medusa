@@ -11,6 +11,18 @@ A level-1 auxiliary file: TexFiles/GradientAscent.aux
 A level-1 auxiliary file: TexFiles/Fazit.aux
 The style file: plain.bst
 Database file #1: src.bib
+Warning--to sort, need author or key in noauthor_project_nodate
+Warning--to sort, need author or key in noauthor_what_nodate
+Warning--to sort, need author or key in noauthor_stack_nodate
+Warning--to sort, need author or key in noauthor_managing_nodate
+Warning--to sort, need author or key in noauthor_anaconda_nodate
+Warning--to sort, need author or key in noauthor_home_nodate
+Warning--to sort, need author or key in noauthor_opencv_nodate
+Warning--to sort, need author or key in noauthor_numpy_nodate
+Warning--to sort, need author or key in noauthor_requests:_nodate
+Warning--to sort, need author or key in noauthor_pillow_nodate
+Warning--to sort, need author or key in noauthor_matplotlib:_nodate
+Warning--to sort, need author or key in noauthor_scipy.org_nodate
 Warning--to sort, need author or key in stanford_unsupervised_tutorial
 Warning--to sort, need author or key in pytorch_datasets_2019
-(There were 2 warnings)
+(There were 14 warnings)
