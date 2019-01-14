@@ -1,6 +1,6 @@
 \chapter{Fazit}
 \label{cha:Fazit} \label{cha:Schluss}
-Nach einer abschließenden Zusammenfassung, werden in diesem Kapitel zusätzlich die verschiedenen Ansätze verglichen und bewertet. Aus dieser Diskussion werden die Einschränkungen und Möglichkeiten für weitere Arbeiten angesprochen.
+Die vorangehende Arbeit stellt verschiedene Bilderzeugungsverfahren zur Überlistung einer Verkehrsschilder erkennenden \ac{KI} vor. 
 
 \section{Zusammenfassung} ~\newline 
 Mit der Degeneration konnte ein simpler Algorithmus erstellt werden, welcher zuverlässig gute Ergebnisse liefert. 
@@ -10,10 +10,10 @@ Der primäre Nachteil der Degeneration liegt in dem Zeitaufwand: Für einen \tex
   
 Dennoch ist die Effektivität der Degeneration überraschend - immerhin ist es im wesentlichen ein Brute-Force Angriff. 
 
-~\newline Des Weiteren konnten mit den optimierten Saliency Map Verfahren Erfolge in den geglätteten Varianten verbucht werden. Somit konnte bestätigt werden, dass die Visualisierung der relevanten Pixel für ein Bild mit hoher Konfidenz geeignet sind, um als \textit{minimale Beispiele} für das NN verwendet werden können. 
+~\newline Des Weiteren konnten mit den optimierten \textit{Saliency Map} Verfahren Erfolge in den geglätteten Varianten verbucht werden. Somit konnte bestätigt werden, dass die Visualisierung der relevanten Pixel für ein Bild mit hoher Konfidenz geeignet sind, um als \textit{minimale Beispiele} für das NN verwendet werden können. 
 Die entsprechenden Verfahren erzeugten Täuschungen mit Konfidenzen >0.9, allerdings lassen sich keine Aussagen über die allgemeine Verlässlichkeit und Zielgerichtetheit treffen.
 
-Zuletzt können auch mit dem Gradient Ascent Verfahren sehr gute Ergebnisse erzielt werden. Für 10 von 43 Klassen können Täuschungen mit hohen Konfidenzen am \ac{NN} des \ac{GI}-Wettbewerbs erzielt werden. Es wird vermutet, dass die Ausbeute mit weiterer Optimierung vergrößert werden kann oder auch echte Bilder für die Erzeugung der Täuschungen verwendet werden können. 
+Zuletzt können auch mit dem \textit{Gradient Ascent} Verfahren sehr gute Ergebnisse erzielt werden. Für 10 von 43 Klassen können Täuschungen mit hohen Konfidenzen am \ac{NN} des \ac{GI}-Wettbewerbs erzielt werden. Es wird vermutet, dass die Ausbeute mit weiterer Optimierung vergrößert werden kann oder auch echte Bilder für die Erzeugung der Täuschungen verwendet werden können. 
 
 
 \section{Diskussion}
@@ -23,7 +23,7 @@ Die Herausforderungen des Wettbewerbs wirken sich auf die Erfolge der Verfahren 
 Beim Vergleich des \textit{Saliency Map} und \textit{Gradient Ascent} Verfahrens kann das zuletzt genannte bevorzugt werden. 
 
 ~\newline Diese Methoden lassen sich schwer mit der Degeneration vergleichen - die schnelleren Erfolge werden voraussichtlich mithilfe der Degeneration erzeugt, da sie deutlich weniger Vorlauf benötigt.
-Nachdem allerdings das entsprechende Umfeld (eigenes Netz, Bibliotheken und Code) erzeugt wurde, können innerhalb des Gradient Ascent Foolings deutlich schneller zuverlässige Bilder erzeugt werden.  
+Nachdem allerdings das entsprechende Umfeld (eigenes Netz, Bibliotheken und Code) erzeugt wurde, können innerhalb des \textit{Gradient Ascent} Foolings deutlich schneller zuverlässige Bilder erzeugt werden.  
 %content 
 %vergleich der ergebnisse (reproduzierbarkeit, gezielt/random, qualität der bilder) - einschränkungen probleme unserer ansätze, wichtig: eigene fehler oder einschränkungen der methodik erkennen.
 
@@ -49,7 +49,7 @@ Mithilfe dieser Vektoren könnte über statistische bzw. numerische Verfahren so
 
 ~\newline Einen weiteren Blick sollte man der Überführbarkeit der Angriffe von einem lokalen Model auf ein unbekanntes Model widmen, wie es in Abschnitt \ref{sec:TrasiModell} thematisiert wird: 
 
-Diese Eigenschaft werden von den Saliency-Maps und dem Gradient Ascent Fooling hinreichend erfüllt, wohingegen solche Versuche beim Degeneration-Ver"-fahren scheitern. 
+Diese Eigenschaft werden von den Saliency-Maps und dem \textit{Gradient Ascent} Fooling hinreichend erfüllt, wohingegen solche Versuche beim Degeneration-Ver"-fahren scheitern. 
 
 Im Rahmen dieses Ergebnisses könnte man einen gezielten Test der Verfahren auf zwei bekannte Modelle durchführen, um hier transparentere Werte zu erhalten und Gründe für dieses Verhalten auszumachen. 
 %content
