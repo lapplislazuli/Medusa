@@ -1,7 +1,7 @@
 \chapter{Anforderungsanalyse und Rahmenbedingungen}
 \label{cha:AnfAnalyse}
 
-Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die Bilderzeugungsverfahren zur Überlistung einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus dem bereitgestellten neuronalen Netz besteht.
+Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die bilderzeugenden Verfahren zum Angriff einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus dem bereitgestellten neuronalen Netz besteht.
 
 \section{Funktionale Anforderungen}
 Die Kernaufgabe der implementierten Lösungen der nachfolgenden Kapitel \ref{cha:Degeneration} bis \ref{cha:gascent} besteht darin Bilder zu genieren. Als Eingangsparameter dürfen dafür Bilder verwendet werden, die anschließend durch Algorithmen modifiziert werden.\\
@@ -36,7 +36,7 @@ Um ausführlichere Informationen über das Black Box \ac{NN} des Wettbewerbs zu 
 	\item Das \ac{NN} des Wettbewerbs besitzt keine Klasse "`Kein Straßenschild"' und liefert für jedes Bild Konfidenz Werte für Straßenschilder zurück
 	\item Beim Training der Black Box \ac{KI} wurde vermutlich eine Interpolationsfunktion genutzt, da die ursprüngliche Größe eines Bildes keinen Einfluss auf die Scores der Schnittstelle hat  
 	\item Die Black Box \ac{KI} enthält ein starkes Overfitting bezüglich der Trainingsdaten
-	\item Das \ac{NN} ist sehr unzuverlässig bei Nicht-Schildern. Zum Beispiel erreicht das Logo der technischen Hochschule Georg Simon Ohm einen Konfidenz-Score von 99,81\% für die Klasse "`Ausschließlich geradeaus"'
+	\item Die Black Box \ac{KI} ist sehr unzuverlässig bei Eingabebildern, welche keinem Verkehrszeichen ähneln. So wird beispielsweise das unveränderte Logobild der Technischen Hochschule Nürnberg - Georg Simon Ohm von der Black Box \ac{KI} mit einer Konfidenz von 99,81\% als Verkehrszeichen vom Typ "`Ausschließlich geradeaus"' erkannt.
 \end{enumerate}
 
 

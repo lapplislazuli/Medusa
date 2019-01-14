@@ -4,7 +4,7 @@
 Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte \textit{wi} und der Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
 Die Kostenfunktion geht also über jedes einzelne Bild aus dem Trainingsdatensatz und berechnet den Unterschied zwischen der gewünschten Ausgabe und dem Ausgabevektor $\vec{a}$ des Netzwerks.
 Der Ausgabevektor $\vec{a}$ ist hierbei abhängig vom Eingabebild, dem Gewicht $wi$ und dem Schwellwert.
-Die Kostenfunktion hat den Wert 0 in etwa dann angenähert, wenn das Eingabebild annähernd dem Ausgabevektor $a$ entspricht, was das Ziel des Trainings eines künstlichen neuronalen Netzwerks darstellt. Denn dann wurde das Eingabebild korrekt erkannt.
+Die Kostenfunktion hat den Wert 0 in etwa dann angenähert, wenn das Eingabebild annähernd dem Ausgabevektor $\vec{a}$ entspricht, was das Ziel des Trainings eines künstlichen neuronalen Netzwerks darstellt. Denn dann wurde das Eingabebild korrekt erkannt.
 Im Rahmen des Trainings sollen also eine Reihe von Gewichten $wi$ und Schwellwerte gefunden werden, welche die Kostenfunktion möglichst klein halten. 
 Dies wird erreicht mit dem Algorithmus, der als Gradient Descent bezeichnet wird \cite{zhou_understanding_2018}.
 Dieser Algorithmus berechnet wiederkehrend den Gradienten. 
