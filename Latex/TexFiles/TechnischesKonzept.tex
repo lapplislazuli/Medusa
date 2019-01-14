@@ -58,12 +58,12 @@ Diese Ergebnisse führten zu dem Entschluss, ein eigenes neuronales Netz zu mode
 \label{sec:ImplAphrodite}
 Für einige der nachfolgenden Umsetzungen wird ein selbst modelliertes \ac{NN} als Substitute verwendet. Das Modell wird im Projekt unter dem Namen \textit{Aphrodite} geführt. Bei dem \ac{NN} handelt es sich um ein Keras-Modell, welches mithilfe von Tensorflow für die Erkennung von Verkehrsschildern trainiert wurde. Das \ac{NN} wird für die lokale Degeneration in Kapitel \ref{cha:Degeneration} und im \textit{Saliency Map}s Verfahren eingesetzt.
 
-~\newline Das Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. Ein detaillierter Aufbau des Netzes befindet sich im Anhang\todo{Netzzusammenfassung als Tabelle in den Anhang}\todo{Link in den Anhang}.
+~\newline Das Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. Ein detaillierter Aufbau des Netzes befindet sich im Anhang \ref{app:Aphrodite}.
 
 ~\newline Für das Training wurden die \ac{GTSRB}-Trainings- und Test-Daten verwendet. Diese wurden um die richtige Auflösung zu erreichen auf 64x64 interpoliert. 
 
-Da die verwendete Interpolationsfunktion des Black Box Modells des Wettbewerbs unbekannt ist, wurde für das Training jedes Bild mehrfach interpoliert und ebenfalls mehrfach für das Training verwendet. Für die Testdaten wurde eine zufällige Interpolationsfunktion ausgesucht. 
+Da die verwendete Interpolationsfunktion des Black Box Modells des Wettbewerbs unbekannt ist, wurde für das Training jedes Bild mehrfach interpoliert und ebenfalls mehrfach für das Training verwendet. Für die Testdaten wurde eine zufällige Interpolations-funktion ausgesucht. 
 
-~\newline \textit{Aphrodite} erreicht eine Genauigkeit von 96.5\% bei der Erkennung der Trainingsdaten. Eine Übersicht über die Trainingsparameter findet sich im Repository unter /DegenerationCode/Training.py. \todo{Sollte man das anders schreiben? Oder packen wir das file in den Anhang?}
+~\newline \textit{Aphrodite} erreicht eine Genauigkeit von 96.5\% bei der Erkennung der Trainingsdaten. Eine Übersicht über die Trainingsparameter findet sich im Repository unter /Degeneration-Code/Training.py. 
 
 ~\newline Der Name Aphrodite wurde gewählt, um dem ersten Modell (Model A) innerhalb des Projektes einen sprechenden Namen zu geben.
