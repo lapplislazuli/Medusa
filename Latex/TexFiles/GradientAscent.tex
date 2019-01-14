@@ -1,7 +1,7 @@
 \chapter{Gradient Ascent}
 \label{cha:gascent}
 
-Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte wi und Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
+Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte wi und der Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
 Die Kostenfunktion geht also über jedes einzelne Bild aus dem Trainingsdatensatz und berechnet den Unterschied zwischen der gewünschten Ausgabe und dem Ausgabevektor a des Netzwerks.
 Der Ausgabevektor a ist hierbei abhängig vom Eingabebild, dem Gewicht $wi$ und dem Schwellwert.
 Die Kostenfunktion hat den Wert 0 in etwa dann angenähert, wenn das Eingabebild annähernd dem Ausgabevektor $a$ entspricht, was das Ziel des Trainings eines künstlichen neuronalen Netzwerks darstellt. Denn dann wurde das Eingabebild korrekt erkannt.
@@ -34,7 +34,7 @@ Die entsprechenden Pixel der aktivierten Neuronen werden hierzu (je nach Aktivie
 Dieser Prozess wird so lange wiederholt, bis das veränderte Bild die gewünschte minimale Zielkonfidenz zu der angegebenen Zielklasse erreicht hat.
 ~\newline
 
-Der Algorithmus wurde für jede der 43 \ac{GTSRB}-Klassen so lange wiederholt, bis das veränderte Bild die gewünschte Mindest-Konfidenz von 100\% erreicht hat.
+Der Algorithmus wurde für jede der 43 \ac{GTSRB}-Klassen so lange wiederholt, bis das veränderte Bild die gewünschte Mindest-Konfidenz von 100\% erreicht.
 Zur abschließenden Evaluierung der erzeugten Bilder am Black Box Model, werden alle Bilder an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom Black Box Modell erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
 
 
@@ -58,7 +58,7 @@ Zur abschließenden Evaluierung der erzeugten Bilder am Black Box Model, werden 
 
 \section{Ergebnisse}
 Mit dem Gradient Ascent Verfahren, unter Verwendung der „Targeted Backpropagation“ Methode, wurden 43 Farbbilder – also je ein Farbbild zu jeder \ac{GTSRB}-Klasse – erzeugt. 
-Die erzeugten Bilder sind hierbei vom Menschen nicht als Verkehrszeichen wahrnehmbar. Jedoch klassifizierte das Blackbox Modell 20 der 43 erzeugten Bilder mit einer Konfidenz von über 90\% als Verkehrszeichen. 
+Die erzeugten Bilder sind hierbei vom Menschen nicht als Verkehrszeichen wahrnehmbar. Jedoch klassifizierte das Black Box Modell 20 der 43 erzeugten Bilder mit einer Konfidenz von über 90\% als Verkehrszeichen. 
 Unter diesen 20 erzeugten Bildern stimmte lediglich bei 10 Bildern die im Algorithmus angegebene Zielklasse mit der vom Black Box Modell ausgegebenen Klasse überein.
 
 
@@ -67,11 +67,11 @@ Unter diesen 20 erzeugten Bildern stimmte lediglich bei 10 Bildern die im Algori
 ~\newline
 
 
-Tabelle \ref{tab:gasc1} veranschaulicht vier repräsentative Ergebnisse, welche vom Black Box Modell mit einer Konfidenz von über 90\% als Verkehrszeichen erkannt wurden. Die Abbildungen oben links und unten rechts wurden vom Black Box Modell als „Einfahrt Verboten“ mit 99,99\% Konfidenz beziehungsweise als „Kreisverkehr“ mit 98,68\% Konfidenz korrekt klassifiziert. 
-Das heißt, die im Algorithmus angegebene Zielklasse entsprach der tatsächlichen Zielklasse.
-Hingegen wichen bei den beiden anderen Bildern (oben rechts und unten links) die im Algorithmus angegebene Zielklasse von der tatsächlich erkannten Zielklasse ab. 
-Bei Abbildung oben rechts wurde im Algorithmus „Ausschließlich links“ als Zielklasse angegeben. Das erzeugte Bild wurde mit einer Konfidenz von 95,35\% vom Black Box Modell als „Kreisverkehr“ erkannt.
-Bei Abbildung unten links wurde im Algorithmus „Links vorbei“ als Zielklasse angegeben. Das erzeugte Bild wurde mit einer Konfidenz von 99,50\% als „Rechts vorbei“ vom Black Box Modell erkannt.
+Tabelle \ref{tab:gasc1} veranschaulicht vier repräsentative Ergebnisse, welche mit dem Gradient Ascent Verfahren erzeugt und vom Black Box Modell mit einer Konfidenz von über 90\% als Verkehrszeichen klassifiziert werden. Die Abbildungen oben links und unten rechts werden vom Black Box Modell als „Einfahrt Verboten“ mit 99,99\% Konfidenz beziehungsweise als „Kreisverkehr“ mit 98,68\% Konfidenz korrekt klassifiziert. 
+Das heißt, die im Algorithmus angegebene Zielklasse entsprechen der tatsächlichen Zielklasse.
+Hingegen weicht bei den beiden anderen Bildern (oben rechts und unten links) die im Algorithmus angegebene Zielklasse von der tatsächlich erkannten Zielklasse ab. 
+Bei Abbildung oben rechts wird im Algorithmus „Ausschließlich links“ als Zielklasse angegeben. Das erzeugte Bild wird mit einer Konfidenz von 95,35\% vom Black Box Modell als „Kreisverkehr“ erkannt.
+Bei Abbildung unten links wird im Algorithmus „Links vorbei“ als Zielklasse angegeben. Das erzeugte Bild wird mit einer Konfidenz von 99,50\% als „Rechts vorbei“ vom Black Box Modell erkannt.
 
 
 \begin{table}
