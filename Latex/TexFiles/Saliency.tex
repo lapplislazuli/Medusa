@@ -83,15 +83,15 @@ Dahingegen konnten mit den optimierten Saliency Map Verfahren („Smoothed Vanil
 \begin{table}
 	\centering
 	\begin{tabular}{p{4.5cm}p{4.5cm}p{4.5cm}}
-		\includegraphics[width=\linewidth]{Images/AnPe/10771} & \includegraphics[width=\linewidth]{Images/AnPe/10771_guided} &
-		\includegraphics[width=\linewidth]{Images/AnPe/10771_vanil}\\ 
-		5.1a: Ursprungsbild &5.1b: Guided Backprop. &5.1c: Vanilla Saliency \\
-		Höchstgeschwindigkeit (30) & Überholverbot & Höchstgeschwindigkeit (30)\\
-		& 0.9155 & 0.9283\\
+		\includegraphics[width=\linewidth]{Images/AnPe/5_1_Links} & \includegraphics[width=\linewidth]{Images/AnPe/5_1_Mitte} &
+		\includegraphics[width=\linewidth]{Images/AnPe/5_1_Rechts}\\ 
+		5.1a: Ursprungsbild &5.1b: Smoothed Guided Backprop. &5.1c: Smoothed Vanilla Saliency \\
+		Zulässige Höchstgeschwindigkeit (30) & Überholverbot & Zulässige Höchstgeschwindigkeit (30)\\
+		99,39\% Konfidenz & 91,55\% Konfidenz & 92,83\% Konfidenz\\
 		
 	\end{tabular} 
 
-	\caption{Ergebnisse zu den verschiedenen Saliency Map Basisverfahren }
+	\caption{Ergebnisse der Verfahren Smoothed Guided Backpropagation und Smoothed Vanilla Saliency}
 	\label{tab:sal1}
 \end{table}
 
@@ -125,21 +125,22 @@ Tabelle \ref{tab:sal2} veranschaulicht weitere Beispiele für erfolgreich erzeug
 
 \begin{table}
 	\centering
-	\begin{tabular}{p{4.5cm}p{4.5cm}}
-		\includegraphics[height=4.4cm]{Images/AnPe/11240} &\includegraphics[width=\linewidth]{Images/AnPe/11240_guided}  \\
-		& Guided Backprop.\\
-		Rechts Vorbei & Einmalige Vorfahrt\\
-		& 0.9678\\
-		\includegraphics[height=4.4cm]{Images/AnPe/06848} &\includegraphics[width=\linewidth]{Images/AnPe/06848_s_int}  \\
-		& Integrated Grad.\\
-		Einfahrt Verboten & Überholverbot\\
-		& 0.9571\\
-		\includegraphics[height=4.4cm]{Images/AnPe/04709} &\includegraphics[width=\linewidth]{Images/AnPe/04709_int_grad}  \\
-		& Integrated Grad.\\
-		Kreisverkehr &Baustelle \\
-		& 0.9999
+	\begin{tabular}{p{8cm}p{8cm}}
+		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Oben-links} & \includegraphics[height=4.4cm]{Images/AnPe/5_2_Oben_rechts} \\
+		Ursprungsbild: & Smoothed Guided Backpropagation:\\
+		Zulässige Höchstgeschwindigkeit (20) & Überholverbot für Kraftfahrzeuge aller Art\\
+		97,54\% Konfidenz & 97,63\% Konfidenz\\
+		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Mitte-links} &
+		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Mitte_rechts}  \\
+		Ursprungsbild: & Smoothed Guided Backpropagation:\\
+		Zulässige Höchstgeschwindigkeit (30) & Zulässige Höchstgeschwindigkeit (50)\\
+		66,07\% Konfidenz & 99,94\% Konfidenz\\
+		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Unten_links} &\includegraphics[height=4.4cm]{Images/AnPe/5_2_Unten_rechts}  \\
+		Ursprungsbild: & Smoothed Integrated Gradient:\\
+		Kreisverkehr & Baustelle\\
+		93,92\% Konfidenz & 99,99\% Konfidenz\\
 	\end{tabular}
-	\caption{Ergebnisse zu den verschiedenen optimierten Saliency Map Verfahren}
+	\caption{Ergebnisse Smoothed Guided Backpropagation und Smoothed Integrated Gradient}
 \label{tab:sal2}
 \end{table}
 
