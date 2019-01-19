@@ -37,7 +37,7 @@ Ein möglicher und wahrscheinlicher Grund ist die Zufälligkeit der Bilder, bzw.
 
 Für das nicht trainierte Netz besitzen die Bilder keinen Zusammenhang zu ihrem Label. Diese Zuordnung erscheint dem Netz ebenfalls zufällig. 
 
-Innerhalb der Back-Propagation werden nun die Gewichte angezogen, damit das zufällige Bild bei einem erneuten Durchlauf einen erhöhten Score erzielt. Da das zugrundeliegende Bild allerdings nur aus Rauschen besteht, wird im Wesentlichen nur ein (verringertes) Rauschen auf die Gewichte des Netzes angewandt. De facto hat das Netz also nichts gelernt, sondern sich nur etwas verformt. 
+Innerhalb der Back-Propagation \cite{zhou_understanding_2018} werden nun die Gewichte angezogen, damit das zufällige Bild bei einem erneuten Durchlauf einen erhöhten Score erzielt. Da das zugrundeliegende Bild allerdings nur aus Rauschen besteht, wird im Wesentlichen nur ein (verringertes) Rauschen auf die Gewichte des Netzes angewandt. De facto hat das Netz also nichts gelernt, sondern sich nur etwas verformt. 
 ~\newline In genauerer Betrachtung \textit{schrumpften} die Gewichte des Netzes, und lediglich der Bias der Ausgabeschicht war ausschlaggebend für das Ergebnis der Klassifikation. Der Bias entsprach mit fortschreitendem Training dem höchsten Verhältnis innerhalb der Trainingsmenge.
 
 \paragraph{Mögliche Lösungsansätze}~\newline
