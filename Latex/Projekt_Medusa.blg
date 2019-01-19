@@ -1,5 +1,28 @@
-[0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is 'Projekt_Medusa.blg'
-[42] biber-MSWIN64:313> INFO - === 
-[499] Utils.pm:209> ERROR - Cannot find control file 'Projekt_Medusa.bcf'! - Did latex run successfully on your .tex file before you ran biber?
-[500] Biber.pm:114> INFO - ERRORS: 1
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Projekt_Medusa.aux
+A level-1 auxiliary file: TexFiles/Titelseite.aux
+A level-1 auxiliary file: TexFiles/Abstract.aux
+A level-1 auxiliary file: TexFiles/Abkuerzungen.aux
+A level-1 auxiliary file: TexFiles/Einleitung.aux
+A level-1 auxiliary file: TexFiles/Gegneranalyse.aux
+A level-1 auxiliary file: TexFiles/TechnischesKonzept.aux
+A level-1 auxiliary file: TexFiles/Degeneration.aux
+A level-1 auxiliary file: TexFiles/Saliency.aux
+A level-1 auxiliary file: TexFiles/GradientAscent.aux
+A level-1 auxiliary file: TexFiles/Fazit.aux
+The style file: plain.bst
+Database file #1: src.bib
+Warning--to sort, need author or key in noauthor_project_nodate
+Warning--to sort, need author or key in noauthor_what_nodate
+Warning--to sort, need author or key in noauthor_stack_nodate
+Warning--to sort, need author or key in noauthor_managing_nodate
+Warning--to sort, need author or key in noauthor_anaconda_nodate
+Warning--to sort, need author or key in noauthor_home_nodate
+Warning--to sort, need author or key in noauthor_opencv_nodate
+Warning--to sort, need author or key in noauthor_numpy_nodate
+Warning--to sort, need author or key in noauthor_requests:_nodate
+Warning--to sort, need author or key in noauthor_pillow_nodate
+Warning--to sort, need author or key in noauthor_matplotlib:_nodate
+Warning--to sort, need author or key in noauthor_scipy.org_nodate
+Warning--to sort, need author or key in stanford_unsupervised_tutorial
+Warning--to sort, need author or key in pytorch_datasets_2019
+(There were 14 warnings)

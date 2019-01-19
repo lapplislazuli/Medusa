@@ -10,26 +10,28 @@ BCOR6mm,						% Bindekorrektur, die den Seitenspiegel um 6mm nach rechts verschi
 ]{scrreprt}		
 
 % Laden verschiedener Packages
-\include{Packages}
-%Einstellungen, Farben, Commands, 
-\include{Configurations}
+\input{Packages}
+
 
 % -------------------------------------------------------------------------------------------
 %                     Persönliche Daten
 % -------------------------------------------------------------------------------------------
 
-
-\newcommand{\titel}{Erstellung von Irrbildern zur Überlistung einer Verkehrsschilder erkennenden KI}
+\newcommand{\titel}{Bilderzeugende Verfahren zum Angriff einer Verkehrsschilder erkennenden KI}
 \newcommand{\shellcmd}[1]{\\\indent\indent\texttt{\footnotesize\# #1}\\}
 \newcommand{\untertitel}{}
+\newcommand{\ausarbeitung}{Ausarbeitung}
 \newcommand{\arbeit}{IT-Projekt Bericht}
 \newcommand{\studiengang}{Informatik}
 \newcommand{\autor}{Leonhard Applis, Peter Bauer, Andreas Porada und Florian Stöckl}
-\newcommand{\matrikelnr}{2086307}
-\newcommand{\abgabe}{15.03.2019}
+\newcommand{\autorShort}{L.Applis, P. Bauer, A. Porada, F. Stöckl}
+\newcommand{\abgabeGI}{15.01.2019} %Abgabe beim Informaticup
+\newcommand{\abgabeTH}{15.03.2019} %Abgabe bei der TH
 \newcommand{\betreuerth}{Prof. Dr. Gallwitz}
-\newcommand{\jahr}{2018}			% für Angabe im Copyright-Vermerk der Titelseite
+\newcommand{\jahr}{2019}			% für Angabe im Copyright-Vermerk der Titelseite
 
+%Einstellungen, Farben, Commands
+\input{Configurations}
 
 % -------------------------------------------------------------------------------------------
 %                     Beginn des Dokumenteninhalts
@@ -45,7 +47,8 @@ BCOR6mm,						% Bindekorrektur, die den Seitenspiegel um 6mm nach rechts verschi
 
 \include{TexFiles/Titelseite} 				% erzeugt die Titelseite
 \pagenumbering{Roman}						% große, römische Seitenzahlen für Titelei
-\include{TexFiles/Erklaerung} 				% Einbinden der eidestattlichen Erklärung
+% Nicht für GI Abgabe wichtig (Es gibt ja keine note von der GI)
+%\include{TexFiles/Erklaerung} 				% Einbinden der eidestattlichen Erklärung
 \include{TexFiles/Abstract}   				% Einbinden des Abstracts
 
 \tableofcontents							% Erzeugen des Inhalsverzeichnisses
@@ -53,24 +56,25 @@ BCOR6mm,						% Bindekorrektur, die den Seitenspiegel um 6mm nach rechts verschi
 \listoffigures 								% Erzeugen des Abbildungsverzeichnisses 
 %\listoftables 								% Erzeugen des Tabellenverzeichnisses
 \pagebreak
-% ------------------ Graphic Extension ------------------------------------------------------
-
 % --------------------------------------------------------------------------------------------
-%                    Inhalt der Bachelorarbeit
+%                    Inhalt der Arbeit
 %---------------------------------------------------------------------------------------------
 \pagenumbering{arabic}						% arabische Seitenzahlen für den Hauptteil
 \pagestyle{fancy}					
 \rmfamily
 
-%\include{TexFiles/Abkuerzungen}
+\include{TexFiles/Abkuerzungen}
 \include{TexFiles/Einleitung}
-\include{TexFiles/GreyBoxing}
-\include{TexFiles/GenetischeAlgorithmen}
+\include{TexFiles/Gegneranalyse}
+\include{TexFiles/TechnischesKonzept}
+%\include{TexFiles/GreyBoxing} %Nicht für GI Abgabe im Scope!
+\include{TexFiles/Degeneration}
+\include{TexFiles/Saliency}
+\include{TexFiles/GradientAscent}
 \include{TexFiles/Fazit}
 \newpage\newpage
 
 % ---------------------------- Literaturverzeichnis ----------------------------------------------
-
 \bibliographystyle{plain}
 \bibliography{src}
 
@@ -80,6 +84,15 @@ BCOR6mm,						% Bindekorrektur, die den Seitenspiegel um 6mm nach rechts verschi
 \begin{appendix}
 \clearpage
 \pagenumbering{Roman}						% römische Seitenzahlen für Anhang
+\chapter{Anhang}
+\section*{Aphrodite Summary}
+\label{app:Aphrodite}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Images/AphroditeSummary}
+	\label{fig:aphroditesummary}
+\end{figure}
+
 \end{appendix}
 
 
