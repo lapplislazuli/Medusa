@@ -1,16 +1,52 @@
 \chapter{AI-Greyboxing}
 \label{Cha:GreyBoxing}
 \section{Konzept}
-Wichtigste Inhalte:
+Der erste Ansatz der verfolgt wurde, wird im folgenden \textit{GreyBoxing} genannt. 
+~\newline 
+Das Konzept war hierbei, dass über einen Generator zufällige Nicht-Straßenbilder erzeugt werden, diese von der echten Schnittstelle bewertet werden, und eine zweite, lokale AI auf die Scores der echten Schnittstelle trainiert werden. 
+~\newline
+Mit fortschreitendem Experiment sollte die lokale AI ihr Verhalten an das der Schnittstelle angleichen und uns als Greybox dienen: Die bei uns lokal erzeugten Bilder und die lokalen Scores, wären ähnlich zu den Scores der Schnittstelle. 
 
-\begin{enumerate}
-	\item hübsches Diagramm was für Komponenten
-	\item Stichpunktartige Beschreibung der Komponenten
-	\item Workflow durch Setup (Gen - Score - DB - Training - AI)
-	\item Workflow Ansatz in betrieb (Gen - AI - Scorer)
-\end{enumerate} 
+Sollte dieser Zustand erreicht werden, könne man lokal Bilder generieren, und sobald die GreyBox dieses akkzeptiert an die Schnittstelle schicken. Die doppelt-bewerteten Ergebnisse können erneut ins Training einfließen, um die GreyBox weiter zu verbessern. 
+
+~\newline Ausgehend hiervon kann ebenfalls weitere Verbesserung am Generator vorgenommen werden, und lokal getestet werden. Man kann somit den Generator ebenfalls \textit{trainieren} und gegebenenfalls Hyperparamter wie Farbanteile oder Helligkeit anpassen. 
+
+~\newline Das Konzept umfasst im erweiterten Sinn ebenfalls alle Maßnahmen, um die stetige, iterative Verbesserung der beteiligten Komponenten zu vollziehen.      
+
+~\newline Als Generator wurde für die Implementierung einfaches Rauschen gewählt. Andere mögliche Generatoren sind z.B. Webcrawler, welche Bilder nach gewissen Parametern aussuchen, oder Generatoren welche ein Bild lediglich \textit{verzerren}, wie das in der Degeneration in Kapitel \ref{cha:Degeneration} der Fall ist. 
+%\begin{enumerate}
+%	\item hübsches Diagramm was für Komponenten
+%	\item Stichpunktartige Beschreibung der Komponenten
+%	\item Workflow durch Setup (Gen - Score - DB - Training - AI)
+%	\item Workflow Ansatz in betrieb (Gen - AI - Scorer)
+%\end{enumerate} 
 
 \section{Implementierung und erste Ergebnisse}
 Code zeigen? MongoDB sagen? 
+\newpage
 \section{Fehler- und Problemanalyse}
-Schätzen, das man aus Pixelbrei nichts lernen kann. 
+Dieser Ansatz ist bereits in seiner Setup-Phase gescheitert. Zu betonen ist allerdings, das er vor allem aus zeitlichen Aspekten verworfen wurde, um zeitnah erfolgreiche Ergebnisse zu liefern.
+~\newline
+Grund für das frühe Ende war das Training des lokalen neuronalen Netzes: Dieses konnte bereits auf die separierten Testdaten keine hinreichenden Scores erzielen. 
+
+Im ersten Ansatz wurden hierbei die Schnittstellen-Scores gelabeled nach ihrem Prozentsatz: \textit{Schwach} für <20\%, \textit{Medium} für <50\% und \textit{Stark} für >50\%. Zunächst wurde mit dem \textit{rohen Verhältnis} von 80:18:2 gearbeitet (Trainings- und Testsets mit entsprechendem Verhältnis), wobei die erzeugten Netze lediglich das Verhältnis erzeugten, und in jedem Fall \textit{schwach} vorhergesagt haben. 
+
+In einem zweiten Ansatz wurden lediglich \textit{schwache} und \textit{medium} Bilder ausgewählt für das Training in einem 1:1 Verhältnis. Dieses neuronale Netz hat ebenfalls nur \textit{geraten} und erreichte eine Accuracy von 50\%.    
+~\newline
+Ein möglicher und wahrscheinlicher Grund ist die Zufälligkeit der Bilder, bzw. die Verschiedenheit der einzelnen Bilder zu einander (welche ebenfalls zufällig ist):
+
+Für das nicht trainierte Netz besitzen die Bilder keinen Zusammenhang zu ihrem Label. Diese Zuordnung erscheint dem Netz ebenfalls zufällig. 
+
+Innerhalb der Back-Propagation werden nun die Gewichte angezogen, damit das zufällige Bild bei einem erneuten Durchlauf einen erhöhten Score erzielt. Da das zugrundeliegende Bild allerdings nur aus Rauschen besteht, wird im Wesentlichen nur ein (verringertes) Rauschen auf die Gewichte des Netzes angewandt. De facto hat das Netz also nichts gelernt, sondern sich nur etwas verformt. 
+~\newline In genauerer Betrachtung \textit{schrumpften} die Gewichte des Netzes, und lediglich der Bias der Ausgabeschicht war ausschlaggebend für das Ergebnis der Klassifikation. Der Bias entsprach mit fortschreitendem Training dem höchsten Verhältnis innerhalb der Trainingsmenge.
+
+\paragraph{Mögliche Lösungsansätze}~\newline
+Zwei mögliche Lösungsansätze sind die Verwendung eines nicht-zufällig initialisierten Netzes via Transfer-learning \cite{todo} oder die Verwendung eines weniger zufälligen Generators.
+
+~\newline Ein transfertiertes Netz kann hierbei seine ersten Layer, welche Features extrahieren und z.B. Kanten erkennen, behalten, und lediglich die hinteren Schichten dafür genutzt werden, um das Verhalten der Schnittstelle nachzuahmen. 
+
+Innerhalb dieses Ansatzes ist es unabdingbar, das die ersten Schichten des Netzes \textbf{nicht} trainiert bzw. verändert werden, sondern ihre funktionalitäten behalten. 
+
+~\newline Als alternative Generatoren bieten sich solche an, welche \textit{Formen} generieren: Streifen, Kugeln, oder \textit{echte} Bilder. Die Verwendung eines solchen Generators hat zur Folge, das die die Bilder im Trainingsset nicht vollständig zufällig sind, sondern im wesentlichen durch ihre Formen definiert sind - das Netz ist somit im Stande, auf jeden Fall Formen zu erkennen, und diese zu gewichten und bewerten.
+
+Als Variante hiervon eignen sich Webcrawler-Generatoren, welche z.B. geeignete Katzenbilder aus dem Internet suchen.   
