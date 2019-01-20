@@ -42,17 +42,26 @@ Innerhalb dieser Arbeit werden zunächst in Kapitel \ref{cha:AnfAnalyse} Anforde
 
 Eine zentrale Rahmenbedingung stellt die Webschnittstelle des Wettbewerbs dar. Um Informationen über die Webschnittstelle zu sammeln, werden alle verfügbaren Quellen des Wettbewerbs genutzt, sowie eigene Untersuchungen durchgeführt. Eine davon ist die Analyse des \ac{GTSRB} in Abschnitt \ref{sec:EigenschaftenTrasi}, dem Trainingsdatensatz, der für die \ac{KI} hinter der Webschnittstelle verwendet wurde. Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der verfolgten Ansätze der Arbeit.
 
-~\newline Anschließend werden verschiedene Lösungsansätze vorgestellt, beginnend mit der \textit{Degeneration} in Kapitel \ref{cha:Degeneration}. 
+~\newline Anschließend werden verschiedene Lösungsansätze vorgestellt, beginnend mit dem (gescheiterten) \textit{Greyboxing} in Kapitel \ref{cha:GreyBoxing}. 
 
-Dieser Ansatz verändert iterativ ein Verkehrsschild und behält die Änderungen bei, sollte der erzielte Score im akzeptablen Bereich liegen. Mit passenden Bildveränderungen erzielen höhere Iterationen für den Menschen unkenntliche Ergebnisse, die von der \ac{KI} weiterhin mit hoher Konfidenz der Klasse des ursprünglichen Bildes zugeordnet wird. 
+Es wird zunächst das geplante Konzept in Abschnitt \ref{sec:KonzeptGreyBoxing} vorgestellt, die grundlegende Implementierung in Abschnitt \ref{sec:ImplementierungGreyBoxing} und zuletzt eine Problem und Fehleranalyse des Ansatzes in Abschnitt \ref{sec:ProblemGreyBoxing}.
 
-Innerhalb des Kapitels wird zunächst im Abschnitt \ref{sec:DegenerationKonzept} die Idee anhand von Pseudocode weiter erläutert und anschließend in Abschnitt \ref{sec:DegenerationRemote} die Implementierung für die Kommunikation mit der Webschnittstelle des Wettbewerbs gezeigt. Die Ergebnisse liegen gesondert im Abschnitt \ref{sec:DegenerationErgebnisse} vor. 
+
+~\newline Daraufhin wird im Kapitel \ref{cha:Degeneration} die \textit{Degeneration vorgestellt:}
+
+Dieser Ansatz verändert iterativ ein Verkehrsschild und behält die Änderungen bei, sollte der erzielte Score im akzeptablen Bereich liegen. 
+Mit passenden Bildveränderungen erzielen höhere Iterationen für den Menschen unkenntliche Ergebnisse, die von der \ac{KI} weiterhin mit hoher Konfidenz der Klasse des ursprünglichen Bildes zugeordnet wird. 
+
+Innerhalb des Kapitels wird zunächst im Abschnitt \ref{sec:DegenerationKonzept} die Idee anhand von Pseudocode weiter erläutert und anschließend in Abschnitt \ref{sec:DegenerationRemote} die Implementierung für die Kommunikation mit der Webschnittstelle des Wettbewerbs gezeigt. 
+Die Ergebnisse liegen gesondert im Abschnitt \ref{sec:DegenerationErgebnisse} vor. 
 
 Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich sind, sondern nur als Ausblick dienen.
 
 
-~\newline Des Weiteren werden in Kapitel \ref{cha:saliency} verschiedene Methoden zur Erzeugung von sogenannten \textit{Saliency Maps} (dt. Ausprägungskarte) vorgestellt. Bei dieser Methode werden unveränderte Bilder mit einer hohen Konfidenz ausgewählt, um die einzelnen Pixel hervorzuheben, welche für die Klassifikation den höchsten Einfluss haben.
+~\newline Des Weiteren werden in Kapitel \ref{cha:saliency} verschiedene Methoden zur Erzeugung von sogenannten \textit{Saliency Maps} (dt. Ausprägungskarte) vorgestellt. 
+Bei dieser Methode werden unveränderte Bilder mit einer hohen Konfidenz ausgewählt, um die einzelnen Pixel hervorzuheben, welche für die Klassifikation den höchsten Einfluss haben.
 
-~\newline In Kapitel 6 wird das \textit{Gradient Ascent} Verfahren beschrieben und evaluiert. Hierbei wird anhand der \textit{Targeted Backpropagation} Methode zunächst ein Zufallsbild erzeugt und dieses so lange verändert, bis es der angegebenen \ac{GTSRB}-Zielklasse entspricht.
+~\newline In Kapitel 6 wird das \textit{Gradient Ascent} Verfahren beschrieben und evaluiert. 
+Hierbei wird anhand der \textit{Targeted Backpropagation} Methode zunächst ein Zufallsbild erzeugt und dieses so lange verändert, bis es der angegebenen \ac{GTSRB}-Zielklasse entspricht.
 
 ~\newline Abschluss dieser Arbeit bildet im Kapitel \ref{cha:Schluss} ein Fazit über die gefundenen Methoden, sowie ein Ausblick auf weiterführende Arbeiten. 
