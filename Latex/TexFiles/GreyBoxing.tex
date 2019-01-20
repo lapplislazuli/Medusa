@@ -1,30 +1,74 @@
 \chapter{AI-Greyboxing}
 \label{Cha:GreyBoxing}
+Der erste Ansatz der verfolgt wurde, wird im folgenden \textit{GreyBoxing} genannt.
 \section{Konzept}
-Der erste Ansatz der verfolgt wurde, wird im folgenden \textit{GreyBoxing} genannt. 
-~\newline 
-Das Konzept war hierbei, dass über einen Generator zufällige Nicht-Straßenbilder erzeugt werden, diese von der echten Schnittstelle bewertet werden, und eine zweite, lokale AI auf die Scores der echten Schnittstelle trainiert werden. 
+\label{sec:KonzeptGreyBoxing}
+Das Konzept ist hierbei, dass über einen Generator zufällige Nicht-Straßenbilder erzeugt werden, diese von der Schnittstelle bewertet werden, und eine zweite, lokale AI auf die Scores der Schnittstelle trainiert werden. 
 ~\newline
-Mit fortschreitendem Experiment sollte die lokale AI ihr Verhalten an das der Schnittstelle angleichen und uns als Greybox dienen: Die bei uns lokal erzeugten Bilder und die lokalen Scores, wären ähnlich zu den Scores der Schnittstelle. 
+Mit fortschreitendem Experiment sollte die lokale AI ihr Verhalten an das der Schnittstelle angleichen und als Greybox dienen: Die lokal erzeugten Bilder und die lokalen Scores, wären ähnlich zu den Scores der Schnittstelle. 
 
-Sollte dieser Zustand erreicht werden, könne man lokal Bilder generieren, und sobald die GreyBox dieses akkzeptiert an die Schnittstelle schicken. Die doppelt-bewerteten Ergebnisse können erneut ins Training einfließen, um die GreyBox weiter zu verbessern. 
+Ist dieser Zustand erreicht, kann man lokal Bilder generieren, und sobald die GreyBox dieses akkzeptiert an die Schnittstelle schicken. 
 
-~\newline Ausgehend hiervon kann ebenfalls weitere Verbesserung am Generator vorgenommen werden, und lokal getestet werden. Man kann somit den Generator ebenfalls \textit{trainieren} und gegebenenfalls Hyperparamter wie Farbanteile oder Helligkeit anpassen. 
+Die doppelt-bewerteten Ergebnisse können erneut ins Training einfließen, um die GreyBox weiter zu verbessern. 
+
+~\newline Ausgehend hiervon kann ebenfalls weitere Verbesserung am Generator vorgenommen werden, und lokal getestet werden.
+Man kann somit den Generator ebenfalls \textit{trainieren} und gegebenenfalls Hyperparamter wie Farbanteile oder Helligkeit anpassen. 
 
 ~\newline Das Konzept umfasst im erweiterten Sinn ebenfalls alle Maßnahmen, um die stetige, iterative Verbesserung der beteiligten Komponenten zu vollziehen.      
 
 ~\newline Als Generator wurde für die Implementierung einfaches Rauschen gewählt. Andere mögliche Generatoren sind z.B. Webcrawler, welche Bilder nach gewissen Parametern aussuchen, oder Generatoren welche ein Bild lediglich \textit{verzerren}, wie das in der Degeneration in Kapitel \ref{cha:Degeneration} der Fall ist. 
-%\begin{enumerate}
-%	\item hübsches Diagramm was für Komponenten
-%	\item Stichpunktartige Beschreibung der Komponenten
-%	\item Workflow durch Setup (Gen - Score - DB - Training - AI)
-%	\item Workflow Ansatz in betrieb (Gen - AI - Scorer)
-%\end{enumerate} 
 
 \section{Implementierung und erste Ergebnisse}
-Code zeigen? MongoDB sagen? 
+\label{sec:ImplementierungGreyBoxing}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Images/GreyBoxingStart}
+	\caption[Komponenten Setup-Phase]{Komponenten Setup-Phase}
+	\label{fig:greyboxingstart}
+\end{figure}
+
+Die Abbildung \ref{fig:greyboxingstart} zeigt den ersten Überblick über die \textit{Setup-Phase} des Greyboxing:
+
+\paragraph{Generator:} produziert zufällige Bilder auf Abruf. Innerhalb des ersten Ansatzes wurde der Generator als einfaches Pythonfile mit wenigen Methoden umgesetzt.  
+\paragraph{Scorer:} erhält Bilder vom Generator, lässt sie von der Schnittstelle bewerten, und speichert die Ergebnisse samt Bild in einer Datenbank. 
+
+Die Hauptlogik findet somit im Scorer statt. Er wurde als Jupyternotebook umgesetzt.
+\paragraph{AI:} Die Trasi-Schnittstelle, wie in Abschnitt \ref{sec:EigenschaftenTrasi} beschrieben.
+\paragraph{Database:} eine Datenbank, die Bilder und Scores abspeichert.
+In der Implementierung wurde eine MongoDB gewählt, welche sich gut eignete um die JSON-Antworten der Schnittstelle direkt zu verwalten. 
+~\newline
+Mit dieser Architektur wurden über einen längeren Zeitraum knapp 100 000 Bilder gesammelt und abgespeichert. 
+~\newline
+Nachdem die Daten gesammelt wurden, sollte eine AI trainiert werden, welche die Scores der Schnittstelle imitiert. 
+
+Hierfür wurde Tensorflow gewählt, und verschiedene Modell-konfigurationen sowie Hyperparameter durchgespielt. 
+Es konnte kein zufriedenstellendes Modell erzeugt werden, weiterführend hierzu in Abschnitt \ref{sec:ProblemGreyBoxing}.
+
+~\newline Unabhängig davon soll noch einmal das Konzept nach dem Training vorgestellt werden, dargestellt in Abbildung \ref{fig:greyboxingrunning}: 
+ \begin{figure}[h]
+ 	\centering
+ 	\includegraphics[width=0.9\linewidth]{Images/GreyBoxingRunning}
+ 	\caption{Komponenten Betriebs-Phase}
+ 	\label{fig:greyboxingrunning}
+ \end{figure}
+ Als neue Komponente ist die \textbf{lokale AI} hinzugekommen, welche zunächst die Bilder des Generators prüft, und lediglich solche weitergibt, welche bereits von ihr als \textit{gut} eingestuft werden. 
+ 
+ ~\newline Vorausgesetzt die lokale AI erfüllt ihren Zweck, hilft sie iterativ mit jedem Bild eine bessere Datenmenge zu sammeln, bzw. innerhalb der Datenbank höhere Scores zu hinterlegen. 
+ 
+ Mit steigender Dauer und mehr Training sollte die lokale AI somit immer besser performen. 
+ 
+ ~\newline Auch denkbar ist es, ein \textit{Ensemble} aus verschiedenen Klassifizieren zu etablieren, wobei der erste entscheidet \textit{schlecht - medium}, der zweite \textit{medium - gut} usw..
+ 
+ ~\newline Ebenso hilft eine funktionierende lokale AI, direkt an dem Generator \textit{zu experimentieren}, um dort bessere Parameter zu erarbeiten. 
+ 
+ Als weiterführender Gedanke könnte eine zusätzliche Komponente \textit{Generator-Tuner} kreiert werden, welcher den Generator für die lokale AI \textit{optimiert} mit jedem erzeugten Bild. 
+ Die Schwierigkeit liegt darin , dennoch verschiedene Bilder zu erzeugen. 
+ 
+ ~\newline Die Ähnlichkeit der lokalen AI zur Schnittstelle kann hierbei direkt in der Datenbank gemessen werden: Jedes hinterlegte Bild (eines Testsets) wird ebenfalls von der lokalen AI bewertet und der AI Score ebenfalls in der Datenbank erfasst. 
+ Dieses Tripel aus \textit{<Bild, RemoteScores, LocalScores>} ermöglicht eine ganze Bandbreite von Ähnlichkeitsmaßen direkt performant in der Datenbank.  
 \newpage
 \section{Fehler- und Problemanalyse}
+\label{sec:ProblemGreyBoxing}
 Dieser Ansatz ist bereits in seiner Setup-Phase gescheitert. Zu betonen ist allerdings, das er vor allem aus zeitlichen Aspekten verworfen wurde, um zeitnah erfolgreiche Ergebnisse zu liefern.
 ~\newline
 Grund für das frühe Ende war das Training des lokalen neuronalen Netzes: Dieses konnte bereits auf die separierten Testdaten keine hinreichenden Scores erzielen. 
