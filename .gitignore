@@ -12,17 +12,17 @@ Latex/*.nlo
 # Do not commit Models
 /DegenerationCode/*.h5
 /DegenerationCode/*.hdf5
-/GAFCode/*.pth 
+/GradientAscent/*.pth 
 
 # Do not commit Jupyter caches
 /DegenerationCode/__pycache__
 /DegenerationCode/__pycache__/*
 
 # Do not commit unused items from GAF Code
-/GAFCode/__pycache__/*
-/GAFCode/__pycache__
-/GAFCode/.ipynb_checkpoints
-/GAFCode/.ipynb_checkpoints/*
+/GradientAscent/__pycache__/*
+/GradientAscent/__pycache__
+/GradientAscent/.ipynb_checkpoints
+/GradientAscent/.ipynb_checkpoints/*
 # Do not commit generated images from GAF Code
-/GAFCode/generated
-/GAFCode/generated/*
+/GradientAscent/generated
+/GradientAscent/generated/*
