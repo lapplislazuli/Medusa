@@ -13,6 +13,8 @@ Latex/*.nlo
 /DegenerationCode/*.h5
 /DegenerationCode/*.hdf5
 /GradientAscent/*.pth 
+/SaliencyMaps/*.h5
+/SaliencyMaps/*.hdf5
 
 # Do not commit Jupyter caches
 /DegenerationCode/__pycache__
@@ -26,3 +28,9 @@ Latex/*.nlo
 # Do not commit generated images from GAF Code
 /GradientAscent/generated
 /GradientAscent/generated/*
+
+# Do not commit unused items from Saliency Code
+/SaliencyMaps/__pycache__/*
+/SaliencyMaps/__pycache__
+/SaliencyMaps/.ipynb_checkpoints
+/SaliencyMaps/.ipynb_checkpoints/*
