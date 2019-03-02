@@ -3,44 +3,55 @@
 \setlength{\epigraphwidth}{4in}
 
 %\section{Motivation}
-Der Traum von einem autonom gelenkten Automobil ist so alt wie das Automobil selbst \cite{maurer_autonomes_2015}. Fabian Dröger schreibt dazu in seinem Beitrag "`Das automatisierte Fahren im gesellschaftswissenschaftlichen und kulturwissenschaftlichen Kontext"' in dem Sammelwerk "`Autonomes Fahren"' von Markus Maurer et al., wie die zunehmende Anzahl an Verkehrstoten in den USA zu Beginn des 20. Jahrhunderts in Verbindung mit den technischen Errungenschaften in der frühen Flugzeug- und Radiotechnik den Wunsch nach einem selbstfahrenden Automobil aufkommen ließen. Die Vision war, dass ein Automobil ähnlich wie ein Flugzeug durch einen Autopiloten in der Spur gehalten und gesteuert werden könnte. Für die Ansteuerung der mechanischen Teile setzte man auf eine Fernsteuerung mit Funk, die zu dieser Zeit im Bereich der \emph{Radioguidance} erforscht wurde.
+Der Traum von einem autonom gelenkten Automobil ist so alt wie das Fahrzeug selbst \cite{maurer_autonomes_2015}. Fabian Dröger schreibt dazu in seinem Beitrag "`Das automatisierte Fahren im gesellschaftswissenschaftlichen und kulturwissenschaftlichen Kontext"' in dem Sammelwerk "`Autonomes Fahren"' von Markus Maurer et al., wie die zunehmende Anzahl an Verkehrstoten in den USA zu Beginn des 20. Jahrhunderts in Verbindung mit den technischen Errungenschaften in der frühen Flugzeug- und Radiotechnik den Wunsch nach einem selbstfahrenden Auto aufkommen ließen. Die Vision war, dass ein Automobil ähnlich wie ein Flugzeug durch einen Autopiloten in der Spur gehalten und gesteuert werden könnte. Für die Ansteuerung der mechanischen Teile setzte man auf eine Fernsteuerung mit Funk, die zu dieser Zeit im Bereich der \emph{Radioguidance} erforscht wurde.
 
 Der aktuelle Stand der Technik zeigt, dass sich die Umsetzung dieser Vision schwieriger gestaltet als zunächst angenommen. Anstelle einer autonomen Steuerung finden sich in heutigen Automobilen verschiedene Techniken zur Erhöhung der Fahrsicherheit und des Komforts. Beispiele sind Spurhalteassistenten, automatische Abstandshalter oder Einparkhilfen. Diese Funktionen unterstützen einen menschlichen Fahrer, ermöglichen jedoch noch kein selbstständiges Fahren.
 
-Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern \cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern \cite{bmw_autonomes_nodate} und der Presse \cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf der automatischen Erkennung von Bilder aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern von Bedeutung.
+Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern \cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern \cite{bmw_autonomes_nodate} und der Presse \cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf der automatischen Erkennung von Bildern aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern und Passanten von Bedeutung.
 
 
 \section{Problemstellung}
 \label{sec:Problemstellung}
 Bei der Untersuchung von \acp{KI}, welche auf die Erkennung gewisser Muster mit einem Datensatz trainiert wurden, fiel auf, dass auch Muster, die für den Menschen in keinem erkennbaren Zusammenhang mit dem Trainingsmuster stehen, von der \ac{KI} mit hoher Konfidenz anerkannt werden. Das gezielte Ausnutzen dieses Fehlers wird in der Forschung als \textit{Adversarial Attack} bezeichnet \cite{DBLP:journals/corr/HuangPGDA17}.
 
-Der Erfolg von \textit{Adversarial Attacks} liegt in der gezielten Stimulation von Gewichten, die die \ac{KI} basierend auf ihrem Trainingssatz festgelegt hat, beziehungsweise die vom Trainer definiert wurden. Auf diese Weise ist es möglich ein gewünschtes Feedback eines \acs{NN}s zu erhalten, obwohl das Muster für einen Menschen kaum oder gar nicht mit den Mustern des Trainingssatzes in Verbindung gebracht werden kann. Zum Beispiel haben erzeugte Fragmente zur Täuschung einer \ac{KI}, die für die Erkennung von Bildinhalten trainiert ist, selten etwas mit einem \textit{echten} Bild zu tun. Sie wirken eher wie Rauschen oder moderne Kunst. 
+Der Erfolg von \textit{Adversarial Attacks} liegt in der gezielten Stimulation von Gewichten, welche die \ac{KI} aus ihrem Trainingssatz erarbeitet hat, beziehungsweise die vom Entwickler definiert wurden. 
+Auf diese Weise ist es möglich ein gewünschtes Feedback eines \acs{NN}s zu erhalten, obwohl das Bild für einen Menschen kaum oder gar nicht mit den Mustern des Trainingssatzes in Verbindung gebracht werden kann. 
+Zum Beispiel haben erzeugte Fragmente zur Täuschung einer \ac{KI}, die für die Erkennung von Bildinhalten trainiert ist, selten etwas mit einem \textit{echten} Bild zu tun. Sie wirken eher wie Rauschen oder moderne Kunst. 
 
-~\newline Das Problem an den präparierten Mustern einer \textit{Adversarial Attack} ist, dass ein Mensch schwer erkennen kann, ob ein derartiger Angriff auf die von ihm genutzte \ac{KI} unternommen wird. Er ordnet das manipulierte Muster nicht den relevanten Mustern zu, die seine \ac{KI} anerkennt.
+~\newline Das Problem an den präparierten Bildern einer \textit{Adversarial Attack} ist, dass ein Mensch schwer erkennen kann, ob ein derartiger Angriff auf die von ihm genutzte \ac{KI} unternommen wird. Er ordnet das manipulierte Muster nicht den relevanten Mustern zu, die er von seiner \ac{KI} erwartet.
 
-Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Sektoren des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden erzeugen und stellen ein lohnendes Ziel dar. Vor allem im Bereich des autonomen Fahrens, welcher aktuell geprägt ist durch eine Debatte über das \textit{Vertrauen in Technik} \cite{VertrauenTechnik}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen und die Nutzung der Technik verhindern. 
+Durch den steigenden Einsatz von Machine Learning in verschiedenen sensiblen Bereichen des täglichen Lebens, wie selbstfahrenden Autos, Terrorismusbekämpfung oder Betrugserkennung können Angriffe verheerende Schäden anrichten und stellen ein attraktives Ziel für Angreifer dar. 
+Vor allem im Bereich des autonomen Fahrens, welcher aktuell geprägt ist durch eine allgemeine Debatte über das \textit{Vertrauen in Technik} \cite{VertrauenTechnik}, können erfolgreiche Angriffe zu einem forschungsschädlichen Misstrauen führen und die Nutzung sowie Entwicklung der Technik verhindern. 
 
-~\newline Um gegen Adversarial Attacks vorzugehen, werden zunächst einige Bilder benötigt, die gezielt Gewichte einer \ac{KI} stimulieren und mit hoher Konfidenz anerkannt werden.
+~\newline Um gegen adversarial Attacks vorzugehen, werden zunächst einige Bilder benötigt, die gezielt Gewichte einer \ac{KI} stimulieren und mit hoher Konfidenz anerkannt werden.
+
+Erst nach der Erzeugung dieser Beispiele kann ein Model gegen adversarial Attacks \textit{gehärtet} werden.
 
 \section{Ziel der Arbeit}
 \label{sec:ZielDerArbeit}
-Ziel dieser Arbeit ist es, Methoden und Herangehensweisen vorzustellen, mit denen eine \ac{KI} überlistet werden kann, die Straßenschilder auf Bildern erkennt. Die Ausrichtung dieser Arbeit orientiert sich an der Aufgabenstellung des InformatiCups\footnote{https://gi.de/informaticup/} der \ac{GI} e.V. aus dem Jahr 2019. Der InformatiCup ist ein Wettbewerb der \ac{GI} für Studierende, bei dem sich diese in neue Technologien einarbeiten und in Teams Problemlösungen entwickeln \cite{gesellschaft_fur_informatik_e.v._informaticup2019-irrbilder.pdf_2018}.
+Ziel dieser Arbeit ist es, Methoden und Herangehensweisen vorzustellen, mit denen eine \ac{KI} überlistet werden kann, die Straßenschilder auf Bildern erkennt. 
+Die Ausrichtung dieser Arbeit orientiert sich an der Aufgabenstellung des InformatiCups\footnote{https://gi.de/informaticup/} der \ac{GI} e.V. aus dem Jahr 2019. Der InformatiCup ist ein Wettbewerb der \ac{GI} für Studierende, bei dem sich diese in neue Technologien einarbeiten und in Teams Problemlösungen entwickeln \cite{gesellschaft_fur_informatik_e.v._informaticup2019-irrbilder.pdf_2018}.
 
-~\newline Bei der Aufgabe 2019 soll ein \ac{NN}, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden. Dazu sollen Bilder erzeugt werden, welche für den Menschen nicht als Verkehrsschild erkennbar sind, aber mit einer Konfidenz von über 90\% von der \ac{KI} als solche erkannt werden. 
+~\newline Bei der Aufgabe 2019 soll ein \ac{NN}, welches sich hinter einer Webschnittstelle verbirgt und Verkehrsschilder erkennt, erfolgreich \textit{überlistet} werden. 
+Dazu sollen Bilder erzeugt werden, welche für den Menschen nicht als Verkehrsschild erkennbar sind, aber mit einer Konfidenz von über 90\% von der \ac{KI} als solche erkannt werden. 
 
-Die gefundenen Methoden sollen reproduzierbar und in einem Maße flexibel sein, um beliebig viele Irrbilder zu erzeugen. 
+Die gefundenen Methoden sollen reproduzierbar und in einem Maße flexibel sein, um beliebig viele dieser Irrbilder zu erzeugen. 
 
 ~\newline Die Arbeit umfasst eine Dokumentation verschiedener Methoden sowie Verbesserungen und Schlussfolgerungen aus den Implementierungen. 
 
-Ebenfalls geliefert werden alle Elemente, um die erzielten Ergebnisse zu reproduzieren und zu variieren. 
+Ebenfalls geliefert werden alle Elemente, um die erzielten Ergebnisse zu reproduzieren und variieren. 
 
 ~\newline Nicht Ziel dieser Arbeit ist, einen Überblick über neuronale Netze, künstliche Intelligenz oder Bildbearbeitung zu vermitteln. 
 
-Ebenfalls außerhalb dieser Arbeit liegt eine Auswertung, welche Bilder von einem Menschen als Verkehrsschilder erkannt werden. Die Aussagen über solche stützen sich ausschließlich auf die persönliche Einschätzung des Projektteams. 
+Ebenfalls außerhalb dieser Arbeit liegt eine Auswertung, welche Bilder von einem Menschen als Verkehrsschilder erkannt werden. 
+Die Aussagen über solche stützen sich ausschließlich auf die persönliche Einschätzung des Projektteams. 
 \section{Aufbau der Arbeit}
 Innerhalb dieser Arbeit werden zunächst in Kapitel \ref{cha:AnfAnalyse} Anforderungen analysiert, die Lösungen für die unter \ref{sec:Problemstellung} genannten Probleme erfüllen sollen, sowie die Rahmenbedingungen der Arbeit festgelegt. 
 
-Eine zentrale Rahmenbedingung stellt die Webschnittstelle des Wettbewerbs dar. Um Informationen über die Webschnittstelle zu sammeln, werden alle verfügbaren Quellen des Wettbewerbs genutzt, sowie eigene Untersuchungen durchgeführt. Eine davon ist die Analyse des \ac{GTSRB} in Abschnitt \ref{sec:EigenschaftenTrasi}, dem Trainingsdatensatz, der für die \ac{KI} hinter der Webschnittstelle verwendet wurde. Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der verfolgten Ansätze der Arbeit.
+Eine zentrale Rahmenbedingung stellt die Webschnittstelle des Wettbewerbs dar. 
+Um Informationen über die Webschnittstelle zu sammeln, werden alle verfügbaren Quellen des Wettbewerbs genutzt, sowie eigene Untersuchungen durchgeführt. 
+Eine davon ist die Analyse des \ac{GTSRB} in Abschnitt \ref{sec:EigenschaftenTrasi}, dem Trainingsdatensatz, der für die \ac{KI} hinter der Webschnittstelle verwendet wurde. 
+Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der verfolgten Ansätze der Arbeit.
 
 ~\newline Anschließend werden verschiedene Lösungsansätze vorgestellt, beginnend mit dem (gescheiterten) \textit{Greyboxing} in Kapitel \ref{cha:GreyBoxing}. 
 
@@ -52,8 +63,8 @@ Es wird zunächst das geplante Konzept in Abschnitt \ref{sec:KonzeptGreyBoxing} 
 Dieser Ansatz verändert iterativ ein Verkehrsschild und behält die Änderungen bei, sollte der erzielte Score im akzeptablen Bereich liegen. 
 Mit passenden Bildveränderungen erzielen höhere Iterationen für den Menschen unkenntliche Ergebnisse, die von der \ac{KI} weiterhin mit hoher Konfidenz der Klasse des ursprünglichen Bildes zugeordnet wird. 
 
-Innerhalb des Kapitels wird zunächst im Abschnitt \ref{sec:DegenerationKonzept} die Idee anhand von Pseudocode weiter erläutert und anschließend in Abschnitt \ref{sec:DegenerationRemote} die Implementierung für die Kommunikation mit der Webschnittstelle des Wettbewerbs gezeigt. 
-Die Ergebnisse liegen gesondert im Abschnitt \ref{sec:DegenerationErgebnisse} vor. 
+Innerhalb des Kapitels wird zunächst in Abschnitt \ref{sec:DegenerationKonzept} die Idee anhand von Pseudocode genauer erläutert und anschließend in Abschnitt \ref{sec:DegenerationRemote} die Implementierung für die Kommunikation mit der Schnittstelle des Wettbewerbs gezeigt. 
+Die Ergebnisse liegen gesondert in Abschnitt \ref{sec:DegenerationErgebnisse} vor. 
 
 Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich sind, sondern nur als Ausblick dienen.
 
@@ -62,6 +73,6 @@ Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kap
 Bei dieser Methode werden unveränderte Bilder mit einer hohen Konfidenz ausgewählt, um die einzelnen Pixel hervorzuheben, welche für die Klassifikation den höchsten Einfluss haben.
 
 ~\newline In Kapitel 6 wird das \textit{Gradient Ascent} Verfahren beschrieben und evaluiert. 
-Hierbei wird anhand der \textit{Targeted Backpropagation} Methode zunächst ein Zufallsbild erzeugt und dieses so lange verändert, bis es der angegebenen \ac{GTSRB}-Zielklasse entspricht.
+Hierbei wird anhand der \textit{targeted backpropagation} Methode zunächst ein Zufallsbild erzeugt und dieses so lange verändert, bis es der angegebenen \ac{GTSRB}-Zielklasse entspricht.
 
-~\newline Abschluss dieser Arbeit bildet im Kapitel \ref{cha:Schluss} ein Fazit über die gefundenen Methoden, sowie ein Ausblick auf weiterführende Arbeiten. 
+~\newline Abschluss dieser Arbeit bildet im Kapitel \ref{cha:Schluss} ein Fazit über die vorgestellten Methoden, sowie ein Ausblick auf weiterführende Arbeiten. 
