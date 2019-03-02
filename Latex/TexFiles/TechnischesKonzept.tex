@@ -1,16 +1,23 @@
 \chapter{Technisches Konzept}
 \label{cha:TechKonzept}
 \section{Verwendete Technologien}
-Die Umsetzung der Implementierung erfolgt innerhalb der webbasierten, interaktiven Entwicklungsumgebung Jupyter Notebook \cite{noauthor_project_nodate} (in der Version 5.7.4) zusammen mit der objektorientierten höheren Programmiersprache Python \cite{noauthor_what_nodate} (in der Version 3.6.5).
+Die Umsetzung der Implementierung erfolgt innerhalb der webbasierten, interaktiven Entwicklungsumgebung Jupyter Notebook \cite{noauthor_project_nodate} (in der Version 5.7.4) zusammen mit der Programmiersprache Python \cite{noauthor_what_nodate} (in der Version 3.6.5).
 
 
-Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \cite{india_why_2018}. Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeliebtesten Technologie des Jahres 2017 gewählt \cite{noauthor_stack_nodate}. Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in Quell- oder Binärform verfügbar \cite{noauthor_what_nodate}.
+Jupyter Notebook bietet aufgrund seiner plattformübergreifenden Einsatzmöglichkeit und Kompatibilität zu allen gängigen Webbrowsern eine hohe Flexibilität, was die Darstellung und Ausführung von Python-Code angeht. 
+Darüber hinaus bietet Python eine hohe Verfügbarkeit von Open-Source-Repositories im Bereich Datenverarbeitung, Machine Learning und Deep Learning \cite{india_why_2018}. 
+Die Programmiersprache wurde ferner im Rahmen der StackOverflow Befragung 2017 von den befragten Softwareentwicklern zur fünftbeliebtesten Technologie des Jahres 2017 gewählt \cite{noauthor_stack_nodate}. 
+Nicht zuletzt ist Python und die inbegriffenen umfangreichen Standardbibliotheken auf allen gängigen Plattformen, wie beispielsweise Linux, Apple MacOS und Microsoft Windows, kostenlos und in Quell- oder Binärform verfügbar \cite{noauthor_what_nodate}.
 
 
-Als Paketmanager wird die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \cite{noauthor_managing_nodate}. Schließlich erlaubt "`Anaconda Accelerate"' den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \cite{noauthor_anaconda_nodate}.
+Als Paketmanager wird die frei verfügbare Anaconda Distribution in der derzeit aktuellsten Version 2018.12 gewählt, da Sie eine vereinfachte Paketinstallation und -verwaltung ermöglicht. 
+Darüber hinaus bietet Anaconda die Möglichkeit Jupyter Notebooks sowie Python und dessen verfügbare Pakete in verschiedenen Entwicklungs- und Testumgebungen isoliert voneinander zu verwalten und zu betreiben \cite{noauthor_managing_nodate}.
+Schließlich erlaubt "`Anaconda Accelerate"' den programmatischen Zugriff auf numerische Softwarebibliotheken zur beschleunigten Codeausführung auf Intel Prozessoren sowie NVIDIA Grafikkarten \cite{noauthor_anaconda_nodate}.
 
 
-Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgenden Kapiteln muss Python in der Version 3.6.5 verwendet werden. Weiterhin bestehen Abhängigkeiten zu den Bibliotheken, welche in Tabelle \ref{tab:parameter} mit den dazugehörigen Versionen angegeben sind. Durch den Einsatz von Anaconda kann eine Environment erstellt werden, in der die passenden Versionen installiert werden.
+Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgenden Kapiteln muss Python in der Version 3.6.5 verwendet werden. 
+Weiterhin bestehen Abhängigkeiten zu den Bibliotheken, welche in Tabelle \ref{tab:parameter} mit den dazugehörigen Versionen angegeben sind. 
+Durch den Einsatz von Anaconda kann eine Environment erstellt werden, in der die passenden Versionen installiert werden.
 
 
 \begin{table}
@@ -27,9 +34,9 @@ Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgende
 		\hline 
 		NumPy&  1.15.3& Enthält Funktionen zur effizienten Durchführung von Vektor- oder Matrizenberechnungen \cite{noauthor_numpy_nodate} \\ 
 		\hline 
-		Requests& 2.18.4 & Enthält Funktionen zur Vereinfachung von HTTP Requests \cite{noauthor_requests:_nodate} \\ 
+		Requests& 2.18.4 & Enthält Funktionen zur Vereinfachung von HTTP-Requests \cite{noauthor_requests:_nodate} \\ 
 		\hline 
-		Pillow& 5.2.0 & Enthält Funktionen zum laden, modifizieren und speichern von verschiedenen Bilddateiformaten \cite{noauthor_pillow_nodate} \\ 
+		Pillow& 5.2.0 & Enthält Funktionen zum Laden, Modifizieren und Speichern von verschiedenen Bilddateiformaten \cite{noauthor_pillow_nodate} \\ 
 		\hline 
 		Matplotlib& 2.2.3 & Enthält Funktionen zum Plotten von Graphen oder Bildern \cite{noauthor_matplotlib:_nodate} \\ 
 		\hline 
@@ -40,28 +47,36 @@ Zur fehlerfreien Ausführung des Codes der Implementierungen in den nachfolgende
 	\label{tab:parameter}
 \end{table}
 
-Um die Voraussetzungen zur benötigten Python Version respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Öffnen des Jupyter Notebooks zum \textit{Saliency Map} Verfahren beziehungsweise zum \textit{Gradient Ascent} Verfahren immer zuerst der Code unter der Rubrik "'Managing Anaconda Environment” ausgeführt werden. Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.
+Um die Voraussetzungen zur benötigten Python Version, respektive der erforderlichen Python-Bibliotheken zu erfüllen, muss beim ersten Ausführen des Jupyter Notebooks zum \textit{Saliency Map} Verfahren, beziehungsweise zum \textit{Gradient Ascent} Verfahren, immer zuerst der Code unter der Rubrik "'Managing Anaconda Environment” ausgeführt werden. 
+Andernfalls kann die korrekte Ausführung von weiteren Teilen des Codes in nachfolgenden Rubriken nicht gewährleistet werden.
 
 \section{Transferierbarkeit von Adversarial Attacks}
 
 
 \label{sec:TrasiModell}
-Eine Herausforderung des Wettbewerbs ist der Umgang mit dem neuronalen Netz, welches getäuscht werden soll. Die Analyse der Web-Schnittstelle in Abschnitt \ref{sec:EigenschaftenTrasi} liefert keine genauen Informationen über das zugrunde liegende Modell, was deren Architektur oder weitere Eigenschaften angeht.
+Eine Herausforderung des Wettbewerbs ist der Umgang mit dem neuronalen Netz, welches getäuscht werden soll. 
+Die Analyse der Webschnittstelle in Abschnitt \ref{sec:EigenschaftenTrasi} liefert keine genauen Informationen über das zugrunde liegende Modell, dessen Architektur oder weitere Eigenschaften.
 
-Papernot et al. \cite{papernot_+_2016} kamen zu dem Ergebnis, dass Deep Neural Networks, welche mit demselben Datensatz trainiert wurden, sich jedoch in ihrer Architektur unterscheiden, annähernd gleich verwundbar sind gegen feindliche Angriffe. Diese Ergebnisse führten zu dem Entschluss, eigenständige Convolutional Neural Networks (\textit{Aphrodite} und \textit{AlexNet}) zu trainieren und als Basis für verschiedene Angriffsszenarien auf das \ac{NN} des \ac{GI}-Wettbewerbs zu nutzen.
-
+Papernot et al. \cite{papernot_+_2016} kamen zu dem Ergebnis, dass Deep Neural Networks, welche mit demselben Datensatz trainiert wurden, sich jedoch in ihrer Architektur unterscheiden, annähernd gleich verwundbar sind gegen feindliche Angriffe.
+Diese Ergebnisse führten zu dem Entschluss, eigenständige Convolutional Neural Networks (\textit{Aphrodite} und \textit{AlexNet}) zu trainieren und als Basis für verschiedene Angriffsszenarien auf das \ac{NN} des \ac{GI}-Wettbewerbs zu nutzen.
 
 \section{Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern (Aphrodite)}
 \label{sec:ImplAphrodite}
-Für einige der nachfolgenden Umsetzungen wird ein selbst modelliertes \ac{NN} als Substitute verwendet. Das Modell wird im Projekt unter dem Namen \textit{Aphrodite} geführt. Bei dem \ac{NN} handelt es sich um ein Keras-Modell, welches mithilfe von Tensorflow für die Erkennung von Verkehrsschildern trainiert wurde. \\
+Für einige der nachfolgenden Umsetzungen wird ein selbst erstelltes \ac{NN} als Substitute verwendet. 
+Das Modell wird im Projekt unter dem Namen \textit{Aphrodite} geführt. 
+Bei dem \ac{NN} handelt es sich um ein Keras-Modell, welches mithilfe von Tensorflow für die Erkennung von Verkehrsschildern trainiert wurde. \\
 Das \ac{NN} wird für die lokale Degeneration in Kapitel \ref{cha:Degeneration} und im \textit{Saliency Map}s Verfahren eingesetzt.
 
-~\newline Das Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. Ein detaillierter Aufbau des Netzes befindet sich im Anhang \ref{app:Aphrodite}.
+~\newline Das Modell \textit{Aphrodite} umfasst vier Convolutional-Layer, drei Dense-Layer und zuletzt im Ausgabelayer eine Softmax-Funktion für die 43 Klassen. 
+Ein detaillierter Aufbau des Netzes befindet sich im Anhang \ref{app:Aphrodite}.
 
-~\newline Für das Training wurden die \ac{GTSRB}-Trainings- und Test-Daten verwendet. Diese wurden um die richtige Auflösung zu erreichen auf 64x64 interpoliert. 
+~\newline Für das Training wurden die \ac{GTSRB}-Trainings- und Test-Daten verwendet. 
+Diese wurden, um die richtige Auflösung zu erreichen auf 64x64, interpoliert. 
 
-Da die verwendete Interpolationsfunktion des Black Box Modells des Wettbewerbs unbekannt ist, wurde für das Training jedes Bild mehrfach interpoliert und ebenfalls mehrfach für das Training verwendet. Für die Testdaten wurde eine zufällige Interpolationsfunktion ausgesucht. 
+Da die verwendete Interpolationsfunktion des Blackbox-Modells des Wettbewerbs unbekannt ist, wurde für das Training jedes Bild mehrfach interpoliert und ebenfalls mehrfach für das Training verwendet. 
+Für die Testdaten wurde eine zufällige Interpolationsfunktion ausgesucht (Von Bild zu Bild unterschiedlich ausgewählt).
 
-~\newline \textit{Aphrodite} erreicht eine Genauigkeit von 96.5\% bei der Erkennung der Trainingsdaten. Eine Übersicht über die Trainingsparameter findet sich im Repository unter /Degeneration-Code/Training.py. 
+~\newline \textit{Aphrodite} erreicht eine Genauigkeit von 96.5\% bei der Erkennung der Trainingsdaten. 
+Eine Übersicht über die Trainingsparameter findet sich im Repository unter /Degeneration-Code/Training.py. 
 
 ~\newline Der Name Aphrodite wurde gewählt, um dem ersten Modell (Model A) innerhalb des Projektes einen sprechenden Namen zu geben.
