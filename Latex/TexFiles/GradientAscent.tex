@@ -24,7 +24,7 @@ Bei diesem Verfahren kann man beobachten, dass relevante Pixel, welche die bedeu
 Zunächst wird als vorverarbeitender Schritt ein \ac{CNN} unter Verwendung der AlexNet Architektur in PyTorch trainiert. 
 Die hierbei verwendete Architektur des AlexNet entstammt \cite{pytorch_datasets_2019} und wurde dahingehend modifiziert, dass das AlexNet zu Eingabebildern der Größe $64 \times 64$ Pixel, drei Farbkanälen (RGB) sowie zu den 43 Klassen aus dem \ac{GTSRB} Datensatz kompatibel ist. 
 Die Bilder aus dem \ac{GTSRB} Trainingsdatensatz, welche unterschiedliche Bildgrößen aufweisen, wurden im Zuge des Trainings auf eine Bildgröße von ebenfalls 64 x 64 Pixel normiert. 
-Das Training des AlexNet erfolgte 50 Epochen lang mit dem \ac{GTSRB} Trainingsdatensatz und erzielte mit dem \ac{SGD} Optimierer eine Genauigkeit von annährend 89\% (validiert mit dem \ac{GTSRB} Testdatensatz).
+Das Training des AlexNet erfolgte 50 Epochen lang mit dem \ac{GTSRB} Trainingsdatensatz und erzielte mit dem \ac{SGD} Optimierer eine Genauigkeit von annähernd 89\% (validiert mit dem \ac{GTSRB} Testdatensatz).
 Die Implementierung des \textit{Gradient Ascent} Verfahrens, unter Verwendung der \textit{Targeted Backpropagation} Methode und dem trainierten AlexNet, erfolgte in einer modifizierten Variante zu \cite{ozbulak_pytorch_2019}. 
 
 Unter Angabe der Zielklasse sowie der minimalen Zielkonfidenz erzeugt der Algorithmus zunächst ein Zufallsbild, welches als Eingabeparameter für das trainierte AlexNet verwendet wird. Unter Anwendung des SGD-Optimierers auf das Eingabebild werden die Gradienten entsprechend der spezifizierten Zielklasse berechnet. 

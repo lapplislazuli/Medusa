@@ -2,7 +2,7 @@
 \label{cha:Degeneration}
 Innerhalb dieses Kapitels wird der Ansatz der \textit{Degeneration} vorgestellt.
 
-Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \cite{heistermann2013genetische}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}. Anstatt allerdings \textit{gute Gene} zu kombinieren \cite{schoneburg1994genetische}, wird wird eine Genmutation erzeugt und überprüft, ob diese den Anforderungen der Klassifizierung noch genügt. 
+Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \cite{heistermann2013genetische}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weg gearbeitet}. Anstatt allerdings \textit{gute Gene} zu kombinieren \cite{schoneburg1994genetische}, wird wird eine Genmutation erzeugt und überprüft, ob diese den Anforderungen der Klassifizierung noch genügt. 
 
 Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung eines Algorithmus vorgestellt, der das unbekannte \ac{NN} des Wettbewerbs verwendet. Den Abschluss dieses Kapitels bildet eine lokale Implementierung inklusive einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} des Wettbewerbs nicht angeboten haben.
 \section{Konzept}
@@ -78,7 +78,7 @@ Die Hilfsmethode \textit{Scorer.get\_best\_score(response)} gibt den höchsten g
 \section{Ergebnisse Remote}
 \label{sec:DegenerationErgebnisse}
 In diesem Abschnitt werden die mit der Degeneration erzielten Ergebnisse in Bezug auf die Trasi-Schnittstelle vorgestellt. Zunächst werden einige positive Beispiele (Erfolge) gezeigt, anschließend wir auf einige Probleme, die aufgetreten sind, eingegangen und zuletzt wird ein kurzes Zwischenfazit gezogen. 
-\paragraph{Positive Ergebnisse} ~\newline Die zuverlässigsten Ergebnisse werden mit einfachem Rauschen erzeugt. Die Abbildung \ref{fig:stoptiefe600} zeigt, dass zunächst vorallem die Pixel außerhalb des eigentlichen Schildes verändert werden. Dieses Verhalten wird erwartet. Die farbstarken bunten Pixel sind hierbei entstanden, da Werte welche die gültige Reichweite [0,255] verlassen, wieder zyklisch zurück in den Farbbereich geholt werden. Sollte ein Farbwert durch das Rauschen einen Wert -2 erreichen, wird er auf 253 gesetzt.  
+\paragraph{Positive Ergebnisse} ~\newline Die zuverlässigsten Ergebnisse werden mit einfachem Rauschen erzeugt. Die Abbildung \ref{fig:stoptiefe600} zeigt, dass zunächst vor allem die Pixel außerhalb des eigentlichen Schildes verändert werden. Dieses Verhalten wird erwartet. Die farbstarken bunten Pixel sind hierbei entstanden, da Werte welche die gültige Reichweite [0,255] verlassen, wieder zyklisch zurück in den Farbbereich geholt werden. Sollte ein Farbwert durch das Rauschen einen Wert -2 erreichen, wird er auf 253 gesetzt.  
 
 \begin{figure}[h]
 	\centering
@@ -144,7 +144,7 @@ Innerhalb dieses kurzen Zwischenfazits sollen noch einmal die Vor- und Nachteile
 
 Als besonderen Fall sind solche Modelle zu nennen, die mit jeder Anfrage \textit{hinzulernen}: ~\newline Diese sind entweder besonders anfällig gegenüber der Degeneration, weil sie die bereits veränderten Bilder als \textit{korrekt} klassifizieren und somit den Entstehungsprozess der Degeneration verinnerlichen oder sie \textit{härten} sich mit jedem Versuch gegen die neuen Änderungen und sind de facto immun gegen diesen Angriff.  
 
-Solche permanent trainierenden Modelle sind in der Praxis allerdings selten im Einsatz, da sie für eine Vielzahl verschiedener Angriffe anfällig sind. Als einfaches Beispiel ist der Chatbot \textit{Tay} von Microsoft zu nennen: Dieser sollte angenehme Unterhaltungen mit Twitternutzern führen und aus den enstandenen Konversationen kontinuierlich weiterentwickelt werden \cite{mstay}. Innerhalb weniger Stunden gelang es einigen böswilligen Nutzern, dass Tay rassistische Äußerungen von sich gab \cite{mstaydown}. Microsoft hat den Service von Tay am zweiten Tag eingestellt. 
+Solche permanent trainierenden Modelle sind in der Praxis allerdings selten im Einsatz, da sie für eine Vielzahl verschiedener Angriffe anfällig sind. Als einfaches Beispiel ist der Chatbot \textit{Tay} von Microsoft zu nennen: Dieser sollte angenehme Unterhaltungen mit Twitternutzern führen und aus den entstandenen Konversationen kontinuierlich weiterentwickelt werden \cite{mstay}. Innerhalb weniger Stunden gelang es einigen böswilligen Nutzern, dass Tay rassistische Äußerungen von sich gab \cite{mstaydown}. Microsoft hat den Service von Tay am zweiten Tag eingestellt. 
 \section[Implementierung Lokal]{Implementierung Lokal \newline Anpassungen und Verbesserungen}
 \label{sec:DegenerationLokal}
 
