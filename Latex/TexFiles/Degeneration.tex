@@ -4,14 +4,10 @@ Innerhalb dieses Kapitels wird der Ansatz der \textit{Degeneration} vorgestellt.
 
 Die Benennung schöpft sich aus der Nähe zu genetischen Algorithmen \cite{heistermann2013genetische}, allerdings aus einer invertierten Perspektive: Um auf unbekannte Modelle einzugehen, wird hierbei von einem korrekt erkannten Bild \textit{weggearbeitet}. Anstatt allerdings \textit{gute Gene} zu kombinieren \cite{schoneburg1994genetische}, wird wird eine Genmutation erzeugt und überprüft, ob diese den Anforderungen der Klassifizierung noch genügt. 
 
-~\newline Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung eines Algorithmus vorgestellt, der das unbekannte \ac{NN} des Wettbewerbs verwendet. Den Abschluss dieses Kapitels bildet eine lokale Implementierung inklusive einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} des Wettbewerbs nicht angeboten haben.
+Zunächst wird das Konzept anhand von Pseudocode genauer erläutert. Anschließend wird die Implementierung eines Algorithmus vorgestellt, der das unbekannte \ac{NN} des Wettbewerbs verwendet. Den Abschluss dieses Kapitels bildet eine lokale Implementierung inklusive einiger Verbesserungen, welche sich aufgrund der Limitierungen des Zugriffes auf die \textit{remote-AI} des Wettbewerbs nicht angeboten haben.
 \section{Konzept}
 \label{sec:DegenerationKonzept}
-Die grundlegende Idee des Algorithmus bezieht sich darauf, ein Urbild $i$ zu einem Abbild $\hat{i}$ zu manipulieren, welches von dem unbekannten Klassifizierungsalgorithmus weiterhin korrekt erkannt wird. 
-
-~\newline Abhängig von der Stärke der Manipulation soll eine $Tiefe$ gewählt werden, ab welcher der Algorithmus beendet wird. Als Beispiele der Manipulation seien insbesondere Rauschen und Glätten genannt, allerdings auch Kantenschärfung und Veränderungen der Helligkeit und anderer Metaparameter. 
-
-~\newline Mit fortschreitender Tiefe wird nahezu jedes Bild für den Menschen unkenntlich. Zusätzlich sollten allerdings weitere Parameter als Abbruchkriterien aufgenommen werden, konkret eine Anzahl an Gesamt-Iterationen der Manipulationsfunktionen und eine Abbruchbedingung, beispielsweise wenn keine weiteren Fortschritte erreicht werden.
+Die grundlegende Idee des Algorithmus bezieht sich darauf, ein Urbild $i$ zu einem Abbild $\hat{i}$ zu manipulieren, welches von dem unbekannten Klassifizierungsalgorithmus weiterhin korrekt erkannt wird. Abhängig von der Stärke der Manipulation soll eine $Tiefe$ gewählt werden, ab welcher der Algorithmus beendet wird. Als Beispiele der Manipulation seien insbesondere Rauschen und Glätten genannt, allerdings auch Kantenschärfung und Veränderungen der Helligkeit und anderer Metaparameter. Mit fortschreitender Tiefe wird nahezu jedes Bild für den Menschen unkenntlich. Zusätzlich sollten allerdings weitere Parameter als Abbruchkriterien aufgenommen werden, konkret eine Anzahl an Gesamt-Iterationen der Manipulationsfunktionen und eine Abbruchbedingung, beispielsweise wenn keine weiteren Fortschritte erreicht werden.
 
 \newpage
 \paragraph{Pseudocode} ~\newline 
@@ -51,19 +47,12 @@ Auf einige der Punkte wird in den Anmerkungen gesondert eingegangen. ~\newline
 \end{algorithm}\DecMargin{1em}
 \newpage
 \paragraph{Anmerkungen}~\newline 
-Die Manipulationsfunktionen müssen genau ein Bild der Größe (x,y) erhalten, genau ein Bild der Größe (x,y) wiedergeben und (für die generischen Implementierungen) keine weiteren Parameter erhalten. 
+Die Manipulationsfunktionen müssen genau ein Bild der Größe (x,y) erhalten, genau ein Bild der Größe (x,y) wiedergeben und (für die generischen Implementierungen) keine weiteren Parameter erhalten. Zusätzlich sollte die Manipulationsfunktion zufällige Elemente erhalten. Sollte eine einfache, idempotente Glättungsfunktion den Schwellwert nicht erfüllen, so wird niemals eine größere Tiefe erreicht.
 
-Zusätzlich sollte die Manipulationsfunktion zufällige Elemente erhalten. Sollte eine einfache, idempotente Glättungsfunktion den Schwellwert nicht erfüllen, so wird niemals eine größere Tiefe erreicht.  
+Tiefe, Schwellwert und Manipulationsfunktion müssen aufeinander abgestimmt werden. Es gibt einige Funktionen, welche eine starke Veränderung hervorrufen, und für welche eine geringe Tiefe bereits ausreicht. Auf der anderen Seite dieses Spektrums können Funktionen, welche lediglich minimale Änderungen vornehmen, schnell große Tiefen erreichen, ohne ein merklich verändertes Bild hervorgerufen zu haben. Diese Parameter auszubalancieren obliegt dem Nutzer. Bei der Auswahl der Parameter sollte zusätzlich berechnet werden, wie groß die letztendliche Konfidenz ist, falls die maximale Tiefe erreicht wird. 
 
-~\newline Tiefe, Schwellwert und Manipulationsfunktion müssen aufeinander abgestimmt werden. Es gibt einige Funktionen, welche eine starke Veränderung hervorrufen, und für welche eine geringe Tiefe bereits ausreicht. Auf der anderen Seite dieses Spektrums können Funktionen, welche lediglich minimale Änderungen vornehmen, schnell große Tiefen erreichen, ohne ein merklich verändertes Bild hervorgerufen zu haben. 
+Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden und zusätzlich, ob der Algorithmus sich verklemmt hat. Üblicherweise kann man erkennen, wenn die Manipulationsfunktion \textit{zu stark}, beziehungsweise der Schwellwert zu niedrig gewählt ist.
 
-Diese Parameter auszubalancieren obliegt dem Nutzer. 
-
-Bei der Auswahl der Parameter sollte zusätzlich berechnet werden, wie groß die letztendliche Konfidenz ist, falls die maximale Tiefe erreicht wird. 
-
-~\newline Innerhalb der Implementierungen sollte zusätzlich eine \textit{verbose}-Funktion eingebaut werden. Hiermit kann zum einen ein ergebnisloser Versuch frühzeitig erkannt werden und zusätzlich, ob der Algorithmus sich verklemmt hat. Üblicherweise kann man erkennen, wenn die Manipulationsfunktion \textit{zu stark}, beziehungsweise der Schwellwert zu niedrig gewählt ist.
-
-\newpage
 \section{Implementierung Remote}
 \label{sec:DegenerationRemote}
 Im Rahmen des Wettbewerbs wird mit einer Rest-API gearbeitet, welche in Abschnitt \ref{sec:EigenschaftenTrasi} analysiert wird und besondere Herausforderungen mit sich bringt: 
@@ -74,13 +63,10 @@ Im Rahmen des Wettbewerbs wird mit einer Rest-API gearbeitet, welche in Abschnit
 	\item Mehrere Nutzer, welche die API mit dem gleichen API Key beanspruchen, blockieren sich
 \end{itemize}
 ~\newline
-Zusätzlich wird der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der \textit{History} können nach der Ausführung des Algorithmus hilfreiche Plots erstellt werden. 
+Zusätzlich wird der Grundalgorithmus um die \textit{Verbose}-Funktion und eine History erweitert. Mithilfe der \textit{History} können nach der Ausführung des Algorithmus hilfreiche Plots erstellt werden. Diese ist in dem nachfolgenden Code in Listing \ref{lst:remoteDeg} nicht enthalten.
+ 
+Ebenso ist anzumerken, dass ignoriert wird, welche Klasse zuerst erzeugt wird. Solange irgendeine Klasse mit einer passenden Konfidenz gefunden wird, gilt das Ergebnis als hinreichend. Im Normalfall bleibt es allerdings bei derselben Klasse. 
 
-Diese ist in dem nachfolgenden Code in Listing \ref{lst:remoteDeg} nicht enthalten.
-~\newline~\newline
-Ebenso ist anzumerken, dass ignoriert wurde, welche Klasse zuerst erzeugt wird. Solange irgendeine Klasse mit einer passenden Konfidenz gefunden wird, gilt das Ergebnis als hinreichend. Im Normalfall bleibt es allerdings bei derselben Klasse. 
-
-~\newline 
 Die Klassifizierungsfunktion wird innerhalb der Remote-Degeneration durch einige Hilfsfunktionen umgesetzt. Diese bereiten ein als \textit{Bytearray} vorliegendes Bild auf und senden es an das Trasi-Webinterface. Dies geschieht in der Methode \textit{Scorer.Send\_ppm\_image(img)}. In der Antwort des Trasi-Webinterfaces befindet sich ein JSON-Array mit den Scores einiger Klassen des bewerteten Bildes. 
 
 Die Hilfsmethode \textit{Scorer.get\_best\_score(response)} gibt den höchsten gefunden Score wieder.
@@ -164,7 +150,7 @@ Solche permanent trainierenden Modelle sind in der Praxis allerdings selten im E
 
 Innerhalb dieses Abschnittes werden zunächst die Änderungen bei der lokalen Verwendung des Algorithmus kurz behandelt und anschließend zwei konzeptionelle Verbesserungen vorgestellt: Parallel- und Batch-Varianten des Algorithmus. 
 
-Auf weitere Code-Beispiele wird im Rahmen des Umfanges verzichtet - sie befinden sich im Anhang.
+Auf weitere Code-Beispiele wird im Rahmen des Umfanges verzichtet. Sie befinden sich im Anhang.
 
 \paragraph{Anpassungen} ~\newline Für die lokale Implementierung wurde zunächst von Grund auf ein eigenes Modell mithilfe der \ac{GTSRB}-Daten trainiert (siehe dazu Abschnitt \ref{sec:ImplAphrodite}). Das \textit{Scoring} der Remote-Implementierung wird durch die \textit{predict()}-Funktion des Models ersetzt.
 
