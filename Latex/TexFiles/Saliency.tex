@@ -29,28 +29,19 @@ Aus dieser Kenntnis ergeben sich folgende Hypothesen:
 
 \section{Implementierung}
 
-Als vorverarbeitenden Schritt werden zunächst alle 12.630 Bilder aus dem GTSRB-Testdatensatz, welche in 24-Bit Farbtiefe und im \ac{PPM} Dateiformat vorliegen, in das \ac{PNG} Dateiformat konvertiert und im Dateisystem abgespeichert.
+Als vorverarbeitenden Schritt werden zunächst alle 12.630 Bilder aus dem GTSRB-Testdatensatz, welche in 24-Bit Farbtiefe und im \ac{PPM} Dateiformat vorliegen, in das \ac{PNG} Dateiformat konvertiert und im Dateisystem abgespeichert. Die vorliegenden PNG-Bilder werden anhand dem \textit{Aphrodite}-Modell, auf dessen Architektur und Training in Kapitel \ref{sec:ImplAphrodite} eingegangen wird, klassifiziert: Nur diejenigen Bilder, welche vom \textit{Aphrodite}-Modell mit einer Konfidenz von 100\% korrekt klassifiziert wurden (3.063/12.630) werden im Dateisystem in einem eigenständigen Verzeichnis abgespeichert.
 
-
-Die vorliegenden PNG-Bilder werden anhand dem \textit{Aphrodite}-Modell, auf dessen Architektur und Training in Kapitel \ref{sec:ImplAphrodite} eingegangen wird, klassifiziert: 
-
-Nur diejenigen Bilder, welche vom \textit{Aphrodite}-Modell mit einer Konfidenz von 100\% korrekt klassifiziert wurden (3.063/12.630) werden im Dateisystem in einem eigenständigen Verzeichnis abgespeichert.
-
-~\newline
 Gemäß einer auf die Anforderungen an die Aufgabenstellung abgewandelten Variante zu Anh \cite{anh_implementations_2019}, erfolgt nun die Implementierung der verschiedenen \textit{Saliency Map} Verfahren.
 
-~\newline
 Hierzu werden zunächst die drei Basismethoden \textit{Vanilla} \cite{simonyan_deep_2013}, \textit{Guided Backpropagation} \cite{springenberg_striving_2014} und \textit{Integrated Gradient} \cite{sundararajan_axiomatic_2017} implementiert. 
 Unter Hinzufügung von Zufallsrauschen, gemäß \cite{smilkov_smoothgrad:_2017}, werden die Basismethoden verbessert, wie die Gegenüberstellung der Ergebnisse zu den eingesetzten Verfahren in Kapitel \ref{sec:SalErgebnisse} verdeutlicht.
 Diese optimierten Varianten werden als \textit{Smoothed Vanilla}, \textit{Smoothed Guided Backpropagation} und \textit{Smoothed Integrated Gradient} bezeichnet und implementiert.
 
-~\newline
 Jedes der \textit{Saliency Map} Verfahren wird auf die mit dem \textit{Aphrodite}-Modell klassifizierten Bilder angewendet. Diese Bilder werden nacheinander vom Dateisystem geladen und anschließend auf eine Zielbildgröße von $64 \times 64 $ Pixel skaliert. 
 Das \textit{Saliency Map} Verfahren extrahiert nun die vom zugrunde liegenden Modell (Aphrodite) gelernten Merkmale. Hierzu wird das jeweilige Eingabebild und das Aphrodite Modell verwendet. 
 Die damit erzeugten Bilder werden anschließend in einem nach dem verwendeten \textit{Saliency Map} Verfahren bezeichneten Verzeichnis in der Größe $64 \times 64 $ Pixel im Dateisystem abgespeichert.
 
-~\newline
-Zur abschließenden Evaluierung der erzeugten Bilder am \ac{NN} des \ac{GI}-Wettbewerbs, werden alle Bilder zu jedem eingesetzten \textit{Saliency Map} Verfahren im Zyklus von 60 Bilder pro Minute (Übertragungslimit pro Minute) an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom \ac{NN} des \ac{GI}-Wettbewerbs erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
+Zur abschließenden Evaluierung der erzeugten Bilder am \ac{NN} des \ac{GI}-Wett"-be"-werbs, werden alle Bilder zu jedem eingesetzten \textit{Saliency Map} Verfahren im Zyklus von 60 Bilder pro Minute (Übertragungslimit pro Minute) an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom \ac{NN} des \ac{GI}-Wettbewerbs erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Response"-code zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Response"-code, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
 
 
 %
@@ -95,7 +86,6 @@ Dahingegen konnten mit den optimierten \textit{Saliency Map} Verfahren (\textit{
 	\label{tab:sal1}
 \end{table}
 
-~\newline
 Tabelle \ref{tab:sal1} zeigt exemplarisch, wie aus dem Ursprungsbild (5.1a "`Höchstgeschwindigkeit (30)"'), unter Verwendung des \textit{Smoothed Guided Backpropagation} Verfahrens, ein Bild erzeugt wurde, das vom \ac{NN} des \ac{GI}-Wettbewerbs mit 91,55\% als "`Überholverbot"' klassifiziert wurde (5.1b). 
 Das \textit{Smoothed Vanilla Saliency} Verfahren erzeugte hingegen aus demselben Ursprungsbild ein Bild, das mit einer Zielkonfidenz von 92,83\% vom \ac{NN} des \ac{GI}-Wettbewerbs als "`Höchstgeschwindigkeit (30)"' erkannt wurde (5.1c).
 %\begin{figure}
@@ -119,8 +109,6 @@ Das \textit{Smoothed Vanilla Saliency} Verfahren erzeugte hingegen aus demselben
 %	\end{subfigure}
 %\end{figure}
 
-
-~\newline
 Tabelle \ref{tab:sal2} veranschaulicht weitere Beispiele für erfolgreich erzeugte Bilder, unter Verwendung der optimierten \textit{Saliency Map} Verfahren. Wieder kann beobachtet werden, dass die erzeugten Bilder zwar mit einer Zielkonfidenz von mehr als 90\% vom \ac{NN} des \ac{GI}-Wettbewerbs klassifiziert wurden, die ursprüngliche Klasse jedoch abweicht.
 
 \begin{table}

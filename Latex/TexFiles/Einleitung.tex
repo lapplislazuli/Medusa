@@ -7,7 +7,7 @@ Der Traum von einem autonom gelenkten Automobil ist so alt wie das Fahrzeug selb
 
 Der aktuelle Stand der Technik zeigt, dass sich die Umsetzung dieser Vision schwieriger gestaltet als zunächst angenommen. Anstelle einer autonomen Steuerung finden sich in heutigen Automobilen verschiedene Techniken zur Erhöhung der Fahrsicherheit und des Komforts. Beispiele sind Spurhalteassistenten, automatische Abstandshalter oder Einparkhilfen. Diese Funktionen unterstützen einen menschlichen Fahrer, ermöglichen jedoch noch kein selbstständiges Fahren.
 
-Es wird aber weiterhin an der Entwicklung eines autonomen Fahrzeugs geforscht, wie die Vergabe von Forschungsgeldern \cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern \cite{bmw_autonomes_nodate} und der Presse \cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf der automatischen Erkennung von Bildern aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern und Passanten von Bedeutung.
+Es wird jedoch weiterhin an der Entwicklung eines autonomen Fahrzeugs ge"-forscht, wie die Vergabe von Forschungsgeldern \cite{bmbf-internetredaktion_auto_nodate} und Berichte von Automobil"-her"-stel"-lern \cite{bmw_autonomes_nodate} und der Presse \cite{efler_autonomes_2018} zeigen. Die Forschung im Bereich \ac{KI} hat mittlerweile einen Stand erreicht, der für die Automatisierung des Autos genutzt werden kann. Ein besonderer Fokus liegt hierbei auf der automatischen Erkennung von Bildern aus der Umwelt mittels einer \ac{KI}. Im Straßenverkehr ist besonders die Erkennung von Straßenschildern und Passanten von Bedeutung.
 
 
 \section{Problemstellung}
@@ -49,13 +49,10 @@ Dieses Datenset bildet ebenfalls einen zentralen Ausgangspunkt für einige der v
 
 Anschließend werden verschiedene Lösungsansätze vorgestellt, beginnend mit dem (gescheiterten) \textit{Greyboxing} in Kapitel \ref{cha:GreyBoxing}. Es wird zunächst das geplante Konzept in Abschnitt \ref{sec:KonzeptGreyBoxing} vorgestellt, die grundlegende Implementierung in Abschnitt \ref{sec:ImplementierungGreyBoxing} und zuletzt eine Problem und Fehleranalyse des Ansatzes in Abschnitt \ref{sec:ProblemGreyBoxing}.
 
-Daraufhin wird im Kapitel \ref{cha:Degeneration} die \textit{Degeneration} vorgestellt:\\
-Dieser Ansatz verändert iterativ ein Verkehrsschild und behält die Änderungen bei, sollte der erzielte Score im akzeptablen Bereich liegen. 
-Mit passenden Bildveränderungen erzielen höhere Iterationen für den Menschen unkenntliche Ergebnisse, die von der \ac{KI} weiterhin mit hoher Konfidenz der Klasse des ursprünglichen Bildes zugeordnet wird.\\
+Daraufhin wird im Kapitel \ref{cha:Degeneration} die \textit{Degeneration} vorgestellt. Dieser Ansatz verändert iterativ ein Verkehrsschild und behält die Änderungen bei, sollte der erzielte Score im akzeptablen Bereich liegen. 
+Mit passenden Bildveränderungen erzielen höhere Iterationen für den Menschen unkenntliche Ergebnisse, die von der \ac{KI} weiterhin mit hoher Konfidenz der Klasse des ursprünglichen Bildes zugeordnet wird.
 Innerhalb des Kapitels wird zunächst in Abschnitt \ref{sec:DegenerationKonzept} die Idee anhand von Pseudocode genauer erläutert und anschließend in Abschnitt \ref{sec:DegenerationRemote} die Implementierung für die Kommunikation mit der Schnittstelle des Wettbewerbs gezeigt. 
-Die Ergebnisse liegen gesondert in Abschnitt \ref{sec:DegenerationErgebnisse} vor. \\
-Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich sind, sondern nur als Ausblick dienen.
-
+Die Ergebnisse liegen gesondert in Abschnitt \ref{sec:DegenerationErgebnisse} vor. Neben der Implementierung für die Webschnittstelle werden zum Abschluss des Kapitels in Abschnitt \ref{sec:DegenerationLokal} noch weitere Verbesserungen für eine lokale Implementierung vorgestellt, welche allerdings nicht für die Webschnittstelle tauglich sind, sondern nur als Ausblick dienen.
 
 Des Weiteren werden in Kapitel \ref{cha:saliency} verschiedene Methoden zur Erzeugung von sogenannten \textit{Saliency Maps} (dt. Ausprägungskarte) vorgestellt. 
 Bei dieser Methode werden unveränderte Bilder mit einer hohen Konfidenz ausgewählt, um die einzelnen Pixel hervorzuheben, welche für die Klassifikation den höchsten Einfluss haben.

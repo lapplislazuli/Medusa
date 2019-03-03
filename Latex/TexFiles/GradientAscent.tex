@@ -1,11 +1,11 @@
 \chapter{Gradient Ascent}
 \label{cha:gascent}
 
-Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte \textit{wi} und der Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
+Beim Training von künstlichen neuronalen Netzwerken, wie etwa \ac{CNN}, werden die Gewichte $ w_{i} $ und der Schwellwerte (Bias) so lange verändert und im Modell des Netzwerks gespeichert, bis die Ausgabe aus dem Netzwerk die Eingabedaten (Trainingsbilder) annähern. Um zu quantifizieren, wie gut dieses Ziel erreicht wird, wird eine sogenannte Kostenfunktion (engl. cost function) definiert. 
 Die Kostenfunktion geht also über jedes einzelne Bild aus dem Trainingsdatensatz und berechnet den Unterschied zwischen der gewünschten Ausgabe und dem Ausgabevektor $\vec{a}$ des Netzwerks.
-Der Ausgabevektor $\vec{a}$ ist hierbei abhängig vom Eingabebild, dem Gewicht $wi$ und dem Schwellwert.
+Der Ausgabevektor $\vec{a}$ ist hierbei abhängig vom Eingabebild, dem Gewicht $w_{i}$ und dem Schwellwert.
 Die Kostenfunktion hat den Wert 0 in etwa dann angenähert, wenn das Eingabebild annähernd dem Ausgabevektor $\vec{a}$ entspricht, was das Ziel des Trainings eines künstlichen neuronalen Netzwerks darstellt. Denn dann wurde das Eingabebild korrekt erkannt.
-Im Rahmen des Trainings sollen also eine Reihe von Gewichten $wi$ und Schwellwerte gefunden werden, welche die Kostenfunktion möglichst klein halten. 
+Im Rahmen des Trainings sollen also eine Reihe von Gewichten $w_{i}$ und Schwellwerte gefunden werden, welche die Kostenfunktion möglichst klein halten. 
 Dies wird erreicht mit dem Algorithmus, der als Gradient Descent bezeichnet wird \cite{zhou_understanding_2018}.
 Dieser Algorithmus berechnet wiederkehrend den Gradienten. 
 
@@ -21,18 +21,16 @@ Bei diesem Verfahren kann man beobachten, dass relevante Pixel, welche die bedeu
 
 \section{Implementierung}
 
-Zunächst wurde als vorverarbeitender Schritt ein \ac{CNN} unter Verwendung der AlexNet Architektur in PyTorch trainiert. 
+Zunächst wird als vorverarbeitender Schritt ein \ac{CNN} unter Verwendung der AlexNet Architektur in PyTorch trainiert. 
 Die hierbei verwendete Architektur des AlexNet entstammt \cite{pytorch_datasets_2019} und wurde dahingehend modifiziert, dass das AlexNet zu Eingabebildern der Größe $64 \times 64$ Pixel, drei Farbkanälen (RGB) sowie zu den 43 Klassen aus dem \ac{GTSRB} Datensatz kompatibel ist. 
 Die Bilder aus dem \ac{GTSRB} Trainingsdatensatz, welche unterschiedliche Bildgrößen aufweisen, wurden im Zuge des Trainings auf eine Bildgröße von ebenfalls 64 x 64 Pixel normiert. 
 Das Training des AlexNet erfolgte 50 Epochen lang mit dem \ac{GTSRB} Trainingsdatensatz und erzielte mit dem \ac{SGD} Optimierer eine Genauigkeit von annährend 89\% (validiert mit dem \ac{GTSRB} Testdatensatz).
 Die Implementierung des \textit{Gradient Ascent} Verfahrens, unter Verwendung der \textit{Targeted Backpropagation} Methode und dem trainierten AlexNet, erfolgte in einer modifizierten Variante zu \cite{ozbulak_pytorch_2019}. 
 
-~\newline
 Unter Angabe der Zielklasse sowie der minimalen Zielkonfidenz erzeugt der Algorithmus zunächst ein Zufallsbild, welches als Eingabeparameter für das trainierte AlexNet verwendet wird. Unter Anwendung des SGD-Optimierers auf das Eingabebild werden die Gradienten entsprechend der spezifizierten Zielklasse berechnet. 
 Diese Gradienten werden nicht verwendet, um die Parameter des AlexNet-Modells zu verändern, wie es beim Training der Fall war, sondern um das eingegebene Bild dahingehend zu modifizieren, dass es der gewünschten Zielklasse entspricht. 
 Die entsprechenden Pixel der aktivierten Neuronen werden hierzu (je nach Aktivierungsstärke) mit den Bildpixelwerten addiert. 
 Dieser Prozess wird so lange wiederholt, bis das veränderte Bild die gewünschte minimale Zielkonfidenz zu der angegebenen Zielklasse erreicht hat.
-~\newline
 
 Der Algorithmus wurde für jede der 43 \ac{GTSRB}-Klassen so lange wiederholt, bis das veränderte Bild die gewünschte Mindest-Konfidenz von 100\% erreicht.
 Zur abschließenden Evaluierung der erzeugten Bilder am \ac{NN} des \ac{GI}-Wettbewerbs, werden alle Bilder an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom \ac{NN} des \ac{GI}-Wettbewerbs erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
@@ -64,7 +62,6 @@ Unter diesen 20 erzeugten Bildern stimmte lediglich bei 10 Bildern die im Algori
 
 %Als Ergebnis des Algorithmus wurden 43 Bilder respektive der 43 Klassen des letzten Layers erzeugt. Die Evaluation am zu überlistenden \ac{NN} ergab Konfidenzen >0.9 für 20 der 43 Bilder. Durch die Ähnlichkeit zwischen verschiedenen Klassen bzw. Straßenschildern, beispielsweise Höchstgeschwindigkeit 30 und 50, wurden nur 10 verschiedene Klassen in den 20 "'erfolgreichen"' Bildern erkannt.
 %Nachfolgende Grafiken \ref{tab:gasc1} zeigen verschieden Beispiele für die erzeugten Bilder mit initialen Zufallswerten. Wieder kam es zu Ergebnissen, welche eine andere Klasse lieferten, als für die Erzeugung verwendet wurde. Das für die Klasse \textit{Links Abbiegen} erzeugte Bild wurde vom Trasi-\ac{NN} beispielsweise als \textit{Kreisverkehr} erkannt.
-~\newline
 
 
 Tabelle \ref{tab:gasc1} veranschaulicht vier repräsentative Ergebnisse, welche mit dem \textit{Gradient Ascent} Verfahren erzeugt und vom \ac{NN} des \ac{GI}-Wettbewerbs mit einer Konfidenz von über 90\% als Verkehrszeichen klassifiziert werden. Die Abbildungen oben links und unten rechts werden vom \ac{NN} des \ac{GI}-Wettbewerbs als "`Einfahrt Verboten"' mit 99,99\% Konfidenz beziehungsweise als "`Kreisverkehr"' mit 98,68\% Konfidenz korrekt klassifiziert. 

@@ -96,7 +96,7 @@ Während die Abbildung \ref{fig:stoptiefe600} noch als Verkehrsschild zu erkenne
 	\label{fig:stoptiefe4000}
 \end{figure}
 
-Die Plots in Abbildung \ref{fig:plotTiefe4000} stellen den Verlauf des Algorithmus dar: Das erste Diagramm zeigt einen Verlauf der aktuellen \textit{Tiefe} über die Iterationen, der zweite die jeweils produzierte Genauigkeit der jeweiligen Iteration (nicht nur die der akzeptierten), und der letzte Plot visualisiert diejenigen Iterationen, an welchen eine Änderung stattgefunden hat (weißer Strich) oder keine (schwarzer Strich). Innerhalb der Implementierung werden ebenfalls standartmäßig diese Plots erzeugt.
+Die Plots in Abbildung \ref{fig:plotTiefe4000} stellen den Verlauf des Algorithmus dar: Das erste Diagramm zeigt einen Verlauf der aktuellen \textit{Tiefe} über die Iterationen, der zweite die jeweils produzierte Genauigkeit der jeweiligen Iteration (nicht nur die der akzeptierten), und der letzte Plot visualisiert diejenigen Iterationen, an welchen eine Änderung stattgefunden hat (weißer Strich) oder keine (schwarzer Strich). Innerhalb der Implementierung werden ebenfalls standardmäßig diese Plots erzeugt.
 
 \begin{figure}[h]
 	\centering
@@ -104,7 +104,7 @@ Die Plots in Abbildung \ref{fig:plotTiefe4000} stellen den Verlauf des Algorithm
 	\caption[Plot Degeneration]{Plot der Rausch-Degeneration}
 	\label{fig:plotTiefe4000}
 \end{figure}
-~\newline Es wurden ebenfalls einige sehr positive Ergebnisse mit einer Mischung aus starkem Rauschen und Glätten erzeugt. Allerdings waren diese nicht zuverlässig reproduzierbar. 
+Es wurden ebenfalls einige sehr positive Ergebnisse mit einer Mischung aus starkem Rauschen und Glätten erzeugt. Allerdings waren diese nicht zuverlässig reproduzierbar. 
 
 \paragraph{Negative Ergebnisse} ~\newline Es gibt zwei primäre Fehlerquellen in Bezug auf die Remote-Degeneration: Die Auswahl von Bildern, welche im GTSRB-\textit{Training}-Set waren, sowie die Auswahl ungeeigneter Manipulationsfunktionen. 
 ~\newline
@@ -150,24 +150,20 @@ Solche permanent trainierenden Modelle sind in der Praxis allerdings selten im E
 
 Innerhalb dieses Abschnittes werden zunächst die Änderungen bei der lokalen Verwendung des Algorithmus kurz behandelt und anschließend zwei konzeptionelle Verbesserungen vorgestellt: Parallel- und Batch-Varianten des Algorithmus. 
 
-Auf weitere Code-Beispiele wird im Rahmen des Umfanges verzichtet. Sie befinden sich im Anhang.
+\paragraph{Anpassungen} ~\newline Für die lokale Implementierung wird zunächst von Grund auf ein eigenes Modell mithilfe der \ac{GTSRB}-Daten trainiert (siehe dazu Abschnitt \ref{sec:ImplAphrodite}). Das \textit{Scoring} der Remote-Implementierung wird durch die \textit{predict()}-Funktion des Models ersetzt.
 
-\paragraph{Anpassungen} ~\newline Für die lokale Implementierung wurde zunächst von Grund auf ein eigenes Modell mithilfe der \ac{GTSRB}-Daten trainiert (siehe dazu Abschnitt \ref{sec:ImplAphrodite}). Das \textit{Scoring} der Remote-Implementierung wird durch die \textit{predict()}-Funktion des Models ersetzt.
+Als zusätzliche Erweiterung wird für die lokale Implementierung umgesetzt, dass sich der Nutzer für eine bestimmte Klasse entscheiden kann, auf welche die Degeneration ausgelegt ist. Es wird also zuverlässig bspw. ein Stoppschild erzeugt und kein beliebiges Schild mit hohem Score. 
 
-Als zusätzliche Erweiterung wird für die lokale Implementierung umgesetzt, dass sich der Nutzer für eine bestimmte Klasse entscheiden kann, auf welche die Degeneration ausgelegt ist. Es wird also zuverlässig bspw. ein Stoppschild erzeugt, und kein beliebiges Schild mit hohem Score. 
+Des Weiteren entfällt die Wartezeit, welche zwischen Anfragen an die Schnittstelle benötigt wird. Auf diese Weise erhöht sich die Geschwindigkeit des Algorithmus maßgeblich. 
 
-~\newline Des Weiteren entfällt die Wartezeit, welche zwischen Anfragen an die Schnittstelle benötigt wird. Auf diese Weise erhöht sich die Geschwindigkeit des Algorithmus maßgeblich. 
-
-~\newline Eine zusätzliche, passive Verbesserung wird erzielt, indem die GPU-Acceleration Funktionen von Tensorflow verwendet werden. Diese beschleunigen nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen. Insbesondere die Batch-Variante konnte im Zusammenhang mit der eingesetzten NVIDIA Grafikkarte GTX 1070\footnote{https://www.nvidia.com/en-gb/geforce/products/10series/geforce-gtx-1070/} um den Faktor 20 beschleunigt werden.
+Eine zusätzliche, passive Verbesserung wird erzielt, indem die GPU-Acceleration Funktionen von Tensorflow verwendet werden. Diese beschleunigen nicht nur das Training des lokalen Models maßgeblich, sondern auch die Vorhersagen. Insbesondere die Batch-Variante konnte im Zusammenhang mit der eingesetzten NVIDIA Grafikkarte GTX 1070\footnote{https://www.nvidia.com/en-gb/geforce/products/10series/geforce-gtx-1070/} um den Faktor 20 beschleunigt werden.
 
 
 \paragraph{Fazit}~\newline Das wichtigste Fazit, welches im Umgang mit der lokalen Implementierung gezogen werden kann, ist die Nichtverwendbarkeit der lokalen Bilder für die Schnittstelle. Während dies ursprünglich die Motivation war, schnell lokal Bilder zur Täuschung der "`Black Box"' des \ac{GI}-Wettbewerbs zu erzeugen und remote zu verwenden, stellte sich heraus, dass die lokalen Bilder keine guten Scores an der Schnittstelle erzielten und vice versa. 
 
-~\newline Es ist anzunehmen, dass die Modelle dieselben Stärken haben bei der korrekten Erkennung von Verkehrsschildern, allerdings unterschiedliche \textit{Schwächen}. Die erzeugten Bilder zur Täuschung scheinen im Model selbst zu fußen und sind somit hochgradig spezifisch. 
+Es ist anzunehmen, dass die Modelle dieselben Stärken haben bei der korrekten Erkennung von Verkehrsschildern, allerdings unterschiedliche \textit{Schwächen}. Die erzeugten Bilder zur Täuschung scheinen im Model selbst zu fußen und sind somit hochgradig spezifisch. 
 
-~\newline Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei dem \ac{NN}, welches im Algorithmus verwendet wird, Werte >90\%, und beim anderen Modell zuverlässig einen Score von $\approx$30\%. 
-
-Für ein Bild, welches an sich nichts mehr mit einem Verkehrsschild zu tun hat, sind dies immer noch hohe Werte und die Zuverlässigkeit mit der dieser Zusammenhang auftritt lässt einen leichten, inhaltlichen Zusammenhang der Bilder erahnen.
+Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei dem \ac{NN}, welches im Algorithmus verwendet wird, Werte >90\%, und beim anderen Modell zuverlässig einen Score von $\approx$30\%. Für ein Bild, welches an sich nichts mehr mit einem Verkehrsschild zu tun hat, sind dies immer noch hohe Werte und die Zuverlässigkeit mit der dieser Zusammenhang auftritt lässt einen leichten, inhaltlichen Zusammenhang der Bilder erahnen.
 
 \newpage
 \subsection{Batch-Degeneration}
@@ -183,21 +179,13 @@ Diese werden alle bewertet und falls das beste Bild des Batches den Schwellwert 
 	\label{fig:batchdegplottiefe1000}
 \end{figure}
 
-Abbildung \ref{fig:batchdegplottiefe1000} zeigt den deutlich besseren Verlauf der Batch-Degeneration gegenüber der unveränderten Implementierung in Abbildung \ref{fig:plotTiefe4000}. Auffallend ist die durchgängige Veränderung und die gleichbleibend hohe Konfidenz von mehr als 99.9\% \footnote{Innerhalb des Plots wird es auf 1 gerundet}. 
+Abbildung \ref{fig:batchdegplottiefe1000} zeigt den deutlich besseren Verlauf der Batch-Degeneration gegenüber der unveränderten Implementierung in Abbildung \ref{fig:plotTiefe4000}. Auffallend ist die durchgängige Veränderung und die gleichbleibend hohe Konfidenz von mehr als 99.9\% \footnote{Innerhalb des Plots wird es auf 1 gerundet}. Dieses Verhalten für die Webschnittstelle des \ac{GI}-Wettbewerbs einzusetzen ist möglich, allerdings wird aufgrund der Wartezeit zwischen den Anfragen davon abgesehen. 
 
-~\newline Dieses Verhalten für die Webschnittstelle des \ac{GI}-Wettbewerbs einzusetzen ist möglich, allerdings wurde aufgrund der Wartezeit zwischen den Anfragen davon abgesehen. 
+Diese Variante profitiert maßgeblich von der \textit{GPU-Acceleration} innerhalb Tensorflows. Selbst ohne Verwendung des CUDA-Frameworks ist ein Tensorflow-Model auf Batch-Verarbeitung ausgelegt. Die optimale Batchgröße zu finden ist systemabhängig und sollte kurz getestet werden. Insgesamt benötigt die Batch-Degeneration trotzdem maßgeblich mehr Zeit: Für das Beispiel in Abbildung \ref{fig:batchdegplottiefe1000} werden ca. 15 Minuten benötigt, was knapp 5 mal so lange ist wie die ursprüngliche Implementierung. 
 
-~\newline Diese Variante profitiert maßgeblich von der \textit{GPU-Acceleration} innerhalb Tensorflows. 
+\textbf{Anmerkung:} Ein prinzipielles Problem der Batch-Degeneration liegt in der Zufälligkeit der Manipulationsfunktion. Als Beispiel sei einfaches Rauschen gewählt. Ein naheliegendes Verhalten für den Algorithmus ist von den 100 erzeugten Bildern dieses auszuwählen, welches das geringste Rauschen aufweist und als solches am wenigsten verändert wurde. Im Normalfall weist das am wenigsten veränderte Bild den nächsten Score auf. 
 
-Selbst ohne Verwendung des CUDA-Frameworks ist ein Tensorflow-Model auf Batch-Verarbeitung ausgelegt. 
-
-Die optimale Batchgröße zu finden ist systemabhängig und sollte kurz getestet werden. Insgesamt benötigt die Batch-Degeneration trotzdem maßgeblich mehr Zeit: Für das Beispiel in Abbildung \ref{fig:batchdegplottiefe1000} wurden ca. 15 Minuten benötigt, was knapp 5 mal so lange ist wie die ursprüngliche Implementierung. 
-
-~\newline \textbf{Anmerkung:} Ein prinzipielles Problem der Batch-Degeneration liegt in der Zufälligkeit der Manipulationsfunktion. Als Beispiel sei einfaches Rauschen gewählt. 
-
-Ein naheliegendes Verhalten für den Algorithmus ist von den 100 erzeugten Bildern dieses auszuwählen, welches das geringste Rauschen aufweist und als solches am wenigsten verändert wurde. Im Normalfall weist das am wenigsten veränderte Bild den nähesten Score auf. 
-
-Glücklicherweise ist dies ein hypothetisches Problem und in der tatsächlichen Implementierung nicht aufgetreten. Dennoch sollte es vor allem für die Manipulationsfunktion berücksichtigt werden. Im Falle einer Manipulationsfunktion, welche konstante Elemente beinhaltet (zum Beispiel Glätten oder statische Veränderungen der Helligkeit) fördert die Batch-Degeneration den selektiven Ansatz.
+Glücklicherweise ist dies ein hypothetisches Problem und tritt in der tatsächlichen Implementierung nicht auf. Dennoch sollte es vor allem für die Manipulationsfunktion berücksichtigt werden. Im Falle einer Manipulationsfunktion, welche konstante Elemente beinhaltet (zum Beispiel Glätten oder statische Veränderungen der Helligkeit) fördert die Batch-Degeneration den selektiven Ansatz.
 \subsection{Parallel-Degeneration}
 Die Parallel-Variante stützt sich auf die Idee, mehrere Threads zu starten, welche gleichzeitig eine Degeneration durchführen.
 
@@ -207,29 +195,28 @@ Sobald ein einzelner Thread die gewünschte Tiefe erreicht hat, wird der Prozess
 
 \begin{itemize}
 	\item Modelgröße: Jeder Thread braucht ein eigenes Model, welches allerdings zu groß war. Naive Benutzung eines gemeinsamen Models führen zu Race-Con"-ditions, \textit{geschickte} Benutzung des Models führen zu einem Verhalten wie innerhalb der Batch-Variante
-	\item Numpy-Arrays: Die Bilder für die lokale Degeneration lagen als Numpy-Arrays vor, welche ein besonderes Verhalten und eine besondere Benutzung innerhalb der Parallelverarbeitung benötigen \footnote{Dieses Problem ist sicherlich lösbar lösbar, allerdings ein Problem aus dem Bereich der Parallelverarbeitung, was im Kontext dieser Arbeit nicht weiter verfolgt wird.}. 
+	\item Numpy-Arrays: Die Bilder für die lokale Degeneration lagen als Numpy-Arrays vor, welche ein besonderes Verhalten und eine besondere Benutzung innerhalb der Parallelverarbeitung benötigen \footnote{Dieses Problem ist sicherlich lösbar, allerdings ein Problem aus dem Bereich der Parallelverarbeitung, was im Kontext dieser Arbeit nicht weiter verfolgt wird.}. 
 	\item Grafikkarteneinbindung: Sobald die GPU-Acceleration innerhalb Tensorflows eingerichtet ist, werden (nahezu alle) Anfragen an die Grafikkarte weitergeleitet. Diese unterstützt das parallele Verhalten der einzelnen Threads nicht. 
 \end{itemize} 
-~\newline 
+
 Die Probleme sind hardware- oder frameworkbezogen. Je nach Umfeld können diese somit entfallen. Race-Conditions entfallen beispielsweise, wenn man in der Cloud arbeitet.
 
-~\newline Diese Variante war für die Remote-Implementierung nicht umsetzbar, da gleichzeitige Anfragen (mit dem selben API-Key) fehlschlagen. Ein internes Scheduling der Anfragen führt nicht zu schnelleren Ergebnissen. 
+Diese Variante war für die Remote-Implementierung nicht umsetzbar, da gleichzeitige Anfragen (mit dem selben API-Key) fehlschlagen. Ein internes Scheduling der Anfragen führt nicht zu schnelleren Ergebnissen. 
 \subsection{Tree-Degeneration}
 Diese Variante führt eine Merkstruktur ein, welche die bisherigen Ergebnisse und Schritte zwischenspeichert. 
 
-~\newline Das bisherige Verhalten entspricht dem einer Liste, bei welcher lediglich der letzte Knoten verwendet wird. Mit dem jeweils letzten Bild wird weitergearbeitet, bis entweder ein neues korrektes Bild erzeugt wird oder der Algorithmus endet. 
+Das bisherige Verhalten entspricht dem einer Liste, bei welcher lediglich der letzte Knoten verwendet wird. Mit dem jeweils letzten Bild wird weitergearbeitet, bis entweder ein neues korrektes Bild erzeugt wird oder der Algorithmus endet. 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Images/DegenTreeNormal}
-	\caption[Tree-Degeneration]{Derzeitige Implementierung und eine Baum-basierte Implementierung}
+	\caption[Tree-Degeneration]{Derzeitige Implementierung und eine baum-basierte Im"-ple"-men"-tie"-rung}
 	\label{fig:degentreenormal}
 \end{figure}
 
+Die Variation beinhaltet das Führen eines \textit{Retry-Counters}, welcher bei jedem Versuch von einem Knoten erhöht wird. Sollte eine gewisse Anzahl an Versuchen ergebnislos bleiben, wird der aktuelle Knoten verworfen und der Vorgänger benutzt. 
 
-~\newline Die Variation beinhaltet das führen eines \textit{Retry-Counters}, welcher bei jedem Versuch von einem Knoten erhöht wird. Sollte eine gewisse Anzahl an Versuchen ergebnislos bleiben, wird der aktuelle Knoten verworfen und der Vorgänger benutzt. 
+Dieses Verhalten führt, je nach gewählter Maximalanzahl der Kinder eines Knotens, zu einem (Binär-)Baum. Das Abbruchkriterium der Tiefe kann weiterhin beibehalten werden und entspricht der Tiefe des Baumes. Im Falle eines versuchs- oder zeitbedingten Abbruchs wird das Bild mit der bisher größten Tiefe ausgegeben.
 
-~\newline Dieses Verhalten führt, je nach gewählter Maximalanzahl der Kinder eines Knotens, zu einem (Binär-)Baum. Das Abbruchkriterium der Tiefe kann weiterhin beibehalten werden und entspricht der Tiefe des Baumes. Im Falle eines versuchs- oder zeitbedingten Abbruchs wird das Bild mit der bisher größten Tiefe ausgegeben.
+Die Entwicklung dieser Variante entstand durch die Beobachtung, dass die Geschwindigkeit der Degeneration stark abhängig sind vom Ausgangsbild. Es kann ein Bild erreicht werden, welches sehr \textit{sensibel} wahrgenommen wird und deutlich schwerer Änderungen \textit{toleriert}.
 
-~\newline Die Entwicklung dieser Variante entstand durch die Beobachtung, dass die Geschwindigkeit der Degeneration stark abhängig sind vom Ausgangsbild. Es kann ein Bild erreicht werden, welches sehr \textit{sensibel} wahrgenommen wird und deutlich schwerer Änderungen \textit{toleriert}.
-
-~\newline Die Batch-Degeneration ist mit dieser Variante frei kombinierbar.  
+Die Batch-Degeneration ist mit dieser Variante frei kombinierbar.  
