@@ -215,7 +215,6 @@ Die erzeugten Bilder zur Täuschung scheinen im Model selbst zu fußen und sind 
 Die meisten stark veränderten Bilder, welche i.A. nicht mehr vom Menschen als Verkehrsschilder erkannt werden, erzeugen bei dem \ac{NN}, welches im Algorithmus verwendet wird, Werte >90\%, und beim anderen Modell zuverlässig einen Score von $\approx$30\%. 
 Für ein Bild, welches an sich nichts mehr mit einem Verkehrsschild zu tun hat, sind dies immer noch hohe Werte und die Zuverlässigkeit mit der dieser Zusammenhang auftritt lässt einen leichten, inhaltlichen Zusammenhang der Bilder und Modelle erahnen.
 
-\newpage
 \subsection{Batch-Degeneration}
 Innerhalb des Batch-Variante wird anstatt eines einzelnen Bildes ein Array aus $n$ veränderten Bildern erzeugt. 
 
@@ -249,6 +248,7 @@ Im Normalfall weist das am wenigsten veränderte Bild den nächsten Score auf.
 Glücklicherweise ist dies ein hypothetisches Problem und tritt überraschenderweise in der tatsächlichen Implementierung nicht auf. 
 Dennoch sollte es vor allem für die Manipulationsfunktion berücksichtigt werden. 
 Im Falle einer Manipulationsfunktion, welche konstante Elemente beinhaltet (zum Beispiel Glätten oder statische Veränderungen der Helligkeit) fördert die Batch-Degeneration den genetisch-selektiven Ansatz.
+\newpage
 \subsection{Parallel-Degeneration}
 Die Parallel-Variante stützt sich auf die Idee, mehrere Threads zu starten, welche gleichzeitig eine Degeneration durchführen.
 
@@ -270,6 +270,7 @@ Race-Conditions entfallen beispielsweise, wenn man in der Cloud arbeitet.
 
 Diese Variante war für die Remote-Implementierung nicht umsetzbar, da gleichzeitige Anfragen (mit dem selben API-Key) fehlschlagen. 
 Ein internes Scheduling der Anfragen führt nicht zu schnelleren Ergebnissen. 
+\newpage
 \subsection{Tree-Degeneration}
 Diese Variante führt eine Merkstruktur ein, welche die bisherigen Ergebnisse und Schritte zwischenspeichert. 
 
