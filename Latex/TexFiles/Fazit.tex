@@ -2,55 +2,88 @@
 \label{cha:Fazit} \label{cha:Schluss}
 Die vorangehende Arbeit stellt verschiedene bilderzeugende Verfahren zum Angriff einer Verkehrsschilder erkennenden \ac{KI} vor.
 
-~\newline Die Motivation für die Arbeit ist das Forschungsfeld des autonomen Fahrens, in welchem \acp{KI} für die optische Erkennung der Umwelt, im besonderen für das Erkennen von Straßenschildern, verwendet werden sollen.\\
-Vorangehende Arbeiten mit Neuronalen Netzen zeigten, dass diese zum aktuellen Zeitpunkt anfällig für Manipulationen sind und fehlerhaft reagieren können. Das gezielte Ausnutzen dieser Fehleranfälligkeit wird in der Forschung als \textit{Adversarial Attack} bezeichnet.\\
-Das Ziel der Arbeit ist es verschiedene Verfahren vorzustellen und zu untersuchen, mit denen \textit{Adversarial Attacks} gegen ein \ac{NN} zur Erkennung von Straßenschildern durchgeführt werden können. Die Aufgabenstellung und das \ac{NN} werden von der \acl{GI} im Rahmen des Wettbewerbs \textit{InformatiCup 2019} gestellt.
+Die Motivation für die Arbeit ist das Forschungsfeld des autonomen Fahrens, in welchem \acp{KI} für die optische Erkennung der Umwelt, im Besonderen für das Erkennen von Straßenschildern, verwendet werden sollen. 
+Vorangehende Arbeiten mit Neuronalen Netzen zeigten, dass diese zum aktuellen Zeitpunkt anfällig für Manipulationen sind und fehlerhaft reagieren können. 
+Das gezielte Ausnutzen dieser Fehleranfälligkeit wird in der Forschung als \textit{Adversarial Attack} bezeichnet. 
+Das Ziel der Arbeit ist es verschiedene Verfahren vorzustellen und zu untersuchen, mit denen \textit{Adversarial Attacks} gegen ein \ac{NN} zur Erkennung von Straßenschildern durchgeführt werden können. 
+Die Aufgabenstellung und das \ac{NN} werden von der \acl{GI} im Rahmen des Wettbewerbs \textit{InformatiCup 2019} gestellt.
 
-~\newline Im ersten Schritt der Arbeit werden die Anforderungen an die bilderzeugenden Verfahren zum Angriff der \ac{KI} des \ac{GI}-Wettbewerbs analysiert und die Rahmenbedingungen ermittelt. Die Hauptquelle dafür ist die Aufgabenstellung des InformatiCups 2019, sowie die zur Verfügung stehende \ac{KI} des Wettbewerbs, welche über eine Webschnittstelle erreichbar ist.
+Im ersten Schritt der Arbeit werden die Anforderungen an die bilderzeugenden Verfahren zum Angriff der \ac{KI} des \ac{GI}-Wettbewerbs analysiert und die Rahmenbedingungen ermittelt. 
+Die Hauptquelle dafür ist die Aufgabenstellung des InformatiCups 2019, sowie die zur Verfügung stehende \ac{KI} des Wettbewerbs, welche über eine Webschnittstelle erreichbar ist.
 
-~\newline In Kapitel \ref{cha:TechKonzept} werden die verwendeten Technologien der Arbeit vorgestellt. Diese dienen als Grundlage für die verschiedenen Verfahren in den Kapiteln \ref{cha:Degeneration} - \ref{cha:gascent}. Anschließend wird erläutert, warum sich \textit{Adversarial Attacks} für die Zielerreichung der Arbeit eignen. Der letzte Abschnitt des Kapitels behandelt die Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern, welches im Projekt \textit{Aphrodite} genannt wird. Das Modell wird in dem Verfahren lokale Degeneration in Kapitel \ref{cha:Degeneration} und im \textit{Saliency Maps} Verfahren in Kapitel \ref{cha:saliency} eingesetzt. Das eigene Modell dient als Ersatz für das \ac{NN} des \ac{GI}-Wettbewerbs, da Anfragen an letzteres Beschränkungen wie einer Anzahl an Requests pro Minute unterliegen. Zusätzlich bietet ein lokales Modell Möglichkeiten zur detaillierten Untersuchung der Verfahren, da es sich nicht um ein Black Box Modell handelt.
- 
-~\newline Das erste vorgestellte bilderzeugende Verfahren zum Angriff einer Verkehrsschilder erkennenden \ac{KI} ist die Degeneration. Bei diesem Verfahren wird iterativ ein Bild manipuliert, welches ein Objekt enthält, dass vom Menschen und dem \ac{NN} des \ac{GI}-Wettbewerbs als Straßenschild klassifiziert wird. Durch verschiedene Bildbearbeitungsfunktionen wird das Bild solange verändert, bis ein Mensch kein Straßenschild mehr erkennt. Bei jeder Iteration wird darauf geachtet, dass das veränderte Bild von der \ac{KI} weiterhin mit hoher Konfidenz einer Straßenschild-Klasse zugeordnet wird. Die Degeneration ist ein vergleichsweise simpler Algorithmus, welcher zuverlässig gute Ergebnisse liefert.\\ 
-Der wesentliche Vorteil der Degeneration ist die Unabhängigkeit vom Modell, welches angegriffen werden soll. Es muss kein Transfermodell erstellt werden, um angepasste Angriffe zu erzeugen, sondern der Algorithmus erzeugt Angriffsbilder anhand der Antworten der Black Box \ac{KI} des \ac{GI}-Wettbewerbs.\\
-Diese Tatsache stellt gleichzeitig einen Nachteil der Degeneration dar, da Anfragen an die Webschnittstelle des \ac{GI}-Wettbewerbs mehr Zeit benötigen als Anfragen an ein lokales \ac{NN}. Für einen Angriff, bei dem ein hoher Konfidenzwert für eine Straßenschild-Klasse erreicht werden soll, muss über eine Stunde gerechnet werden. Die Zeit erhöht sich weiter, wenn das angegriffene \ac{NN} dynamisch auf Rauschen reagiert und zugesendete Bilder für ein kontinuierliches Training nutzt. Da eine Grundvoraussetzung des Wettbewerbs jedoch ein abgeschlossenes trainiertes Netz ist, gehört dieses Problem nicht zum Rahmen der Arbeit. \\
+In Kapitel \ref{cha:TechKonzept} werden die verwendeten Technologien der Arbeit vorgestellt. 
+Diese dienen als Grundlage für die verschiedenen Verfahren in den Kapiteln \ref{cha:Degeneration} - \ref{cha:gascent}. Anschließend wird erläutert, warum sich \textit{Adversarial Attacks} für die Zielerreichung der Arbeit eignen. 
+Der letzte Abschnitt des Kapitels behandelt die Implementierung eines eigenen Modells zur Klassifizierung von Straßenschildern, welches im Projekt \textit{Aphrodite} genannt wird. 
+Das Modell wird in dem Verfahren lokale Degeneration in Kapitel \ref{cha:Degeneration} und im \textit{Saliency Maps} Verfahren in Kapitel \ref{cha:saliency} eingesetzt. 
+Das eigene Modell dient als Ersatz für das \ac{NN} des \ac{GI}-Wettbewerbs, da Anfragen an letzteres Beschränkungen wie einer Anzahl an Requests pro Minute unterliegen. 
+Zusätzlich bietet ein lokales Modell Möglichkeiten zur detaillierten Untersuchung der Verfahren, da es sich nicht um eine Blackbox handelt.
+
+Zunächst wird der nicht erfolgreiche Ansatz \textit{Greyboxing} vorgestellt und seine Schwächen analysiert.
+
+Das erste vorgestellte erfolgreiche bilderzeugende Verfahren zum Angriff einer Verkehrsschilder erkennenden \ac{KI} ist die Degeneration.
+Bei diesem Verfahren wird iterativ ein Bild manipuliert, welches ein Objekt enthält, dass vom Menschen und dem \ac{NN} des \ac{GI}-Wettbewerbs als Straßenschild klassifiziert wird. 
+Durch verschiedene Bildbearbeitungsfunktionen wird das Bild solange verändert, bis ein Mensch kein Straßenschild mehr erkennt. 
+Bei jeder Iteration wird darauf geachtet, dass das veränderte Bild von der \ac{KI} weiterhin mit hoher Konfidenz einer Straßenschild-Klasse zugeordnet wird. 
+Die Degeneration ist ein vergleichsweise simpler Algorithmus, welcher zuverlässig gute Ergebnisse liefert. 
+Der wesentliche Vorteil der Degeneration ist die Unabhängigkeit vom Modell, welches angegriffen werden soll. 
+Es muss kein Transfermodell erstellt werden, um angepasste Angriffe zu erzeugen, sondern der Algorithmus erzeugt Angriffsbilder anhand der Antworten der Blackbox-\ac{KI} des \ac{GI}-Wettbewerbs. 
+Diese Tatsache stellt gleichzeitig einen Nachteil der Degeneration dar, da Anfragen an die Webschnittstelle des \ac{GI}-Wettbewerbs mehr Zeit benötigen als Anfragen an ein lokales \ac{NN}. 
+Für einen Angriff, bei dem ein hoher Konfidenzwert für eine Straßenschild-Klasse erreicht werden soll, muss über eine Stunde gerechnet werden. 
+Die Zeit erhöht sich weiter, wenn das angegriffene \ac{NN} dynamisch auf Rauschen reagiert und zugesendete Bilder für ein kontinuierliches Training nutzt. 
+Da eine Grund"-voraussetzung des Wettbewerbs jedoch ein unverändertes trainiertes Netz ist, gehört dieses Problem nicht zum Rahmen der Arbeit. 
 Trotz des Zeitaufwands ist die Effektivität der Degeneration vergleichsweise hoch, obwohl es sich im Wesentlichen um einen Brute-Force Angriff handelt. 
 
-~\newline Im weiteren Verlauf der Arbeit wird gezeigt, dass das \ac{NN} des \ac{GI}-Wettbewerbs nicht immer direkt angegriffen werden muss, um hohe Angriffserfolge zu erzielen. So wird bei den verschiedenen \textit{Saliency Map} und dem \textit{Gradient Ascent} Verfahren die Kenntnis über die Möglichkeit zur Transferierbarkeit von Modellen genutzt. Das heißt, dass jeweilige Verfahren setzt zur Erzeugung von schädlichen Bildern jeweils ein lokal trainiertes \ac{CNN} (\textit{Aphrodite} beziehungsweise \textit{AlexNet}) ein. Die Bilderzeugnisse sind bei den beiden soeben genannten Verfahren in keinem Fall vom Menschen als Verkehrszeichen wahrnehmbar. Jedoch werden einige dieser erzeugten Schadbilder vom \ac{NN} des \ac{GI}-Wettbewerbs mit Konfidenzen von zum Teil mehr als 90\% als Verkehrszeichen erkannt.\\
-Ein Nachteil an den \textit{Saliency Map} Verfahren ist, dass sie nicht erlauben \ac{GTSRB}-Klassen gezielt anzugreifen, wohingegen mit dem \textit{Gradient Ascent Verfahren} in 10 von 20 Fällen erfolgreich Schadbilder zur gewünschten \ac{GTSRB}-Zielklasse erzeugt werden konnten.
+Im weiteren Verlauf der Arbeit wird gezeigt, dass das \ac{NN} des \ac{GI}-Wettbewerbs nicht immer direkt angegriffen werden muss, um hohe Angriffserfolge zu erzielen. 
+So wird bei den verschiedenen \textit{Saliency Map} und dem \textit{Gradient Ascent} Verfahren die Kenntnis über die Möglichkeit zur Transferierbarkeit von Modellen genutzt. 
+Das heißt, dass jeweilige Verfahren setzt zur Erzeugung von schädlichen Bildern jeweils ein lokal trainiertes \ac{CNN} (\textit{Aphrodite} beziehungsweise \textit{AlexNet}) ein. 
+Die Bilderzeugnisse sind bei den beiden soeben genannten Verfahren in keinem Fall vom Menschen als Verkehrs"-zeichen wahrnehmbar. 
+Jedoch werden einige dieser erzeugten Schadbilder vom \ac{NN} des \ac{GI}-Wettbewerbs mit Konfidenzen von zum Teil mehr als 90\% als Verkehrszeichen erkannt. 
+Ein Nachteil an den \textit{Saliency Map} Verfahren ist, dass sie nicht erlauben \ac{GTSRB}-Klassen gezielt anzugreifen, wohingegen mit dem \textit{Gradient Ascent Verfahren} in 10 von 20 Fällen erfolgreich Schadbilder zur gewünschten \ac{GTSRB}-Zielklasse erzeugt wurden.
 
 
 \section{Diskussion}
-Die Herausforderungen des Wettbewerbs wirken sich auf die Erfolge der Verfahren aus.\\
-Es wird vermutet, dass die Verfahren \textit{Saliency Map} und \textit{Gradient Ascent} bessere Ergebnisse liefern könnten, wenn das verwendete Bild größer als $64\times64$ Pixel wäre. Der Grund dafür liegt in der zusätzlichen Menge an Manipulationsmöglichkeiten, die eine höhere Auflösung bietet.\\
-Des Weiteren kann nichts über die Validierungsgenauigkeit des \ac{NN} des Wettbewerbs gesagt werden, weshalb auch die nicht zielgerichteten Täuschungsbilder als gutes Ergebnis betitelt werden. Die Aufgabe des Wettbewerbs bestand nicht darin manipulierte Bilder gewisser Klassen zu generieren, sondern Bilder zu erzeugen, die für die \ac{KI} des Wettbewerb mit hoher Konfidenz einer beliebigen Klasse zugeordnet werden. Gleichzeitig soll das Bild für einen Menschen nicht als Straßenschild zu erkennen sein.\\
-Orientiert man sich beim Vergleich des \textit{Saliency Map} und \textit{Gradient Ascent} Verfahrens trotzdem am Maßstab der Klassengenauigkeit, ist das zuletzt genannte zu bevorzugen. Denn bei diesem Verfahren ist es möglich das zu generierende Bild vorab genau einer Klasse zuzuordnen. 
+Die Herausforderungen des Wettbewerbs wirken sich auf die Erfolge der Verfahren aus.
+Es wird vermutet, dass die Verfahren \textit{Saliency Map} und \textit{Gradient Ascent} bessere Ergebnisse liefern könnten, wenn das verwendete Bild größer als $64\times64$ Pixel wäre. 
+Der Grund dafür liegt in der zusätzlichen Menge an Manipulationsmöglichkeiten, die eine höhere Auflösung bietet. 
+Des Weiteren kann nichts über die Validierungs"-genauigkeit des \ac{NN} des Wettbewerbs gesagt werden, weshalb auch die nicht zielgerichteten Täuschungsbilder als gutes Ergebnis betitelt werden. 
+Die Aufgabe des Wettbewerbs bestand nicht darin manipulierte Bilder gewisser Klassen zu generieren, sondern Bilder zu erzeugen, die für die \ac{KI} des Wettbewerb mit hoher Konfidenz einer beliebigen Klasse zugeordnet werden. 
+Gleichzeitig soll das Bild für einen Menschen nicht als Straßenschild erkennbar sein.
 
-~\newline Mit dem dritten Verfahren, der Degeneration, lassen sich die \textit{Saliency Map} und das \textit{Gradient Ascent} Verfahren nur schwer vergleichen.\\
-Die Degeneration erreicht voraussichtlich schneller Erfolge bei einem Angriff auf eine unbekannte \ac{NN}. Sie benötigt weniger Vorlauf und geringere Kenntnisse über eine anzugreifende \ac{KI}. Dafür benötigt die Degeneration bei der Erzeugung von Bildern, mit denen fälschlicherweise hohe Konfidenzen erreicht werden sollen, mehr Zeit.\\ 
-Denn nachdem das entsprechende Umfeld für \textit{Saliency Map} Verfahren oder das \textit{Gradient Ascent} Verfahren mit einem eigenen lokalen Netz, Bibliotheken und Code erzeugt wurde, können innerhalb des Foolings deutlich schneller zuverlässige Bilder erzeugt werden.  
+Orientiert man sich beim Vergleich des \textit{Saliency Map} und \textit{Gradient Ascent} Verfahrens trotzdem am Maßstab der Klassengenauigkeit, ist das zuletzt genannte zu bevorzugen. 
+Denn bei diesem Verfahren ist es möglich das zu generierende Bild vorab genau einer Klasse zuzuordnen. 
 
-\section{Weiterführende Arbeiten}~\newline 
-Die Ergebnisse dieser Arbeit liefern Ansätze für weitere zukünftige Forschungen. Zum einen können die verwendeten Ansätze individuell weiter optimiert werden, bezüglich des selbsterstellten lokalen \acl{NN} und der Algorithmik bzw. deren Parameter. Zum anderen können Verfahren entwickelt werden, welche sich aller Methoden gezielt bedienen. 
+Mit dem dritten Verfahren, der Degeneration, lassen sich die \textit{Saliency Map}- und das \textit{Gradient Ascent}-Verfahren nur schwer vergleichen.
+Die Degeneration erreicht voraussichtlich schneller Erfolge bei einem Angriff auf ein unbekanntes \ac{NN}. 
+Sie benötigt weniger Vorlauf und geringere Kenntnisse über eine anzugreifende \ac{KI}. 
+Dafür benötigt die Degeneration bei der Erzeugung von Bildern, mit denen fälschlicher"-weise hohe Konfidenzen erreicht werden sollen, mehr Zeit.
+Denn nachdem das entsprechende Umfeld für \textit{Saliency Map}-Verfahren oder das \textit{Gradient Ascent}-Verfahren mit einem eigenen lokalen Netz, Bibliotheken und Code erzeugt wurde, können innerhalb des Foolings deutlich schneller zuverlässige Bilder erzeugt werden.  
+
+\section{Weiterführende Arbeiten}
+Die Ergebnisse dieser Arbeit liefern Ansätze für weitere zukünftige Forschungen. 
+Zum einen können die verwendeten Ansätze individuell weiter optimiert werden, bezüglich des selbsterstellten lokalen \acl{NN} und der Algorithmik bzw. deren Parameter. 
+Zum anderen können Verfahren entwickelt werden, welche sich aller Methoden gezielt bedienen. 
 
 
-~\newline Im nächsten Schritt kann das Anwendungsfeld der Attacken erweitert werden. Eine spannende Arbeit wäre zum Beispiel die Anwendung von \textit{Adversarial Attacks} auf Sprachassistenten. 
-Vor allem die Degeneration kann bereits in ihrem jetzigen Zustand genutzt werden, um Störgeräusche zu erzeugen, welche dennoch als Schlüsselwörter erkannt werden und ein \textit{Smarthome} manipulieren. 
+~\newline Im nächsten Schritt kann das Anwendungsfeld der Attacken erweitert werden. 
+Eine spannende Arbeit wäre zum Beispiel die Anwendung von \textit{Adversarial Attacks} auf Sprachassistenten. 
+Vor allem die Degeneration kann bereits in ihrem jetzigen Zustand genutzt werden, um Störgeräusche zu erzeugen, welche dennoch als Schlüssel"-wörter erkannt werden und ein \textit{Smarthome} manipulieren. 
 
-Auch die anderen Verfahren sind insbesondere dann geeignet, wenn ein Modell offenliegt. Der Sprachassistent-Hersteller Mycroft beispielsweise setzt auf Open-Source und stellt dementsprechend auch das (allgemeine) trainierte Modell bereit. 
+Auch die anderen Verfahren sind insbesondere dann geeignet, wenn ein Modell offenliegt. 
+Der Sprachassistent-Hersteller Mycroft beispielsweise setzt auf Open-Source und stellt dementsprechend auch das (allgemeine) trainierte Modell bereit. 
 Zu bemerken ist hierbei noch, dass der Nutzer bei der Durchführung von ersten Aktionen den Sprachassistenten auf seine Aussprache konfiguriert und das Training des Modells damit weiterführt.  
 
-~\newline An der Degeneration können ebenfalls großflächige Weiterentwicklungen vorgenommen werden: 
+~\newline An der Degeneration können ebenfalls großflächige Weiterentwicklungen vor"-genommen werden: 
 
-Zum einen die Verwendung der Tree-Degeneration, zum anderen können Beschleunigung und Verfall der einzelnen Alternations eingebaut werden. Ebenso sollte ein kleines Script erstellt werden, welche die verschiedenen Manipulationsfunktionen kurz auslotet und dem Nutzer vorstellt. 
+Zum einen die Verwendung der Tree-Degeneration, zum anderen können Be"-schleunigung und Verfall der einzelnen Alternations eingebaut werden. 
+Ebenso sollte ein kleines Script erstellt werden, welche die verschiedenen Manipulations"-funktionen kurz auslotet und dem Nutzer vorstellt. 
 
-Als komplexere Weiterentwicklung können mithilfe der Degeneration \textit{Manipulationsvektoren} erstellt werden und in einem Raum abgebildet werden. Hierbei stellt jedes \textit{Rauschen} (bzw. Bilddifferenz) und die Score-Differenz einen Vektor dar, welcher in einem Raum abgebildet werden kann.   
-
-Mithilfe dieser Vektoren könnte über statistische bzw. numerische Verfahren solch ein Vektor gefunden werden, welcher die größte Länge hat allerdings die geringste Score-Differenz aufweist. Angewandt auf das Urbild sollte dieser Vektor ein optimales Ergebnis erzielen.  
+Als komplexere Weiterentwicklung können mithilfe der Degeneration \textit{Manipulations"-vektoren} erstellt werden und in einem Raum abgebildet werden. 
+Hierbei stellt jedes \textit{Rauschen} (bzw. Bilddifferenz) und die Score-Differenz einen Vektor dar, welcher in einem Raum abgebildet werden kann. 
+Mithilfe dieser Vektoren könnte über statistische bzw. numerische Verfahren ein Vektor gefunden werden, welcher die größte Länge hat, allerdings die geringste Score-Differenz aufweist. 
+Angewandt auf das Urbild sollte dieser Vektor ein optimales Ergebnis erzielen.  
 
 ~\newline Einen weiteren Blick sollte man der Überführbarkeit der Angriffe von einem lokalen Model auf ein unbekanntes Model widmen, wie es in Abschnitt \ref{sec:TrasiModell} thematisiert wird: 
 
-Diese Eigenschaft werden von den Saliency-Maps und dem \textit{Gradient Ascent} Fooling hinreichend erfüllt, wohingegen solche Versuche beim Degeneration-Ver"-fahren scheitern. 
+Diese Eigenschaft werden von den Saliency-Maps und dem \textit{Gradient Ascent}-Fool"-ing hinreichend erfüllt, wohingegen solche Versuche der Degeneration scheitern. 
 
 Im Rahmen dieses Ergebnisses könnte man einen gezielten Test der Verfahren auf zwei bekannte Modelle durchführen, um hier transparentere Werte zu erhalten und Gründe für dieses Verhalten auszumachen. 
-%content
-%Vergleich mit einem Framework, wie zum Beispiel CleverHans \footnote, Vergleich von einem gut und schlecht trainierten Modell, wie arg unterscheiden sich daraus generierte Bilder (lohnt es sich), wie wichtig ist die Bildgröße, 

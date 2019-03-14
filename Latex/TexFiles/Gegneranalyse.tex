@@ -1,42 +1,53 @@
 \chapter{Anforderungsanalyse und Rahmenbedingungen}
 \label{cha:AnfAnalyse}
-
-Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die bilderzeugenden Verfahren zum Angriff einer Verkehrsschilder erkennenden \ac{KI} analysiert. Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nichtfunktionale Anforderungen. Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus dem bereitgestellten neuronalen Netz besteht.
+Im nachfolgenden Kapitel werden ausgehend von der Aufgabenstellung des InformatiCups 2019 Anforderungen an die bilderzeugenden Verfahren zum Angriff einer Verkehrsschilder erkennenden \ac{KI} analysiert. 
+Die Anforderungen untergliedern sich dabei in funktionale Anforderungen und nicht funktionale Anforderungen. 
+Die analysierten Anforderungen werden durch die Rahmenbedingung des Wettbewerbs ergänzt, die im Wesentlichen aus Auflagen zu dem bereitgestellten neuronalen Netz bestehen.
 
 \section{Funktionale Anforderungen}
-Die Kernaufgabe der implementierten Lösungen der nachfolgenden Kapitel \ref{cha:Degeneration} bis \ref{cha:gascent} besteht darin Bilder zu genieren. Als Eingangsparameter dürfen dafür Bilder verwendet werden, die anschließend durch Algorithmen modifiziert werden.\\
-Neben der Generierung von Bildern zur Täuschung des \ac{NN} des \ac{GI}-Wettbewerbs sollen Funktionen bereitgestellt werden, mit denen die erzeugten Bilder bewertet werden. Dazu sollen die Bilder an die Webschnittstelle des Wettbewerbs gesendet und das Ergebnis aufbereitet werden.
+Die Kernaufgabe der implementierten Lösungen der nachfolgenden Kapitel \ref{cha:GreyBoxing} bis \ref{cha:gascent} besteht darin Bilder zu genieren. 
+Als Eingangsparameter dürfen dafür Bilder verwendet werden, die anschließend durch Algorithmen modifiziert werden.\\
+Neben der Generierung von Bildern zur Täuschung des \ac{NN} des \ac{GI}-Wettbewerbs sollen Funktionen bereitgestellt werden, mit denen die erzeugten Bilder bewertet werden. 
+Dazu sollen die Bilder an die Webschnittstelle des Wettbewerbs gesendet und das Ergebnis aufbereitet werden.
 
-\section{Nichtfunktionale Anforderungen}
-Die implementieren Lösungen müssen nachvollziehbar und reproduzierbar sein. Das bedeutet, dass eine Modifikation mit denselben Eingangsparametern zu dem selben Ergebnis führen muss. Grundvoraussetzung für diese Anforderung ist, dass das \ac{NN} des \ac{GI}-Wettbewerbs während des Wettbewerbzeitraums nicht verändert wird.
+\section{Nicht funktionale Anforderungen}
+Die implementieren Lösungen müssen nachvollziehbar und reproduzierbar sein. 
+Das bedeutet, dass eine Modifikation mit denselben Eingangsparametern zu dem selben Ergebnis führen muss. 
+Grundvoraussetzung für diese Anforderung ist, dass das \ac{NN} des \ac{GI}-Wettbewerbs während des Wettbewerbzeitraums nicht verändert wird.
 
-Weiterhin ergibt sich aus der Aufgabenstellung des \ac{GI}-Wettbewerbs eine qualitative Anforderung an die erzeugten Bilder zur Täuschung der Black Box \ac{KI}. Die erzeugten Bilder müssen mindestens mit einer Konfidenz von 90\% von der Black Box \ac{KI} als Verkehrszeichen erkannt werden. \cite{gesellschaft_fur_informatik_e.v._informaticup2019-irrbilder.pdf_2018} \\
-Um diese Anforderung zu erfüllen, muss eine weitere indirekte Anforderung erfüllt sein, die sich aus den Hinweisen und der nachfolgenden Untersuchung des \ac{NN} des \ac{GI}-Wettbewerbs ergibt. Da die Black Box \ac{KI} mit dem \ac{GTSRB} Datensatz trainiert wurde, müssen die generierten Bilder der in Kapitel \ref{cha:Degeneration} - \ref{cha:gascent} folgenden Implementierungen den Klassen zugeordnet werden können, die der \ac{GTSRB} enthält, beziehungsweise, die vom \ac{NN} des Wettbewerbs erkannt werden. 
+Weiterhin ergibt sich aus der Aufgabenstellung des \ac{GI}-Wettbewerbs eine qualitative Anforderung an die erzeugten Bilder zur Täuschung der Blackbox-\ac{KI}. 
+Die erzeugten Bilder müssen mindestens mit einer Konfidenz von 90\% von der Blackbox-\ac{KI} als Verkehrszeichen erkannt werden. \cite{gesellschaft_fur_informatik_e.v._informaticup2019-irrbilder.pdf_2018} \\
+Um diese Anforderung zu erfüllen, muss eine weitere indirekte Anforderung erfüllt sein, die sich aus den Hinweisen und der nachfolgenden Untersuchung des \ac{NN} des \ac{GI}-Wettbewerbs ergibt. 
+Da die Blackbox-\ac{KI} mit dem \ac{GTSRB} Datensatz trainiert wurde, müssen die generierten Bilder der in Kapitel \ref{cha:GreyBoxing} - \ref{cha:gascent} folgenden Implementierungen den Klassen zugeordnet werden können, die der \ac{GTSRB} enthält, beziehungsweise, die vom \ac{NN} des Wettbewerbs erkannt werden. 
 
-Abschließend legt die Aufgabenstellung des \ac{GI}-Wettbewerbs fest, dass die erzeugten Bilder zur Täuschung der \ac{KI} des Wettbewerbs nicht von einem Menschen als Straßenschild erkennbar sein dürfen. Die Beurteilung dieses Faktes wird durch ein persönliches Urteil der Autoren vorgenommen.
+Abschließend legt die Aufgabenstellung des \ac{GI}-Wettbewerbs fest, dass die erzeugten Bilder zur Täuschung der \ac{KI} des Wettbewerbs nicht von einem Menschen als Straßenschild erkennbar sein dürfen. 
+Die Beurteilung dieses Faktes wird durch ein persönliches Urteil der Autoren vorgenommen.
 
 \section{Eigenschaften des \acl{NN}es des \ac{GI}-Wettbewerbs}
 \label{sec:EigenschaftenTrasi}
-Die Rahmenbedingung der vorliegenden Arbeit ergibt sich aus der Aufgabenstellung und den Ressourcen des \ac{GI}-Wettbewerbs, die den Teilnehmern zur Verfügung gestellt werden. Bei den Ressourcen handelt es sich um ein \ac{NN}, an welches über eine Webschnittstelle Anfragen gestellt werden können, und Informationen über dieses Netz.\\
-Um ausführlichere Informationen über das Black Box \ac{NN} des Wettbewerbs zu sammeln, werden zu Beginn und während des Wettbewerbs verschiedene Tests an der Webschnittstelle durchgeführt. Die gewonnenen Erkenntnisse befinden sich in der folgenden Aufzählung:
+Die Rahmenbedingung der vorliegenden Arbeit ergibt sich aus der Aufgabenstellung und den Ressourcen des \ac{GI}-Wettbewerbs, die den Teilnehmern zur Verfügung gestellt werden. 
+Bei den Ressourcen handelt es sich um ein \ac{NN}, an welches über eine Webschnittstelle Anfragen gestellt werden können, und Informationen über dieses Netz.\\
+Um ausführlichere Informationen über das Blackbox-\ac{NN} des Wettbewerbs zu sammeln, werden zu Beginn und während des Wettbewerbs verschiedene Tests an der Webschnittstelle durchgeführt. 
+Die gewonnenen Erkenntnisse befinden sich in der folgenden Aufzählung:
 
 \begin{enumerate}
-	\item Aus der Aufgabenstellung ist abzulesen, dass das \ac{NN} des Wettbewerbs PNG-Bilder in der Auflösung 64x64 verarbeitet. Vermutlich wurde das Netz auch mit derartigen Bildern trainiert
-	\item Die Bilder, mit denen die Black Box \ac{KI} trainiert wurde, stammen aus dem GTSRB\footnote{http://benchmark.ini.rub.de/?section=gtsrb\&subsection=dataset} Datensatz
+	\item Aus der Aufgabenstellung ist abzulesen, dass das \ac{NN} des Wettbewerbs PNG-Bilder in der Auflösung 64x64 verarbeitet. Vermutlich wurde das Netz ausschließlich auch mit derartigen Bildern trainiert
+	\item Die Bilder, mit denen die Blackbox-\ac{KI} trainiert wurde, stammen aus dem GTSRB\footnote{http://benchmark.ini.rub.de/?section=gtsrb\&subsection=dataset} Datensatz
 	\begin{enumerate}
 		\item Datensatz enthält 43 verschiedene Klassen, die 43 verschiedenen deutschen Straßenschildern entsprechen
 		\item Datensatz enthält insgesamt mehr als 50.000 Bilder
 		\item Datensatz ist gegliedert in Trainings- und Testbilder
-		\item Bei den Bildern des Datensatzes handelt es sich um reale Bilder
-		\item Die Bilder sind einzigartig, kommen also im Datensatz nur jeweils einmal vor
+		\item Bei den Bildern des Datensatzes handelt es sich um reale Bilder (Kameraaufnahmen)
+		\item Die Bilder sind einzigartig, kommen also im Datensatz nur jeweils einmal vor. Einige der Bilder sind allerdings Fotografien vom gleichen Straßenschild. 
 	\end{enumerate}
-	\item Die Black Box \ac{KI} liefert Konfidenz-Scores zu 33 verschiedenen Klassenlabels, zehn Klassen des \ac{GTSRB} Datensatzes werden nicht genutzt
+	\item Die Blackbox-\ac{KI} liefert Konfidenz-Scores zu 33 verschiedenen Klassenlabels, zehn Klassen des \ac{GTSRB} Datensatzes werden nicht genutzt
 	\item Die Webschnittstelle liefert als Antwort auf eine Anfrage mit einem zu bewertenden Bild ein JSON-Objekt mit Konfidenzwerten verschiedener Klassen zurück
-	\item Bei der Rückgabe der Konfidenz-Scores wird eine Softmax-Aufgabefunktion genutzt, da die Summe der einzelnen Scores eines bewerteten Bildes teilweise unter 100\% liegt
+	\item Bei der Rückgabe der Konfidenz-Scores wird voraussichtlich eine Softmax-Ausgabefunktion genutzt, da die Summe der einzelnen Scores eines bewerteten Bildes teilweise unter 100\% liegt
 	\item Das \ac{NN} des Wettbewerbs besitzt keine Klasse "`Kein Straßenschild"' und liefert für jedes Bild Konfidenz Werte für Straßenschilder zurück
-	\item Beim Training der Black Box \ac{KI} wurde vermutlich eine Interpolationsfunktion genutzt, da die ursprüngliche Größe eines Bildes keinen Einfluss auf die Scores der Schnittstelle hat  
-	\item Die Black Box \ac{KI} enthält ein starkes Overfitting bezüglich der Trainingsdaten
-	\item Die Black Box \ac{KI} ist sehr unzuverlässig bei Eingabebildern, welche keinem Verkehrszeichen ähneln. So wird beispielsweise das unveränderte Logobild der Technischen Hochschule Nürnberg - Georg Simon Ohm von der Black Box \ac{KI} mit einer Konfidenz von 99,99\% als Verkehrszeichen vom Typ "`Ausschließlich geradeaus"' erkannt.
+	\item Beim Training der Blackbox-\ac{KI} wurde vermutlich eine Interpolationsfunktion genutzt, da die ursprüngliche Größe eines Bildes keinen Einfluss auf die Scores der Schnittstelle hat  
+	\item Die Blackbox-\ac{KI} enthält ein starkes Overfitting bezüglich der Trainingsdaten
+	\item Die Blackbox-\ac{KI} ist sehr unzuverlässig bei Eingabebildern, welche keinem Verkehrszeichen ähneln. 
+	So wird beispielsweise das unveränderte Logobild der Technischen Hochschule Nürnberg - Georg Simon Ohm von der Blackbox- \ac{KI} mit einer Konfidenz von 99,99\% als Verkehrszeichen vom Typ "`Ausschließlich geradeaus"' erkannt.
 \end{enumerate}
 
 

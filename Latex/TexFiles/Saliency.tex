@@ -1,84 +1,62 @@
 \chapter{Saliency Maps}
 \label{cha:saliency}
-Das \textit{Saliency Map} Verfahren wurde erstmals von den Neurowissenschaftlern Itti et al. \cite{itti_model_1998} in ihrer Studie vorgeschlagen. Die Studie beschreibt eine Methode zur Extraktion von einzigartigen Merkmalen, wie beispielsweise Farben, Farbintensitäten und Strukturen, sogenannten High-Level Features, aus Bildern, die wiederum in sogenannten \textit{Saliency Map}s topografisch visualisiert werden. Diese High-Level Features sind nichts anderes als spezifische Pixel im Bild auf Mikroebene (Low-Level Features), welche die optisch ansprechendsten respektive bedeutendsten Stellen in einem Bild repräsentieren \cite{itti_model_1998}. 
+Das \textit{Saliency Map} Verfahren wurde erstmals von den Neurowissenschaftlern Itti et al. \cite{itti_model_1998} in ihrer Studie vorgeschlagen. 
+Die Studie beschreibt eine Methode zur Extraktion von einzigartigen Merkmalen, wie beispielsweise Farben, Farbintensitäten und Strukturen, sogenannten High-Level Features, aus Bildern, die wiederum in sogenannten \textit{Saliency Maps} topografisch visualisiert werden. 
+Diese High-Level Features sind nichts anderes als spezifische Pixel im Bild auf Mikroebene (Low-Level Features), welche die optisch ansprechendsten respektive bedeutendsten Stellen in einem Bild repräsentieren \cite{itti_model_1998}. 
 
-Um also spezifischen Bildmerkmalen eine semantische Bedeutung zuzuordnen, werden beispielsweise Farbbilder anhand des \textit{Saliency Map} Verfahrens in Schwarzweißbilder umgewandelt, um die stärksten darin vorhandenen Farben zu analysieren und zu extrahieren.
+Um also spezifischen Bildmerkmalen eine semantische Bedeutung zuzuordnen, werden beispielsweise Farbbilder anhand des \textit{Saliency Map}-Verfahrens in Schwarzweißbilder umgewandelt, um die stärksten darin vorhandenen Farben zu analysieren und extrahieren.
 
 \section{Konzept}
 \label{cha:saliency_konz}
-Bei \ac{CNN} werden Merkmale von Eingabebildern extrahiert, indem zunächst im Input-Layer Low-Level Features und mit jeder weiteren Schicht des Netzwerks immer komplexere Merkmale (High-Level Features), wie etwa Kanten, Rundungen oder Strukturen erlernt werden \cite{stanford_unsupervised_tutorial}.
+Bei \ac{CNN} werden Merkmale von Eingabebildern extrahiert, indem zunächst im Input-Layer Low-Level Features, und mit jeder weiteren Schicht des Netzwerks immer komplexere Merkmale (High-Level Features), wie etwa Kanten, Rundungen oder Strukturen erlernt werden \cite{stanford_unsupervised_tutorial}.
 
-Diese Kenntnis um \ac{CNN} und \textit{Saliency Map}s machten sich Simonyan et. al erstmalig im Kontext von Deep Learning zunutze, um die gelernten Merkmale des zugrunde liegenden \ac{CNN} anhand von \textit{Saliency Map}s zu visualisieren \cite{simonyan_deep_2013}. 
-Die in der Arbeit von Simonyan et. al erzeugten Bilder sind hierbei nicht oder nur ansatzweise für den Menschen erkennbar, wurden jedoch vom zugrunde liegenden \ac{CNN} mit einer hohen Konfidenz richtig klassifiziert werden.
+Diese Kenntnis um \ac{CNN} und \textit{Saliency Maps} machten sich Simonyan et. al erstmalig im Kontext von Deep Learning zunutze, um die gelernten Merkmale eines \ac{CNN} anhand von \textit{Saliency Maps} zu visualisieren \cite{simonyan_deep_2013}. 
+Die in der Arbeit von Simonyan et. al erzeugten Bilder sind hierbei nicht oder nur ansatzweise für den Menschen erkennbar, wurden jedoch vom zugrunde liegenden \ac{CNN} mit einer hohen Konfidenz richtig klassifiziert.
 ~\newline
 
 Aus dieser Kenntnis ergeben sich folgende Hypothesen:
 \begin{itemize}
-	\item Ein Convolutional Neural Network mit beliebiger Architektur, jedoch trainiert mit demselben Datensatz (\ac{GTSRB}) wie das \ac{NN} des \ac{GI}-Wettbewerbs, lässt sich ähnlich gut angreifen wie das \ac{NN} des \ac{GI}-Wettbewerbs selbst. Zu dieser Erkenntnis kamen Papernot et al. \cite{papernot_+_2016} im Rahmen ihrer Arbeit. Auf diesen Sachverhalt wird in Kapitel \ref{sec:TrasiModell} näher eingegangen.
-	\item 	\textit{Saliency Map}s repräsentieren die wesentlichen Merkmale, die das Convolutional Neural Network zu den Eingabebildern gelernt hat. Die erzeugten Bilder mit dem \textit{Saliency Map} Verfahren werden wiederum vom \ac{CNN} mit einer hohen Konfidenz richtig klassifiziert. Das heißt das jeweils erzeugte Bild wird vom \ac{CNN} als Verkehrszeichen erkannt und mit hoher Konfidenz richtig klassifiziert, ist jedoch für den Menschen nicht als solches erkennbar.
+	\item Ein Convolutional Neural Network mit beliebiger Architektur, jedoch trainiert mit demselben Datensatz (\ac{GTSRB}) wie das \ac{NN} des \ac{GI}-Wettbewerbs, lässt sich ähnlich gut angreifen wie das \ac{NN} des \ac{GI}-Wettbewerbs selbst. Zu dieser Erkenntnis kamen Papernot et al. \cite{papernot_+_2016} im Rahmen ihrer Arbeit. 
+	Auf diesen Sachverhalt wird in Kapitel \ref{sec:TrasiModell} näher eingegangen.
+	\item 	\textit{Saliency Maps} repräsentieren die wesentlichen Merkmale, die das Convolutional Neural Network zu den Eingabebildern gelernt hat. 
+	Die erzeugten Bilder mit dem \textit{Saliency Map} Verfahren werden wiederum vom \ac{CNN} mit einer hohen Konfidenz richtig klassifiziert. 
+	Das heißt, dass jeweils erzeugte Bild wird vom \ac{CNN} als Verkehrszeichen erkannt und mit hoher Konfidenz richtig klassifiziert, ist jedoch für den Menschen nicht als solches erkennbar.
 \end{itemize}
-
-%Ein verbreitetes Verfahren aus dem Bereich Computer Vision zur Visualisierung relevanter Pixel ist die Erstellung von \textit{Saliency Maps} (dt. Ausprägungskarten). Diese können verwendet werden, um die Qualität, sprich Aussagekraft, jedes einzelnen Bildpunkts ersichtlich zu machen. Simonyan et al. \cite{simonyan_deep_2013} führt die grundlegende Methodik entsprechend Saliency Maps weiter aus und unterscheidet zwischen einer allgemeinen "''Klassen-Definierenden”' Saliency Map sowie einer Saliency Map zu einem gegebenen Eingabebild entsprechend der Zielklassen.
-%
-%
-%Gebräuchliche Anwendung dieses Verfahrens im Machine Learning Bereiches betreffen der Darstellung von High Level Features einzelner Neuronen \cite{liu_delving_2016} im Bezug auf eine gezielte Klasse. Diesen Ansatz weiterverfolgend, entsprechen die erzeugten Saliency Maps im letzten Layer einer starken Neuronenaktivierung, die einer "'High Level”' Darstellung der gezielten Klasse entspricht, die vom \ac{NN} für das Bild errechnet wurde. 
-%
-%
-%Diese Saliency Map sollte also im Rückschluss mit einer hohen Konfidenz bezüglich der entsprechenden Klasse klassifiziert werden, wenn das erzeugte Bild als Eingabe verwendet wird. Daraus ergibt sich die Hypothese, mit Hilfe dieser Visualisierung für den Menschen semantisch nicht erkennbare Verkehrszeichen Bilder zu erzeugen, die hohe Zielkonfidenzen von 0.9 oder mehr erreichen. Die beschriebene Methode wird in der Implementierung als "''Vanilla Saliency”' bezeichnet.
-
-
+Werden diese Hypothesen erfüllt, so eignet sich das Verfahren der \textit{Saliency Maps} ebenfalls zur erzeugung von \textit{Adversarial Attacks}
 \section{Implementierung}
 
-Als vorverarbeitenden Schritt werden zunächst alle 12.630 Bilder aus dem GTSRB-Testdatensatz, welche in 24-Bit Farbtiefe und im \ac{PPM} Dateiformat vorliegen, in das \ac{PNG} Dateiformat konvertiert und im Dateisystem abgespeichert.
-
-
-Die vorliegenden PNG-Bilder werden anhand dem \textit{Aphrodite}-Modell, auf dessen Architektur und Training in Kapitel \ref{sec:ImplAphrodite} eingegangen wird, klassifiziert: 
-
+Als vorverarbeitenden Schritt werden zunächst alle 12.630 Bilder aus dem GTSRB-Testdatensatz, welche in 24-Bit Farbtiefe und im \ac{PPM} Dateiformat vorliegen, in das \ac{PNG} Dateiformat konvertiert und im Dateisystem abgespeichert. 
+Die vorliegenden PNG-Bilder werden anhand des \textit{Aphrodite}-Modells, auf dessen Architektur und Training in Kapitel \ref{sec:ImplAphrodite} eingegangen wird, klassifiziert: 
 Nur diejenigen Bilder, welche vom \textit{Aphrodite}-Modell mit einer Konfidenz von 100\% korrekt klassifiziert wurden (3.063/12.630) werden im Dateisystem in einem eigenständigen Verzeichnis abgespeichert.
 
-~\newline
-Gemäß einer auf die Anforderungen an die Aufgabenstellung abgewandelten Variante zu Anh \cite{anh_implementations_2019}, erfolgt nun die Implementierung der verschiedenen \textit{Saliency Map} Verfahren.
+Gemäß einer auf die Anforderungen an die Aufgabenstellung abgewandelten Variante zu Anh \cite{anh_implementations_2019}, erfolgt nun die Implementierung der verschiedenen \textit{Saliency Map}-Verfahren.
 
-~\newline
-Hierzu werden zunächst die drei Basismethoden \textit{Vanilla} \cite{simonyan_deep_2013}, \textit{Guided Backpropagation} \cite{springenberg_striving_2014} und \textit{Integrated Gradient} \cite{sundararajan_axiomatic_2017} implementiert. 
-Unter Hinzufügung von Zufallsrauschen, gemäß \cite{smilkov_smoothgrad:_2017}, werden die Basismethoden verbessert, wie die Gegenüberstellung der Ergebnisse zu den eingesetzten Verfahren in Kapitel \ref{sec:SalErgebnisse} verdeutlicht.
+~\newline Hierzu werden zunächst die Basismethoden \textit{Vanilla} \cite{simonyan_deep_2013}, \textit{Guided Backpropagation} \cite{springenberg_striving_2014} und \textit{Integrated Gradient} \cite{sundararajan_axiomatic_2017} implementiert. 
+
+Unter Verrauschung, gemäß \cite{smilkov_smoothgrad:_2017}, werden die Basismethoden verbessert, wie die Gegenüberstellung der Ergebnisse zu den eingesetzten Verfahren in Kapitel \ref{sec:SalErgebnisse} verdeutlicht.
+
 Diese optimierten Varianten werden als \textit{Smoothed Vanilla}, \textit{Smoothed Guided Backpropagation} und \textit{Smoothed Integrated Gradient} bezeichnet und implementiert.
 
-~\newline
-Jedes der \textit{Saliency Map} Verfahren wird auf die mit dem \textit{Aphrodite}-Modell klassifizierten Bilder angewendet. Diese Bilder werden nacheinander vom Dateisystem geladen und anschließend auf eine Zielbildgröße von $64 \times 64 $ Pixel skaliert. 
-Das \textit{Saliency Map} Verfahren extrahiert nun die vom zugrunde liegenden Modell (Aphrodite) gelernten Merkmale. Hierzu wird das jeweilige Eingabebild und das Aphrodite Modell verwendet. 
-Die damit erzeugten Bilder werden anschließend in einem nach dem verwendeten \textit{Saliency Map} Verfahren bezeichneten Verzeichnis in der Größe $64 \times 64 $ Pixel im Dateisystem abgespeichert.
-
-~\newline
-Zur abschließenden Evaluierung der erzeugten Bilder am \ac{NN} des \ac{GI}-Wettbewerbs, werden alle Bilder zu jedem eingesetzten \textit{Saliency Map} Verfahren im Zyklus von 60 Bilder pro Minute (Übertragungslimit pro Minute) an das Webinterface des Wettbewerbs gesendet. Die Informationen, das heißt die vom \ac{NN} des \ac{GI}-Wettbewerbs erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Responsecode zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Responsecode, wohingegen die zweite Logdatei nur gefilterte Ergebnisse, das heißt Konfidenzen von mehr als 90\%, zu den übermittelten Bildern enthält.
+Jedes der \textit{Saliency Map}-Verfahren wird auf die mit dem \textit{Aphrodite}-Modell klassifizierten Bilder angewendet.
+Diese Bilder werden nacheinander vom Dateisystem geladen und anschließend auf eine Zielbildgröße von $64 \times 64 $ Pixel interpoliert. 
+Das \textit{Saliency Map}-Verfahren extrahiert nun die vom zugrunde liegenden Modell (Aphrodite) gelernten Merkmale. 
+Hierzu wird das jeweilige Eingabebild und das Aphrodite Modell verwendet. 
+Die damit erzeugten Bilder werden anschließend in einem gesonderten Verzeichnis in der Größe $64 \times 64 $ Pixel im Dateisystem abgespeichert.
 
 
-%
-%Nachfolgend wird der vollständige Datensatz lokal am eigenen Modell klassifiziert und alle Bilder mit einer Konfidenz von 100\% separat gesammelt. 
-%
-%Die vorgestellten Verfahren Vanilla Saliency\cite{simonyan_deep_2013}, Guided Backpropagation\cite{springenberg_striving_2014} und Integrated Gradient\cite{sundararajan_axiomatic_2017} werden jeweils in einer ungefilterten und und geglätteten Variante verwendet entsprechend einer auf die Aufgabenstellung angepasster Implementation auf der Basis von \cite{anh_implementations_2019}. 
-%
-%Ausgegeben wird ein Graustufenbild in der die relevanten Pixelbereiche durch hellere Einfärbung gekennzeichnet werden.
-%
-%Diese Bilder wurden danach an das Trasi Webinterface geschickt und das Resultat der Klassifikation abgespeichert. Zusätzlich wird pro Verfahren ein Logfile erstellt, welches alle Bilder mit einer Konfidenz >0.9 sowie die geschätzte Klasse und das Ursprungsbild festhält.
-%
+Zur abschließenden Evaluierung der erzeugten Bilder am \ac{NN} des \ac{GI}-Wett"-be"-werbs, werden alle Bilder zu jedem eingesetzten \textit{Saliency Map} Verfahren im Zyklus von 60 Bildern pro Minute an das Webinterface des Wettbewerbs gesendet. 
+Die Informationen, das heißt die vom \ac{NN} des \ac{GI}-Wettbewerbs erkannte Zielklasse und Konfidenz, werden anschließend aus dem HTTP-Response"-code zu jedem übermittelten Bild in zwei verschiedenen Logdateien gespeichert: 
+Die erste Logdatei speichert alle Ergebnisse aus dem jeweiligen HTTP-Response"-code, wohingegen die zweite Logdatei nur Ergebnissemit über 90\% Konfidenz, zu den übermittelten Bildern enthält.
 
 \section{Ergebnisse}
 \label{sec:SalErgebnisse}
 Mit den verschiedenen \textit{Saliency Map} Verfahren wurden Graustufenbilder erzeugt, in denen die relevanten Bildmerkmale durch helle Pixeleinfärbungen gekennzeichnet sind. 
-Die erzeugten Bilder sind hierbei vom Menschen nicht als Verkehrszeichen wahrnehmbar.
 
 Die mit den Basismethoden \textit{Vanilla}, \textit{Guided Backpropagation} und \textit{Integrated Gradient} erzeugten Bilder werden vom \ac{NN} des \ac{GI}-Wettbewerbs mit jeweils 45,83\% als "`Baustelle"' klassifiziert.
-Dieses Ergebnis lässt sich möglicherweise auf die besonderen "`Faltungseigenschaften"' von Convolutional Neural Networks zurückführen, dass wesentliche bildcharakterisierende Merkmale und die damit verbundene semantische Information aus den erzeugten Bildern verloren ging.
 
-Dahingegen konnten mit den optimierten \textit{Saliency Map} Verfahren (\textit{Smoothed Vanilla}, \textit{Smoothed Guided Backpropagation} und \textit{Smoothed Integrated Gradient}) Bilder erzeugt werden, die Zielkonfidenzen von mehr als 90\% am \ac{NN} des \ac{GI}-Wettbewerbs erreichten.
+Dieses Ergebnis lässt sich möglicherweise auf die besonderen "`Faltungseigenschaften"' von Convolutional Neural Networks zurückführen, dass bildcharakterisierende Merkmale und die verbundene semantische Information aus den erzeugten Bildern verloren ging.
 
-%Aus der Implementation konnten folgende Ergebnisse zu den 6 vorgestellten Variationen gesammelt werden. 
-%
-%Alle ungeglätteten Verfahren konnten keine positiven Ergebnisse bezüglich der Bilderzeugung mit einer Konfidenz $> 0.9$ liefern. Dies lässt sich möglicherweise auf die besonderen Einschaften von \acp{CNN} zurückführen, dass ohne Glättung in dem - ohne farbkanäle - bereits dimensionsreduziertem Bild keine ausgeprägten Kanten vorhanden sind und nach dem "'Falten"' Informationen verloren gehen. Desweiteren konnte am Blackbox Modell beobachtet werden, dass alle erzeugten ungegeglätteten Saliency Maps mit einer Konfidenz von $0.45834911$ als Klasse "'Baustelle"' erkannt werden.
-%
-%Dahingegen konnten bei allen geglätteten Varianten Bilder erzeugt werden, die vom Blackboxmodell mit hoher Sicherheit eine Klasse zugeordnet wurden. Es konnten einige unerwarteten Anomalien bei der Klassifizierung am Fremdmodell beobachtet werden.  Tabelle \ref{tab:sal1} zeigt wie aus Bild 5.1a (Höchstgeschwindigkeit (30))  mit den Verfahren "'Smoothed Guided Backpropagation"' (vgl. 5.1b) und "'Smoothed Vanilla Saliency"' (vgl. 5.1c) ein Bild erzeugt, welche mit einer Konfidenz >0.9 vom Webinterface erkannt wurden. Dabei muss beachtet werden, dass die Bilder als unterschiedliche Klassen eingestuft wurden. "'Vanilla Saliency"' stimmt überein (Höchstgeschwindigkeit (30), Konfidenz 0.9283), "'Guided Backpropagation"' wurde vom Fremdmodell einer anderen Klasse zugeordnet (Überholverbot, Konfidenz 0.9155).
-
+Mit den optimierten \textit{Saliency Map} Verfahren (\textit{Smoothed Vanilla}, \textit{Smoothed Guided Backpropagation} und \textit{Smoothed Integrated Gradient}) Bilder erzeugt werden, die Zielkonfidenzen von mehr als 90\% am \ac{NN} des \ac{GI}-Wettbewerbs erreichten.
 
 \begin{table}
 	\centering
@@ -86,7 +64,7 @@ Dahingegen konnten mit den optimierten \textit{Saliency Map} Verfahren (\textit{
 		\includegraphics[width=\linewidth]{Images/AnPe/5_1_Links} & \includegraphics[width=\linewidth]{Images/AnPe/5_1_Mitte} &
 		\includegraphics[width=\linewidth]{Images/AnPe/5_1_Rechts}\\ 
 		5.1a: Ursprungsbild &5.1b: Smoothed Guided Backprop. &5.1c: Smoothed Vanilla Saliency \\
-		Zulässige Höchstgeschwindigkeit (30) & Überholverbot für Kraftfahrzeuge aller Art& Zulässige Höchstgeschwindigkeit (30)\\
+		30ger Zone & Allgemeines Überholverbot & 30ger Zone\\
 		99,39\% Konfidenz & 91,55\% Konfidenz & 92,83\% Konfidenz\\
 		
 	\end{tabular} 
@@ -95,45 +73,23 @@ Dahingegen konnten mit den optimierten \textit{Saliency Map} Verfahren (\textit{
 	\label{tab:sal1}
 \end{table}
 
-~\newline
-Tabelle \ref{tab:sal1} zeigt exemplarisch, wie aus dem Ursprungsbild (5.1a "`Höchstgeschwindigkeit (30)"'), unter Verwendung des \textit{Smoothed Guided Backpropagation} Verfahrens, ein Bild erzeugt wurde, das vom \ac{NN} des \ac{GI}-Wettbewerbs mit 91,55\% als "`Überholverbot"' klassifiziert wurde (5.1b). 
-Das \textit{Smoothed Vanilla Saliency} Verfahren erzeugte hingegen aus demselben Ursprungsbild ein Bild, das mit einer Zielkonfidenz von 92,83\% vom \ac{NN} des \ac{GI}-Wettbewerbs als "`Höchstgeschwindigkeit (30)"' erkannt wurde (5.1c).
-%\begin{figure}
-%	\begin{subfigure}{.33\textwidth}
-%		\centering
-%		\includegraphics[width=.8\linewidth]{Images/AnPe/10771}
-%		\caption{Ursprungsbild (Höchstgeschwindigkeit 30)}
-%		\label{fig:ursprung1}
-%	\end{subfigure}%penis
-%	\begin{subfigure}{.33\textwidth}
-%		\centering
-%		\includegraphics[width=.8\linewidth]{Images/AnPe/10771_guided}
-%		\caption{Halblabor.}
-%		\label{fig:salmap1}
-%	\end{subfigure}
-%	\begin{subfigure}{.33\textwidth}
-%		\centering
-%		\includegraphics[width=.8\linewidth]{Images/AnPe/10771_vanil}
-%		\caption{Freie Umgebung.}
-%		\label{fig:salmap_1}
-%	\end{subfigure}
-%\end{figure}
+Tabelle \ref{tab:sal1} zeigt exemplarisch, wie aus dem Ursprungsbild (5.1a "30ger Zone"'), unter Verwendung des \textit{Smoothed Guided Backpropagation} Verfahrens, ein Bild erzeugt wurde, das vom \ac{NN} des \ac{GI}-Wettbewerbs mit 91,55\% als "`Überholverbot"' klassifiziert wurde (5.1b). 
+Das \textit{Smoothed Vanilla Saliency} Verfahren erzeugte hingegen aus demselben Ursprungsbild ein Bild, das mit einer Zielkonfidenz von 92,83\% vom \ac{NN} des \ac{GI}-Wettbewerbs als "`30ger Zone"' erkannt wurde (5.1c).
 
-
-~\newline
-Tabelle \ref{tab:sal2} veranschaulicht weitere Beispiele für erfolgreich erzeugte Bilder, unter Verwendung der optimierten \textit{Saliency Map} Verfahren. Wieder kann beobachtet werden, dass die erzeugten Bilder zwar mit einer Zielkonfidenz von mehr als 90\% vom \ac{NN} des \ac{GI}-Wettbewerbs klassifiziert wurden, die ursprüngliche Klasse jedoch abweicht.
+Tabelle \ref{tab:sal2} zeigt weitere Beispiele für erfolgreiche Bilder, unter Verwendung der optimierten \textit{Saliency Map}-Verfahren. 
+Wieder kann beobachtet werden, dass die erzeugten Bilder zwar mit einer Zielkonfidenz von über 90\% vom \ac{NN} des \ac{GI}-Wett"-be"-werbs klassifiziert wurden, die ursprüngliche Klasse jedoch abweicht.
 
 \begin{table}
 	\centering
 	\begin{tabular}{p{7,5cm}p{7cm}}
 		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Oben-links} & \includegraphics[height=4.4cm]{Images/AnPe/5_2_Oben_rechts} \\
 		Ursprungsbild: & Smoothed Guided Back"-propagation:\\
-		Zulässige Höchstgeschwindigkeit (20) & Überholverbot für Kraftfahrzeuge aller Art\\
+	 	20ger Zone & Allgemeines Überholverbot\\
 		97,54\% Konfidenz & 97,63\% Konfidenz\\
 		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Mitte-links} &
 		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Mitte_rechts}  \\
 		Ursprungsbild: & Smoothed Guided Back"-propagation:\\
-		Zulässige Höchstgeschwindigkeit (30) & Zulässige Höchstgeschwindigkeit (50)\\
+		30ger Zone & 50ger Zone\\
 		66,07\% Konfidenz & 99,94\% Konfidenz\\
 		\includegraphics[height=4.4cm]{Images/AnPe/5_2_Unten_links} &\includegraphics[height=4.4cm]{Images/AnPe/5_2_Unten_rechts}  \\
 		Ursprungsbild: & Smoothed Integrated Gradient:\\
@@ -144,24 +100,4 @@ Tabelle \ref{tab:sal2} veranschaulicht weitere Beispiele für erfolgreich erzeug
 \label{tab:sal2}
 \end{table}
 
-%\begin{table}
-%	\centering
-%	\begin{tabular}{p{4.4cm}p{4.4cm}p{4.4cm}}
-%		\includegraphics[height=4.4cm]{Images/AnPe/11240}&
-%		\includegraphics[height=4.4cm]{Images/AnPe/06848}&
-%		\includegraphics[height=4.4cm]{Images/AnPe/04709}\\
-%		Rechts Vorbei & Einfahrt Verboten & Kreisverkehr\\
-%		\includegraphics[width=\linewidth]{Images/AnPe/11240_guided} &\includegraphics[width=\linewidth]{Images/AnPe/06848_s_int}  &\includegraphics[width=\linewidth]{Images/AnPe/04709_int_grad}  \\
-%		Guided Backprop.& Integrated Grad.& Integrated Grad.\\
-%		Einmalige Vorfahrt& Überholverbot&Baustelle\\
-%		0.9678& 0.9571& 0.9999\\
-%	\end{tabular}
-%	\caption{Weitere Beispiele für Irrbilder mit Konfidenz >0.9 inklusive entsprechendem Ursprungsbild und verwendetem Verfahren.}
-%	\label{tab:sal2}
-%\end{table}
-
-
 Zusammenfassend konnte hiermit gezeigt werden, dass die in Kapitel \ref{cha:saliency_konz} formulierten Hypothesen zutreffen und sich Bilder – unter Verwendung eines eigens trainierten \ac{CNN} Modells (\textit{Aphrodite}) sowie verschiedener \textit{Saliency Map} Verfahren – erzeugen lassen, die zwar keine für den Menschen sinnvolle Bedeutung haben, jedoch beim \ac{NN} des \ac{GI}-Wettbewerbs Zielkonfidenzen von mehr als 90\% erreichten.
-
-
-%Zusammenfassend konnte gezeigt werden, dass es mithilfe der Erstellung von Saliency Maps an einem eigenen Modell Bilder erzeugt werden können, welche von einem unbekanntem \ac{NN} mit hohen Konfidenzen verschiedenen Klassen zugeordnet werden. Die Erfolgsrate in Relation zur Anzahl erzeugter Bilder und dem Rechenaufwand ist dabei jedoch gering und es herrscht aktuell keine verlässliche Aussagekraft darüber, welcher Klasse das erzeugte Bild zugeordnet wird. 

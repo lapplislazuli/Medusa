@@ -1,8 +1,9 @@
 \chapter*{Abstract} %*-Variante sorgt dafür, das Abstract nicht im Inhaltsverzeichnis auftaucht
-This paper uses several scientific approaches to show how convolutional neural networks can be tricked into recognizing and correctly classifying road signs.
-In the field of autonomous driving, neural networks have drastically increased the recognition rate, but they are still susceptible to errors in the face of deliberately generated false images. Even without information about the underlying architecture (so-called black box attacks), attacks by otherwise generated false images should be possible.
-The presented methods \textit{Degeneration}, \textit{Saliency Maps} and \textit{Gradient Ascent} are successfully applied to generate false images for attacks on an unknown neural network with the help of an own neural network which serves as \textit{Substitute}.
-An attack is considered "'successful"' if the image is recognized as a street sign with a confidence greater than 90\%, which a human observer would not recognize as such.
+This paper uses several scientific approaches to show how convolutional neural networks can be tricked into recognizing and classifying false images as road signs.
+In the field of autonomous driving, neural networks have drastically increased the recognition rate, but they are still susceptible to errors in the face of deliberately generated false images. Even without information about the underlying architecture (so-called blackbox-attacks), attacks by false images generated in another way should be possible.
+~\newline The presented methods \textit{Degeneration}, \textit{Saliency Maps} and \textit{Gradient Ascent} are successfully applied to generate false images for attacks on an unknown neural network with the help of a similiar known neural network which serves as \textit{substitute}. Additionally the failed approach of \textit{Greyboxing} is shortly presented and its flaws are analyzed.
+~\newline An attack is considered "'successful"' if the image is recognized as a street sign with a confidence greater than 90\%, which a human observer would not recognize as such.
+~\newline In conclusion the successful methods are compared and evaluated against each other.  
 ~\newline
 ~\newline
 \begin{flushleft}
@@ -11,25 +12,26 @@ An attack is considered "'successful"' if the image is recognized as a street si
 		\textbf{authors:}  & \autor \\
 		
 		%einkommentieren für TH Abgabe
-		%\textbf{reviewer TH:} & \betreuerth \\
-		%[6ex]%formerly 5ex
+		\textbf{reviewer TH:} & \betreuerth \\
+		[6ex]%formerly 5ex
 	\end{tabular} 
 \end{flushleft}
 
 
 \chapter*{Kurzfassung} 
 Diese Arbeit zeigt anhand von mehreren wissenschaftlichen Ansätzen, wie Convolutional Neural Networks zur Erkennung und Klassifikation von Straßenschildern überlistet werden können.
-Im Bereich des Autonomen Fahren wurde mit Neuronalen Netzen die Erkennungsrate drastisch gesteigert, allerdings sind diese immer noch fehleranfällig gegenüber gezielt erzeugten Irrbildern. Selbst ohne Informationen über die unterliegende Architektur (sog. Black Box Angriffe), sind Angriffe durch anderweitig erzeugte Irrbilder möglich.
-Die vorgestellten Verfahren \textit{Degeneration}, \textit{Saliency Maps} und \textit{Gradient Ascent} werden erfolgreich angewendet, um mithilfe eines eigenen Neuronalen Netz, welches als \textit{Substitute} dient, Irrbilder für Angriffe auf ein unbekanntes Neuronales Netz zu erzeugen.
-Ein Angriff gilt als "'erfolgreich", wenn das Bild mit einer Konfidenz größer als 90\% als Straßenschild erkannt wird, welches ein menschlicher Betrachter nicht als solches erkennen würde.
-
+Im Bereich des Autonomen Fahren wurden mit Neuronalen Netzen die Erkennungsraten drastisch gesteigert, allerdings sind diese immer noch fehleranfällig gegenüber gezielt erzeugten Irrbildern. Selbst ohne Informationen über die unterliegende Architektur (sog. Blackbox-Angriffe), sind Angriffe durch anderweitig erzeugte Irrbilder möglich.
+~\newline Die vorgestellten Verfahren \textit{Degeneration}, \textit{Saliency Maps} und \textit{Gradient Ascent} werden erfolgreich angewendet, um mithilfe eines eigenen Neuronalen Netzes, welches als \textit{Substitute} dient, Irrbilder für Angriffe auf ein unbekanntes Neuronales Netz zu erzeugen. Es wird ebenfalls ein nicht erfolgreicher Ansatz, das \textit{Greyboxing}, vorgestellt und sein Problem analysiert.
+~\newline Ein Angriff gilt als "'erfolgreich", wenn das Bild mit einer Konfidenz größer 90\% als Straßenschild erkannt wird, welches ein menschlicher Betrachter nicht als solches erkennen würde.
+~\newline Abschließend werden die erfolgreichen Methoden miteinander verglichen und bewertet. 
+~\newline 
 ~\newline
 \begin{flushleft}
 	\begin{tabular}{lp{11cm}}
 		Titel:&  \titel \\ 
-		Authoren:&  \autor \\
+		Autoren:&  \autor \\
 		%einkommentieren für TH Abgabe
-		%Prüfer der Hochschule: &  \betreuerth \\ 
-		%[6ex]%formerly 5ex	
+		Prüfer der Hochschule: &  \betreuerth \\ 
+		[6ex]%formerly 5ex	
 	\end{tabular} 
 \end{flushleft}
