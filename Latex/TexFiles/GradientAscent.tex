@@ -26,7 +26,7 @@ Die Implementierung des \textit{Gradient Ascent}-Verfahrens, unter Verwendung de
 
 Unter Angabe der Zielklasse sowie der minimalen Zielkonfidenz erzeugt der Algorithmus zunächst ein Zufallsbild, welches als Eingabeparameter für das trainierte AlexNet verwendet wird. Unter Anwendung des SGD-Optimierers auf das Eingabebild werden die Gradienten entsprechend der spezifizierten Zielklasse berechnet. 
 
-Diese Gradienten werden nicht verwendet, um die Parameter des AlexNet-Modells zu verändern, wie es beim Training der Fall war, sondern um das eingegebene Bild dahingehend zu modifizieren, dass es der gewünschten Zielklasse entspricht. 
+Diese Gradienten werden nicht verwendet, um die Parameter des AlexNet-Mo"-dells zu verändern, wie es beim Training der Fall war, sondern um das eingegebene Bild dahingehend zu modifizieren, dass es der gewünschten Zielklasse entspricht. 
 Die entsprechenden Pixel der aktivierten Neuronen werden hierzu (je nach Aktivierungsstärke) mit den Bildpixelwerten addiert. 
 Dieser Prozess wird so lange wiederholt, bis das veränderte Bild die gewünschte Konfidenz zu der angegebenen Zielklasse erreicht hat.
 
