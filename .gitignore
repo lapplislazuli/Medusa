@@ -10,9 +10,27 @@ Latex/*.gz
 Latex/*.nlo
 
 # Do not commit Models
-/Medusa/*.h5
-/Medusa/*.hdf5
+/DegenerationCode/*.h5
+/DegenerationCode/*.hdf5
+/GradientAscent/*.pth 
+/SaliencyMaps/*.h5
+/SaliencyMaps/*.hdf5
 
 # Do not commit Jupyter caches
-/Medusa/__pycache__
-/Medusa/__pycache__/*
+/DegenerationCode/__pycache__
+/DegenerationCode/__pycache__/*
+
+# Do not commit unused items from GAF Code
+/GradientAscent/__pycache__/*
+/GradientAscent/__pycache__
+/GradientAscent/.ipynb_checkpoints
+/GradientAscent/.ipynb_checkpoints/*
+# Do not commit generated images from GAF Code
+/GradientAscent/generated
+/GradientAscent/generated/*
+
+# Do not commit unused items from Saliency Code
+/SaliencyMaps/__pycache__/*
+/SaliencyMaps/__pycache__
+/SaliencyMaps/.ipynb_checkpoints
+/SaliencyMaps/.ipynb_checkpoints/*
