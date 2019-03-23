@@ -1,5 +1,6 @@
 # Project Medusa
 **Irritating Image-Based AIs with Style**
+![Degeneration](/Latex/Images/DegenSamples/BatchDegTiefe1000.png) ![SaliencyMaps](/Latex/Images/AnPe/04709_int_grad.png) ![GradientAscent](/Latex/Images/AnPe/40_kreisverkehr.png)
 
 This Project achieved the 4th place in [2018's Informaticup](https://gi.de/informaticup/) and recieved additional honour for the best scientific elaboration. 
 
@@ -21,7 +22,7 @@ The subfolder *data* contains some sample input-images and some sample output fo
 In the folder *data* there are some example images. 
 
 The folder *Latex* in root contains our [scientific work](https://github.com/Twonki/Medusa/blob/master/Latex/Projekt_Medusa.pdf) and the required tex-files to compile it. 
-The only other notable instance there [bib-file}(/Latex/src.bib), which contains all our used sources and further reading.  
+The only other notable instance there [bib-file](/Latex/src.bib), which contains all our used sources and further reading.  
 
 The presentations are found in the root-folder, the *presentation_GI* is a slimmed version for the informaticup-jury, while the *presentation* was for the university. 
 ## Requirements
