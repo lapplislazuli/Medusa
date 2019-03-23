@@ -1,23 +1,27 @@
 # Project Medusa
 **Irritating Image-Based AIs with Style**
 
-<img src="/Latex/Images/DegenSamples/BatchDegTiefe1000.png" width=100><img src="/Latex/Images/AnPe/04709_int_grad.png" width=100><img src="/Latex/Images/AnPe/40_kreisverkehr.png" width=100>
-
 This Project achieved the 4th place in [2018's Informaticup](https://gi.de/informaticup/) and recieved additional honour for the best scientific elaboration. 
 
 The goal was to produce *false positives* for a street-sign detecting neural network. We accomplished it with 3 different approaches, found in the root-folders of this repository. 
 For the quickest intro to this topic, refer to the [*presentation_gi*](/presentation_GI).
 
 The documentation is done in german language only, except for the abstract. The code is done in english. 
-## Structure
+## Contents & Structure
+<img src="/Latex/Images/DegenSamples/BatchDegTiefe1000.png" width=250>
+
 The [Degeneration](/Degeneration/Degeneration.ipynb) is found in the folder Degeneration. 
 It contains an elaborate notebook with additional commentary and conception insights, and it`s readable from your browser. We therefore recommend to first dive in here. 
 The *Degeneration.py* holds the same code as a common python file. 
 Additional python files are used for several sub-tasks, such as imagealternation and remote-communication. 
 
+<img src="/Latex/Images/AnPe/04709_int_grad.png" width=240>
+
 [Saliency Maps](/SaliencyMaps/Saliency-Map-Image-Generation.ipynb) contains a jupyter-notebook which performs every required task. 
 The used methods for saliency-generation are found in the subfolder *aux_functions* and contain core-logic of this approach. 
 The subfolder *data* contains some sample input-images and some sample output for visualisation - so the user doesn`t need to search for the gtsrb-dataset. 
+
+<img src="/Latex/Images/AnPe/40_kreisverkehr.png" width=240>
 
 [GradientAscent](/GradientAscent/Gradient-Ascent-Image-Generation.ipynb) contains the training of the AlexNet and performs the gradient-ascent method for every of the 43 classes. 
 In the folder *data* there are some example images. 
