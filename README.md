@@ -1,6 +1,7 @@
 # Project Medusa
 **Irritating Image-Based AIs with Style**
-![Degeneration](/Latex/Images/DegenSamples/BatchDegTiefe1000.png) ![SaliencyMaps](/Latex/Images/AnPe/04709_int_grad.png) ![GradientAscent](/Latex/Images/AnPe/40_kreisverkehr.png)
+
+<img src="/Latex/Images/DegenSamples/BatchDegTiefe1000.png" width=100><img src="/Latex/Images/AnPe/04709_int_grad.png" width=100><img src="/Latex/Images/AnPe/40_kreisverkehr.png" width=100>
 
 This Project achieved the 4th place in [2018's Informaticup](https://gi.de/informaticup/) and recieved additional honour for the best scientific elaboration. 
 
@@ -44,3 +45,13 @@ To run the saliency map the whole gtsrb-dataset is used.
 Please don`t. After our final presentation this repository will be archived. 
 
 However it`s completely open to you, so feel free to fork it and reach out to us.
+
+## Who we are
+We are a group of 4 IT-Master-students at the TH Nuremberg Georg Simon Ohm. We participated in the competition as part of our it-project.
+
+* Leonhard Applis
+* Peter Bauer
+* Andreas Porada
+* Florian Stöckl
+
+Where Leonhard is also the repo-owner, if you want to blame him for anything here. 
