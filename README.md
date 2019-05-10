@@ -4,7 +4,7 @@
 This Project achieved the 4th place in [2018's Informaticup](https://gi.de/informaticup/) and recieved additional honour for the best scientific elaboration. 
 
 The goal was to produce *false positives* for a street-sign detecting neural network. We accomplished it with 3 different approaches, found in the root-folders of this repository. 
-For the quickest intro to this topic, refer to the [*presentation_gi*](/presentation_GI).
+For the quickest intro to this topic, refer to the [*Präsentation_gi*](/Präsentation_GI).
 
 The documentation is done in german language only, except for the abstract. The code is done in english. 
 ## Contents & Structure
@@ -29,7 +29,8 @@ In the folder *data* there are some example images.
 The folder *Latex* in root contains our [scientific work](https://github.com/Twonki/Medusa/blob/master/Latex/Projekt_Medusa.pdf) and the required tex-files to compile it. 
 The only other notable instance there [bib-file](/Latex/src.bib), which contains all our used sources and further reading.  
 
-The presentations are found in the root-folder, the *presentation_GI* is a slimmed version for the informaticup-jury, while the *presentation* was for the university. 
+The presentations are found in the root-folder, the *Präsentation_GI* is a slimmed version for the informaticup-jury, while the *Präsentation_TH* was for the university (and is a little longer). 
+Both are in german. 
 ## Requirements
 All sub-projects are build with python in Jupyter-Notebooks. 
 The used python version was 3.6 and several anaconda-packages are required. 
